@@ -11,6 +11,8 @@
     font-weight: 300;
     src: url("font-awesome/fonts/BNaznnBd.ttf");
   }
+
+{
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box; }
@@ -239,11 +241,15 @@ textarea.form-control {
   background: url("../images/textarea-bg.png") no-repeat right bottom 3px; }
 
 .actions {
-  position: absolute;
+  position: relative;
   bottom: 55px;
-  right: 51px; }
+  right: 0px;
+}
   .actions ul {
-    display: flex; }
+    display: flex;
+    justify-content: space-between;
+
+  }
   .actions li a {
     padding: 0;
     border: none;
@@ -256,7 +262,8 @@ textarea.form-control {
     color: #666;
     cursor: pointer;
     position: relative;
-    padding-left: 28px; }
+    padding-left: 28px;
+  }
     .actions li a:before {
       content: '\f301';
       position: absolute;
@@ -421,6 +428,8 @@ textarea.form-control {
   .actions {
     right: 50%;
     transform: translateX(50%);
-    bottom: 3%; } }
+    bottom: 3%;
+  }
+}
 
-/*# sourceMappingURL=style.css.map */
+

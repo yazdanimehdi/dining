@@ -89,14 +89,15 @@ transform: scale(1.6);
                     <br>
                     <h3 style="text-align: center;color: #CE272D;">{{ msg }}</h3>
 
-                    <h2 style="text-align: center;">عذایی رو که میخوای عوضش کنی رو انتخاب کن</h2>
+                    <h2 style="text-align: center;">غذایی رو که میخوای عوضش کنی رو انتخاب کن</h2>
                         <p class="desc" style="text-align: center;">اگه به غذایی صفر بدی برات رزروش نمیکنم</p>
 
                     <div class="form-group" style="text-align: center;">
                         <div style="text-align: center; font-family:bnazanin; font-size: 25px">غذا</div>
-                        <select class="custom-select" name="food_select" id="food_select" style="width:50%;height: 30px; text-align: center;">
+                        <select class="custom-select" name="food_select" id="food_select"
+                                style="width:50%;height: 30px; text-align-last: center;">
                             {% for food in food_list %}
-                                <option value="{{ food }}" style="text-align: right;">{{ food }}</option>
+                                <option value="{{ food }}">{{ food }}</option>
                             {% endfor %}
                         </select>
 

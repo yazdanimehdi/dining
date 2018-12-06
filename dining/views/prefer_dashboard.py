@@ -1,4 +1,5 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render
+
 from dining.models import Food, UserDiningData, UserPreferableFood
 
 
@@ -9,7 +10,6 @@ def prefer_food_dashboard(request):
         for foods in Food.objects.filter(university=u.university):
             food_list.append(foods.name)
         if request.method == 'GET':
-            print(food_list)
             return render(request, 'dining/templates/prefered_food_dashboard_change.html', {'food_list': food_list})
         elif request.method == 'POST':
             food = Food.objects.get(name=request.POST.get('food_select'))
@@ -20,10 +20,5 @@ def prefer_food_dashboard(request):
             if d[1]:
                 d[0].score = score
                 d[0].save()
-            return redirect('/')
-
-
-
-
-
-
+            return render(request, 'dining/templates/dashboard.html',
+                          {'msg': ' !اطلاعات ترجیحی با موفقیت تغییر کرد', 'color': '#39b54a', 'username': request.user})

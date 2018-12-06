@@ -18,7 +18,9 @@
 	<body>
 		<div class="container">	
 			<header class="clearfix">
-				<h1>داشبورد اطلاعات کاربری<span>!خدماتی که دریافت می کنی بر اساس اطلاعاتی است که بهم دادی، صحتش برای جفتمون مهمه</span></h1>	
+                <h1>داشبورد اطلاعات کاربری<span>!خدماتی که دریافت می کنی بر اساس اطلاعاتی است که بهم دادی، صحتش برای جفتمون مهمه</span>
+                </h1>
+                <div><h3 style="color:{{ color }}">{{ msg }}</h3></div>
 			</header>
 			<div class="main">
 				<p style="direction: rtl;font-size: 25px;">ممکنه واست پیش بیاد سلف یه غذایی که دوست داری و بهش نمره بالا دادی رو برخلاف انتظارت درست کنه و مجبور بشی تجدید نظر کنی، یا ممکنه یه روز به روز هایی که قرار تو دانشگاه غذا بخوری اضافه بشه یا ازش کم بشه. خلاصه هر وقت هر تغییری که خواستی رو میتونی از اینجا اعمال کنی.
@@ -32,6 +34,7 @@
                         <br>
 						<ul>
 							<li><a href="/dashboard"><i class="material-icons">account_box</i> {{ username }}</a></li>
+                            <li><a href="/wizard"><i class="material-icons">event_available</i> اطلاعات </a></li>
 							<li><a href="/wizard"><i class="material-icons">event_available</i> روزها</a></li>
                             <li><a href="/prefered_food/change/"><i class="material-icons">favorite</i> اطلاعات
                                 ترجیجی</a></li>

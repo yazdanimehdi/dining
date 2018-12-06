@@ -9,6 +9,10 @@ $(function(){
             finish: "ثبت",
             next: "بعدی",
             previous: "قبلی"
+        },
+        onFinished: function (event, currentIndex) {
+            // Submit form input
+            $("#wizard").submit();
         }
     });
     $('.wizard > .steps li a').click(function(){
