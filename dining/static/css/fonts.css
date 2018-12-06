@@ -1,0 +1,106 @@
+/* ===================================================================
+ * fonts.scss
+ *
+ * ------------------------------------------------------------------- */
+
+
+/*
+ * lora
+================================================================================ */
+@font-face {
+    font-family: "lora-regular";
+    src: url("font-awesome/fonts/BNaznnBd.ttf") format("ttf"), url("font-awesome/fonts/BNaznnBd.ttf") format("ttf");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "lora-italic";
+    src: url("font-awesome/fonts/BNaznnBd.ttf") format("ttf"), url("font-awesome/fonts/BNaznnBd.ttf") format("ttf");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "lora-bold";
+    src: url("font-awesome/fonts/BNaznnBd.ttf") format("ttf"), url("font-awesome/fonts/BNaznnBd.ttf") format("ttf");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "lora-bold-italic";
+    src: url("font-awesome/fonts/BNaznnBd.ttf") format("ttf"), url("font-awesome/fonts/BNaznnBd.ttf") format("ttf");
+    font-style: normal;
+    font-weight: normal;
+}
+
+
+/*
+ * montserrat
+================================================================================ */
+@font-face {
+    font-family: "montserrat-black";
+    src: url("font-awesome/fonts/BNaznnBd.ttf") format("ttf"), url("font-awesome/fonts/BNaznnBd.ttf") format("ttf");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "montserrat-extrabold";
+    src: url("font-awesome/fonts/BNaznnBd.ttf") format("ttf"), url("font-awesome/fonts/BNaznnBd.ttf") format("ttf");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "montserrat-bold";
+    src: url("font-awesome/fonts/BNaznnBd.ttf") format("ttf"), url("font-awesome/fonts/BNaznnBd.ttf") format("ttf");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "montserrat-semibold";
+    src: url("font-awesome/fonts/BNaznnBd.ttf") format("ttf"), url("font-awesome/fonts/BNaznnBd.ttf") format("ttf");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "montserrat-medium";
+    src: url("font-awesome/fonts/BNaznnBd.ttf") format("ttf"), url("font-awesome/fonts/BNaznnBd.ttf") format("ttf");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "montserrat-regular";
+    src: url("font-awesome/fonts/BNaznnBd.ttf") format("ttf"), url("font-awesome/fonts/BNaznnBd.ttf") format("ttf");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "montserrat-light";
+    src: url("font-awesome/fonts/BNaznnBd.ttf") format("ttf"), url("font-awesome/fonts/BNaznnBd.ttf") format("ttf");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "montserrat-extralight";
+    src: url("font-awesome/fonts/BNaznnBd.ttf") format("ttf"), url("font-awesome/fonts/BNaznnBd.ttf") format("ttf");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "montserrat-thin";
+    src: url("font-awesome/fonts/BNaznnBd.ttf") format("ttf"), url("font-awesome/fonts/BNaznnBd.ttf") format("ttf");
+    font-style: normal;
+    font-weight: normal;
+}
+
+
+/*# sourceMappingURL=fonts.css.map */

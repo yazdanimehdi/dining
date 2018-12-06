@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="colorlib.com">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign Up Form</title>
+    {% load static %}
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="{%static 'fonts/material-icon/css/material-design-iconic-font.min.css'%}">
+    <link rel="stylesheet" href="{%static 'vendor/nouislider/nouislider.min.css'%}">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{%static 'css/style_prefer.css'%}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+
+    <style>
+        /* NOTE: The styles were added inline because Prefixfree needs access to your styles and they must be inlined if they are on local disk! */
+        @font-face {
+            font-family: 'bnazanin';
+            font-style: normal;
+            font-weight: 300;
+            src: url("{%static 'css/font-awesome/fonts/BNaznnBd.ttf'%}");
+        }
+        body {
+            font-family: "bnazanin";
+            background: #ecf0f1;
+            color: #34495e;
+            padding-top: 40px;
+            text-shadow: white 1px 1px 1px;
+        }
+        .value {
+            border-bottom: 2px dashed #bdc3c7;
+            text-align: center;
+            font-weight: bold;
+            font-size: 5em;
+            width: 250px;
+            height: 100px;
+            line-height: 100px;
+            margin: 20px auto;
+            letter-spacing: -0.07em;
+            text-shadow: white 2px 2px 2px;
+        }
+        input[type="range"] {
+            display: block;
+            -webkit-appearance: none;
+            background-color: #bdc3c7;
+            width: 300px;
+            height: 5px;
+            border-radius: 5px;
+            margin: 0 auto;
+            outline: 0;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            background-color: #39b54a;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid white;
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+        }
+        ​ input[type="range"]::-webkit-slider-thumb:hover {
+            background-color: white;
+            border: 2px solid #39b54a;
+        }
+        input[type="range"]::-webkit-slider-thumb:active {
+            transform: scale(1.6);
+        }
+
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+
+</head>
+
+<body>
+
+<div class="main">
+
+    <div class="container">
+        <form method="POST" id="signup-form" class="signup-form" action="#">
+            {% csrf_token %}
+            <div>
+                <br>
+                <h3 style="text-align: center;color: #CE272D;">{{ msg }}</h3>
+
+                <h2 style="text-align: center;">به {{ count }} غذا از ۰ تا ۱۰ نمره بده</h2>
+                <p class="desc" style="text-align: center;">اگه به غذایی صفر بدی برات رزروش نمیکنم</p>
+
+                {% for food_name in food_list %}
+                    <h3 style="text-align: center;font-family:bnazanin;">{{ food_name }}</h3>
+                    <div class="value" id="{{ food_name }}">5</div>
+                    <input type="range" name="{{ food_name }}" min="0" max="10" step="1" >
+                    <br>
+                {% endfor %}
+
+
+                <br><br><br><br>
+
+            </div>
+            <input type="submit">
+        </form>
+    </div>
+
+</div>
+
+<!-- JS -->
+<script src="{%static 'vendor/jquery/jquery.min.js'%}"></script>
+<script src="{%static 'vendor/jquery-validation/dist/jquery.validate.min.js'%}"></script>
+<script src="{%static 'vendor/jquery-validation/dist/additional-methods.min.js'%}"></script>
+<script src="{%static 'vendor/jquery-steps/jquery.steps.min.js'%}"></script>
+<script src="{%static 'vendor/minimalist-picker/dobpicker.j'%}s"></script>
+<script src="{%static 'vendor/nouislider/nouislider.min.js'%}"></script>
+<script src="{%static 'vendor/wnumb/wNumb.js'%}"></script>
+<script src="{%static 'js/main_prefer.js'%}"></script>
+<script src="{%static 'js/slider.js'%}"></script>
+</body>
+
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Credit Card Checkout | Daily UI #002</title>
+  
+  {% load static %}
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css'>
+<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+
+      <link rel="stylesheet" href="{%static 'css/style_payment.css'%}">
+
+  
+</head>
+
+<body>
+
+  <!-- Compiled and minified JavaScript -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+
+<!--Begin Checkout-->
+
+<div class="container">
+  <p class="help" style="color:#ffffff;">
+    Please review your bill and pay </p>
+  <div class="box card-panel z-depth-3">
+    <div class="merchant">
+      <img id="crickets" src="http://ishtyaqhabib.com/assets/images/forcodepen/cricketsCafe.png" />
+      <h5 class="center-align">Crickets Café</h5>
+      <p>Feb 10, 2016 9:36 PM</p>
+    </div>
+    <div class="invoice">
+      <table class="highlight">
+        <thead>
+          <tr>
+            <th>QTY</th>
+            <th>ITEM</th>
+            <th class="right-align">PRICE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2</td>
+            <td>Large Mocha Latte</td>
+            <td class="right-align">$4.25</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Banana Nut Muffin</td>
+            <td class="right-align">$2.00</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td class="right-align">Tax</td>
+            <td class="right-align">$0.50</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td class="right-align bold">Total</td>
+            <td class="right-align bold">$6.75</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="payment">
+      <h5>Payment Information</h5>
+      <div class="credit-card-box card-panel z-depth-2 animation-element slide-left">
+        <div class="flip">
+          <div class="front">
+
+
+
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="button checkout row">
+      <button class="col s12 btn-large green btn waves-effect waves-dark register"><span>Checkout</span> <i class="fa fa-check"></i></button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  $(document).ready(function() {
+        $('select').material_select();
+    });
+</script>
+  
+  
+
+    <script  src="{%static 'js/peyment.js'%}"></script>
+
+
+
+
+</body>
+
+</html>
