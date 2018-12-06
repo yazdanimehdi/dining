@@ -123,7 +123,7 @@
                     src  : $href,
                     w    : $width,
                     h    : $height
-                }
+                };
 
                 if ($caption.length > 0) {
                     item.title = $.trim($titleText + $captionText);
@@ -140,7 +140,7 @@
                     var options = {
                         index: i,
                         showHideOpacity: true
-                    }
+                    };
 
                     // initialize PhotoSwipe
                     var lightBox = new PhotoSwipe($pswp, PhotoSwipeUI_Default, items, options);
@@ -424,7 +424,7 @@
         fadeInTime  = 400,         // how slow/fast you want the button to show
         fadeOutTime = 400,         // how slow/fast you want the button to hide
         scrollSpeed = 300,         // how slow/fast you want the button to scroll to top. can be a value, 'slow', 'normal' or 'fast'
-        goTopButton = $(".go-top")
+            goTopButton = $(".go-top");
         
         // Show or hide the sticky footer button
         $(window).on('scroll', function() {
