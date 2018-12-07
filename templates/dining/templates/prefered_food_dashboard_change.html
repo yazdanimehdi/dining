@@ -4,12 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="author" content="colorlib.com">
+    <meta name="MRZorro" content="">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sign Up Form</title>
+    <title>تغییر اطلاعات ترجیحی</title>
     {% load static %}
     <!-- Font Icon -->
     <link rel="stylesheet" href="{%static 'fonts/material-icon/css/material-design-iconic-font.min.css'%}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="{%static 'vendor/nouislider/nouislider.min.css'%}">
 
     <!-- Main css -->
@@ -81,6 +82,17 @@ transform: scale(1.6);
 <body>
 
     <div class="main">
+        <div style="padding-left: 50%">
+            <a style="background-color: black;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  outline: none;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;" href="/dashboard"><i class="material-icons">dashboard</i></a>
+        </div>
 
         <div class="container">
             <form method="POST" id="signup-form" class="signup-form" action="#">

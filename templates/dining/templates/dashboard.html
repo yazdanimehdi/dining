@@ -13,7 +13,7 @@
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="{%static 'css/default.css'%}" />
 		<link rel="stylesheet" type="text/css" href="{%static 'css/component.css'%}" />
-		<script src="js/modernizr.custom.js"></script>
+        <script src="{% static 'js/modernizr.custom.js' %}"></script>
 	</head>
 	<body>
 		<div class="container">	
@@ -33,12 +33,13 @@
 						<div class="dr-trigger"><span class="dr-icon dr-icon-menu"></span><a class="dr-label">حساب کاربری</a></div>
                         <br>
 						<ul>
-							<li><a href="/dashboard"><i class="material-icons">account_box</i> {{ username }}</a></li>
-                            <li><a href="/wizard"><i class="material-icons">event_available</i> اطلاعات </a></li>
+                            <li><a href="/changeinfo"><i class="material-icons">account_box</i> {{ username }}</a></li>
+                            <li><a href="/change_dining_info/"><i class="material-icons">remove_from_queue</i> اطلاعات
+                                سامانه </a></li>
 							<li><a href="/wizard"><i class="material-icons">event_available</i> روزها</a></li>
                             <li><a href="/prefered_food/change/"><i class="material-icons">favorite</i> اطلاعات
                                 ترجیجی</a></li>
-							<li><a href="payment"><i class="material-icons">shopping_basket</i> پرداخت</a></li>
+                            <li><a href="/payment"><i class="material-icons">shopping_basket</i> پرداخت</a></li>
 							<li><a href="#"><i class="material-icons">account_balance_wallet</i> قلک</a></li>
 							<li><a href="/logout"><i class="material-icons">power_settings_new</i> خروج </a></li>
 						</ul>
