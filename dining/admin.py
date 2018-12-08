@@ -1,7 +1,7 @@
 from django.contrib import admin
-from dining.models import University, CustomUser, UserDiningData, Food, UserPreferableFood
-from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
+
+from dining.models import University, UserDiningData, Food, UserPreferableFood, Coins
 from .models import CustomUser
 
 
@@ -15,5 +15,4 @@ admin.site.register(University)
 admin.site.register(UserDiningData)
 admin.site.register(Food)
 admin.site.register(UserPreferableFood)
-
-
+admin.site.register(Coins)

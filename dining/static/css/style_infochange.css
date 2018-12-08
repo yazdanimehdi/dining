@@ -19,6 +19,14 @@ list-type-ulli, .steps ul, .actions ul {
     src: url("font-awesome/fonts/BNaznnBd.ttf");
 }
 
+@font-face {
+    font-family: 'iransans';
+    font-style: normal;
+    font-weight: 300;
+    src: url("font-awesome/fonts/iran_sans_web.ttf");
+}
+
+
 a:focus,
 a:active {
     text-decoration: none;
@@ -92,9 +100,9 @@ body {
     line-height: 1.6;
     color: #222;
     font-weight: 400;
-    font-family: 'bnazanin';
+    font-family: 'iransans';
     margin: 0px;
-    background: #222;
+    background: #cfc7b8;
     position: relative;
     padding: 0px;
 }
@@ -155,7 +163,7 @@ input {
     color: #222;
     font-weight: bold;
     font-size: 14px;
-    font-family: 'bnazanin';
+    font-family: 'iransans';
 }
 
 #steps-uid-0-p-0 .form-row, #steps-uid-0-p-0 .form-group, #steps-uid-0-p-0 .form-date {
@@ -202,7 +210,7 @@ input {
     padding: 0 20px;
     height: 50px;
     font-size: 14px;
-    font-family: 'bnazanin';
+    font-family: 'iransans';
     color: #999;
     box-sizing: border-box;
     background-color: #fff;
@@ -315,12 +323,12 @@ input {
 }
 
 .current .title .step-number {
-    background: #4966b1;
+    background: #39b54a;
     color: #fff;
 }
 
 .current .title .step-text {
-    color: #4966b1;
+    color: #39b54a;
 }
 
 .content h3 {
@@ -361,7 +369,7 @@ input {
     width: 140px;
     height: 50px;
     color: #fff;
-    background: #4966b1;
+    background: #39b54a;
     align-items: center;
     -moz-align-items: center;
     -webkit-align-items: center;
@@ -417,7 +425,7 @@ input {
 }
 
 .form-radio-flex input:checked + label {
-    border: 1px solid #4966b1;
+    border: 1px solid #39b54a;
     z-index: 1;
 }
 
@@ -426,7 +434,7 @@ input {
 }
 
 .form-radio-flex input:hover {
-    border: 1px solid #4966b1;
+    border: 1px solid #39b54a;
 }
 
 label.error {
@@ -528,7 +536,7 @@ input.error {
 }
 
 #slider-margin .noUi-connect {
-    background: #4966b1;
+    background: #39b54a;
 }
 
 #slider-margin .noUi-connects {
@@ -547,7 +555,7 @@ input.error {
     outline: none;
     border: none;
     right: -15px;
-    border: 1px solid #4966b1;
+    border: 1px solid #39b54a;
     border-radius: 0px;
 }
 
@@ -560,7 +568,7 @@ input.error {
     border: none;
     background: transparent;
     font-size: 16px;
-    color: #4966b1;
+    color: #39b54a;
     padding: 0px;
 }
 

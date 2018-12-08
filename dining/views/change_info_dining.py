@@ -1,11 +1,12 @@
 from django.shortcuts import render
 
-from dining.models import UserDiningData
+from dining.models import UserDiningData, Coins
 
 
 def change_info_dining(request):
     if request.user.is_authenticated:
         u = UserDiningData.objects.get(user=request.user)
+        a = Coins.objects.filter(user=request.user, active=True).count()
         if request.method == 'GET':
             return render(request, 'dining/templates/change_info_dining .html',
                           {'username': u.dining_username,
@@ -23,4 +24,4 @@ def change_info_dining(request):
 
             return render(request, 'dining/templates/dashboard.html',
                           {'msg': ' !اطلاعات سامانه‌ی غذا با موفقیت تغییر کرد', 'color': '#39b54a',
-                           'username': request.user})
+                           'username': request.user, 'coin': a})

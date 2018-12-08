@@ -3,84 +3,98 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
+    <title>ثبت نام</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% load static %}
     <link rel="stylesheet" href="{%static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-        <div class="main">
+<div class="main">
 
-                <!-- Sign up form -->
-                <section class="signup">
-                    <div class="container">
-                        <div class="signup-content">
-                            <div class="signup-form">
-                                <h2 class="form-title">عضویت</h2>
-                                <span style="color: #CE272D;">{{ msg }}</span>
-                                <form method="POST" class="register-form" id="register-form" >
-                                    {% csrf_token %}
+    <!-- Sign up form -->
+    <section class="signup">
+        <div class="container">
+            <div class="signup-content">
+                <div class="signup-form">
+                    <h2 class="form-title">عضویت</h2>
+                    <span style="color: #CE272D;">{{ msg }}</span>
+                    <form method="POST" class="register-form" id="register-form">
+                        {% csrf_token %}
 
-                                    <div class="form-group">
-                                        <span>جنسیت</span>
-                                        <select class="custom-select" name="sex" id="sex" style="width:100%;height: 30px; text-align: center;">
-                                            <option value="True" style="align-items: center;">آقا</option>
-                                            <option value="False" style="align-items: center;">خانم</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                        <input type="text" name="first_name" id="first_name" placeholder="نام"/>
-                                    </div>
-
-                                    <div class="form-group">
-                                            <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                            <input type="text" name="last_name" id="last_name" placeholder="نام خانوادگی"/>
-                                    </div>
-
-                                    <div class="form-group">
-                                    <span>دانشگاه</span>
-                                        <select class="custom-select" name="university" id="university" style="width:100%;height: 30px; text-align: center;">
-                                            {% for u in university %}
-                                                <option value="{{ u }}" style="align-items: center;">{{ u }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group">
-                                            <label for="phone"><i class="zmdi zmdi-phone"></i></label>
-                                            <input type="text" name="phone" id="phone" placeholder="شماره موبایل"/>
-                                    </div>
-                                    <div class="form-group">
-                                            <label for="name"><i class="zmdi zmdi-account material-icons-username"></i></label>
-                                            <input type="text" name="username" id="username" placeholder="نام کاربری"/>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="pass"><i class="zmdi zmdi-lock"></i></label>
-                                        <input type="password" name="password1" id="password1" placeholder="رمز عبور"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
-                                        <input type="password" name="password2" id="password2" placeholder="تکرار رمز عبور"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
-                                        <label for="agree-term" class="label-agree-term"><span><span></span></span>من موافقم با  <a href="#" class="term-service">قوانین</a></label>
-                                    </div>
-                                    <div class="form-group form-button">
-                                        <input type="submit" name="signup" id="signup" class="form-submit" value="عضویت"/>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="signup-image">
-                                <figure><img src="{%static 'images/signup-image.jpg' %}" alt="sing up image"></figure>
-                                <a href="/login" class="signup-image-link">کاربر خودمونی؟؟</a>
-                            </div>
+                        <div class="form-group">
+                            <span>جنسیت</span>
+                            <select class="custom-select" name="sex" id="sex"
+                                    style="width:100%;height: 30px; text-align: center;">
+                                <option value="True" style="align-items: center;">آقا</option>
+                                <option value="False" style="align-items: center;">خانم</option>
+                            </select>
                         </div>
-                    </div>
-                </section>
-        
+
+                        <div class="form-group">
+                            <label for="name"><i class="material-icons">create</i></label>
+                            <input type="text" name="first_name" id="first_name" placeholder="نام"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="name"><i class="material-icons">create</i></label>
+                            <input type="text" name="last_name" id="last_name" placeholder="نام خانوادگی"/>
+                        </div>
+
+                        <div class="form-group">
+                            <span>دانشگاه</span>
+                            <select class="custom-select" name="university" id="university"
+                                    style="width:100%;height: 30px; text-align: center;">
+                                {% for u in university %}
+                                    <option value="{{ u }}" style="align-items: center;">{{ u }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone"><i class="material-icons">email</i></label>
+                            <input type="email" name="email" id="email" placeholder="ایمیل"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone"><i class="material-icons">phone</i></label>
+                            <input type="text" name="phone" id="phone" placeholder="شماره موبایل"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="name"><i class="material-icons">account_circle</i></label>
+                            <input type="text" name="username" id="username" placeholder="نام کاربری"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pass"><i class="material-icons">vpn_key</i></label>
+                            <input type="password" name="password1" id="password1" placeholder="رمز عبور"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="re-pass"><i class="material-icons">vpn_key</i></label>
+                            <input type="password" name="password2" id="password2" placeholder="تکرار رمز عبور"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="name"><i class="material-icons">assignment_ind</i></label>
+                            <input type="text" name="introduced_user" id="introduced_user"
+                                   placeholder="نام کاربری معرف"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="checkbox" name="agree-term" id="agree-term" class="agree-term"/>
+                            <label for="agree-term" class="label-agree-term"><span><span></span></span>من موافقم با <a
+                                    href="#" class="term-service">قوانین</a></label>
+                        </div>
+                        <div class="form-group form-button">
+                            <input type="submit" name="signup" id="signup" class="form-submit" value="عضویت"/>
+                        </div>
+                    </form>
+                </div>
+                <div class="signup-image">
+                    <figure><img src="{% static 'images/signup-image.jpg' %}" alt="sing up image"></figure>
+                    <a href="/login" class="signup-image-link">کاربر خودمونی؟؟</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
 </body>
 </html>

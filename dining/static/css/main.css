@@ -65,6 +65,14 @@
     font-weight: 300;
     src: url("font-awesome/fonts/BNaznnBd.ttf");
   }
+
+@font-face {
+    font-family: 'iransans';
+    font-style: normal;
+    font-weight: 300;
+    src: url("font-awesome/fonts/iran_sans_web.ttf");
+}
+
   
  html {
     font-size: 10px;
@@ -82,7 +90,7 @@ html, body {
 
 body {
     background: #111111;
-    font-family: 'bnazanin', serif;
+    font-family: 'iransans', serif;
     font-size: 1.7rem;
     font-style: normal;
     font-weight: normal;
@@ -118,7 +126,7 @@ a:hover, a:active {
  * ------------------------------------------------------------------- */
 h1, h2, h3, h4, h5, h6, 
 .h1, .h2, .h3, .h4, .h5, .h6 {
-    font-family: 'bnazanin', serif;
+    font-family: 'iransans', serif;
     color: #000000;
     font-style: normal;
     font-weight: normal;
@@ -193,7 +201,7 @@ p img {
 }
 
 p.lead {
-    font-family: "bnazanin", serif;
+    font-family: "iransans", serif;
     font-size: 2rem;
     font-weight: 300;
     line-height: 1.8;
@@ -215,11 +223,11 @@ em, i, strong, b {
 }
 
 em, i {
-    font-family: "bnazanin", serif;
+    font-family: "iransans", serif;
 }
 
 strong, b {
-    font-family: "bnazanin", serif;
+    font-family: "iransans", serif;
 }
 
 small {
@@ -239,14 +247,14 @@ blockquote:before {
     line-height: 0px;
     margin: 0;
     color: rgba(0, 0, 0, 0.25);
-    font-family: "bnazanin", serif;
+    font-family: "iransans", serif;
     position: absolute;
     top: 3.6rem;
     left: 0;
 }
 
 blockquote p {
-    font-family: "bnazanin", serif;
+    font-family: "iransans", serif;
     padding: 0;
     font-size: 2.1rem;
     line-height: 1.857;
@@ -255,7 +263,7 @@ blockquote p {
 
 blockquote cite {
     display: block;
-    font-family: "bnazanin", serif;
+    font-family: "iransans", serif;
     font-size: 1.4rem;
     font-style: normal;
     line-height: 1.5;
@@ -271,7 +279,7 @@ blockquote cite a, blockquote cite a:visited {
 }
 
 abbr {
-    font-family: "lora-bold", serif;
+    font-family: "iransans", serif;
     font-variant: small-caps;
     text-transform: lowercase;
     letter-spacing: .05rem;
@@ -432,7 +440,7 @@ table {
     border-width: 0;
     width: 100%;
     max-width: 100%;
-    font-family: "lora-regular", serif;
+    font-family: "iransans", serif;
 }
 
 th, td {
@@ -443,7 +451,7 @@ th, td {
 
 th {
     color: #000000;
-    font-family: "montserrat-bold", sans-serif;
+    font-family: "iransans", sans-serif;
 }
 
 td {
@@ -629,7 +637,7 @@ select {
     border: 0;
     outline: none;
     color: #333333;
-    font-family: 'bnazanin';
+    font-family: 'iransans';
     text-align: right;
     font-size: 1.4rem;
     line-height: 3rem;
@@ -714,7 +722,7 @@ select:focus {
 }
 
 label, legend {
-    font-family: "bnazanin", serif;
+    font-family: "iransans", serif;
     font-size: 1.4rem;
     font-weight: bold;
     margin-bottom: .9rem;
@@ -796,7 +804,7 @@ input[type="submit"],
 input[type="reset"],
 input[type="button"] {
     display: inline-block;
-    font-family: "bnazanin", sans-serif;
+    font-family: "iransans", sans-serif;
     font-size: 1.2rem;
     text-transform: uppercase;
     letter-spacing: .3rem;
@@ -1221,7 +1229,7 @@ button::-moz-focus-inner, input::-moz-focus-inner {
  * ## display headings
  * ------------------------------------------------------------------- */
 .display-1 {
-    font-family: 'bnazanin';
+    font-family: 'iransans';
     font-size: 7.8rem;
     line-height: 1.25;
     color: #000000;
@@ -1233,7 +1241,7 @@ button::-moz-focus-inner, input::-moz-focus-inner {
 }
 
 .display-2 {
-    font-family: 'bnazanin';
+    font-family: 'iransans';
     font-size: 5.2rem;
     line-height: 1.255;
     color: #000000;
@@ -1249,7 +1257,7 @@ button::-moz-focus-inner, input::-moz-focus-inner {
 }
 
 .subhead {
-    font-family: 'bnazanin';
+    font-family: 'iransans';
     font-size: 3rem;
     line-height: 1.333;
     text-transform: uppercase;
@@ -1514,7 +1522,7 @@ button::-moz-focus-inner, input::-moz-focus-inner {
 }
 
 .header-nav h3 {
-    font-family: 'bnazanin';
+    font-family: 'iransans';
     text-align: center;
     font-size: 20px;
     line-height: 1.5;
@@ -1537,7 +1545,7 @@ button::-moz-focus-inner, input::-moz-focus-inner {
 }
 
 .header-nav__list {
-    font-family: 'bnazanin';
+    font-family: 'iransans';
     text-align: center;
     font-size: 1.8rem;
     margin: 3.6rem 0 3rem 0;
@@ -1657,7 +1665,7 @@ button::-moz-focus-inner, input::-moz-focus-inner {
     height: 42px;
     width: 42px;
     line-height: 42px;
-    font-family: 'bnazanin';
+    font-family: 'iransans';
     font-size: 2.2rem;
     text-transform: uppercase;
     letter-spacing: .3rem;
@@ -1801,7 +1809,7 @@ button::-moz-focus-inner, input::-moz-focus-inner {
 }
 
 .home-content h3 {
-    font-family: 'bnazanin';
+    font-family: 'iransans';
     font-size: 1.6rem;
     color: rgba(255, 255, 255, 0.5);
     text-transform: uppercase;
@@ -1813,7 +1821,7 @@ button::-moz-focus-inner, input::-moz-focus-inner {
 }
 
 .home-content h1 {
-    font-family: 'bnazanin';
+    font-family: 'iransans';
     font-size: 6.3rem;
     line-height: 1.333;
     margin-top: 0;

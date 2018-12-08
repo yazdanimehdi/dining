@@ -1,10 +1,11 @@
 from django.shortcuts import render
 
-from dining.models import CustomUser
+from dining.models import CustomUser, Coins
 
 
 def change_info(request):
     if request.user.is_authenticated:
+        a = Coins.objects.filter(user=request.user, active=True).count()
         u = CustomUser.objects.get(username=request.user)
         if request.method == 'GET':
             return render(request, 'dining/templates/change_info.html',
@@ -28,4 +29,5 @@ def change_info(request):
                                'msg': 'یه مشکلی پیش اومده دوباره تلاش کن'})
 
             return render(request, 'dining/templates/dashboard.html',
-                          {'msg': ' !اطلاعات شخصی با موفقیت تغییر کرد', 'color': '#39b54a', 'username': request.user})
+                          {'msg': ' !اطلاعات شخصی با موفقیت تغییر کرد', 'color': '#39b54a', 'username': request.user,
+                           'coin': a})

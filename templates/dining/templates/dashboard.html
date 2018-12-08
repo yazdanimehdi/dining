@@ -25,9 +25,15 @@
 			<div class="main">
 				<p style="direction: rtl;font-size: 25px;">ممکنه واست پیش بیاد سلف یه غذایی که دوست داری و بهش نمره بالا دادی رو برخلاف انتظارت درست کنه و مجبور بشی تجدید نظر کنی، یا ممکنه یه روز به روز هایی که قرار تو دانشگاه غذا بخوری اضافه بشه یا ازش کم بشه. خلاصه هر وقت هر تغییری که خواستی رو میتونی از اینجا اعمال کنی.
 					با امکاناتی که در منو سمت چپ در اختیارت گذاشتم میتونی علاوه بر تغییرات، اگر هنوز پرداختت کامل انجام نشده اقدام کنی یا میتونی قلکتو چک کنی اگر سکه هات کافی باشه مجانی حسابتو فعال کنی.
-					قلک چیه؟ <br>
-					به ازای هر نفری که با نام کاربری تو ثبت نام کنه و حسابشو فعال کنه یه سکه میوفته تو قلکت و هر وقت 4 تا شد میتونی قلکتو بشکونی و یه ترم مجانی خدمت بگیری.
+                    <br>قلک چیه؟ <br>
+                    به ازای هر نفری که با نام کاربری تو ثبت نام کنه و حسابشو فعال کنه یه سکه میوفته تو قلکت و هر وقت 4
+                    تا شد میتونی قلکتو بشکونی و یه ترم مجانی خدمت بگیری.
+                    <br><br>
+                    <span style="color: #39b54a">
+                    چنتا سکه تو قلک داری: {{ coin }}
+                    </span>
 					</p>
+
 				<div class="side">
 					<nav class="dr-menu">
 						<div class="dr-trigger"><span class="dr-icon dr-icon-menu"></span><a class="dr-label">حساب کاربری</a></div>
@@ -36,11 +42,10 @@
                             <li><a href="/changeinfo"><i class="material-icons">account_box</i> {{ username }}</a></li>
                             <li><a href="/change_dining_info/"><i class="material-icons">remove_from_queue</i> اطلاعات
                                 سامانه </a></li>
-							<li><a href="/wizard"><i class="material-icons">event_available</i> روزها</a></li>
+                            <li><a href="/change_days"><i class="material-icons">event_available</i> روزها</a></li>
                             <li><a href="/prefered_food/change/"><i class="material-icons">favorite</i> اطلاعات
                                 ترجیجی</a></li>
                             <li><a href="/payment"><i class="material-icons">shopping_basket</i> پرداخت</a></li>
-							<li><a href="#"><i class="material-icons">account_balance_wallet</i> قلک</a></li>
 							<li><a href="/logout"><i class="material-icons">power_settings_new</i> خروج </a></li>
 						</ul>
 					</nav>
