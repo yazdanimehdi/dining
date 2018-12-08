@@ -11,6 +11,7 @@
 
     <!-- Font Icon -->
     <link rel="stylesheet" href="{% static 'fonts/material-design-iconic-font/css/material-design-iconic-font.css'%}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!-- Main css -->
     <link rel="stylesheet" href="{% static 'css/style.css'%}">
@@ -27,6 +28,7 @@
 
             <div class="signin-form">
                 <h2 class="form-title">ورود</h2>
+                <h3 style="color: #CE272D;font-size: 18px">{{ msg }}</h3>
                 <form method="POST" class="register-form" id="login-form" >
                     {% csrf_token %}
                     <div class="form-group">

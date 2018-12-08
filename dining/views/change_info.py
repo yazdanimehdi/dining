@@ -19,6 +19,17 @@ def change_info(request):
                 u.last_name = request.POST.get('last_name')
                 u.email = request.POST.get('email')
                 u.phone = request.POST.get('phone')
+                if request.POST.get('new_pass') != '':
+                    if request.POST.get('new_pass') == request.POST.get('new_pass_second'):
+                        u.set_password(request.POST.get('new_pass'))
+                    else:
+                        return render(request, 'dining/templates/change_info.html',
+                                      {'firstname': u.first_name,
+                                       'lastname': u.last_name,
+                                       'email': u.email,
+                                       'phone': u.phone,
+                                       'msg': '!تکرار رمز همخوانی ندارد'})
+
                 u.save()
             except:
                 return render(request, 'dining/templates/change_info.html',

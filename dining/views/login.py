@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate, login as auth_login
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect
 
 
 def login(request):
@@ -15,9 +15,9 @@ def login(request):
                     auth_login(request, user)
                     return redirect('/dashboard')
                 else:
-                    return render(request, "dining/templates/login.html")
+                    return render(request, "dining/templates/login.html", {'msg': 'نام کاربری یا رمز عبور اشتباه است'})
             else:
-                return render(request, "dining/templates/login.html")
+                return render(request, "dining/templates/login.html", {'msg': 'نام کاربری یا رمز عبور اشتباه است'})
         else:
             return redirect('/dashboard')
     else:
