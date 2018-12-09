@@ -1,5 +1,9 @@
-from django.db import models
+import re
+
+import requests
 from django.conf import settings
+from django.db import models
+from lxml import html
 
 
 class UserDiningData(models.Model):
@@ -31,6 +35,31 @@ class UserDiningData(models.Model):
     reserve_thursday_dinner = models.BooleanField(default=False)
     reserve_friday_dinner = models.BooleanField(default=False)
     reserve_saturday_dinner = models.BooleanField(default=False)
+
+    def test_account(self):
+        uni = self.__getattribute__('university')
+        login_url = uni.__getattribute__('login_url')
+        url = uni.__getattribute__('reserve_table')
+        payload = {
+            'LoginForm[username]': self.dining_username,
+            'LoginForm[password]': self.dining_password,
+            '_csrf': uni.__getattribute__('csrf_token')
+        }
+        flag = False
+        session_requests = requests.session()
+        result = session_requests.get(login_url)
+
+        tree = html.fromstring(result.text)
+        authenticity_token = list(set(tree.xpath("//input[@name='_csrf']/@value")))[0]
+
+        result = session_requests.post(login_url, data=payload, headers=dict(referer=login_url))
+        result = session_requests.get(url, headers=dict(referer=url))
+        regex_find = re.findall(r'load_diet_reserve_table\((.*)\);\">هفته بعد', result.text)
+
+        if regex_find != []:
+            flag = True
+
+        return flag
 
     def __str__(self):
         return str(self.user)

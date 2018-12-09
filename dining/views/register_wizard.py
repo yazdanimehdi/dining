@@ -13,8 +13,13 @@ def userdiningdata_wizard(request):
                 for x in request.POST:
                     if hasattr(u, x):
                         u.__setattr__(x, request.POST.get(x))
-                u.save()
-            except:
+                if u.test_account() is True:
+                    u.save()
+                else:
+                    return render(request, 'dining/templates/register_wizard.html',
+                                  {'msg': 'نام کاربری یا رمز عبور سامانه‌ی غذا اشتباه مي‌باشد'})
+
+            except ValueError:
                 return render(request, 'dining/templates/register_wizard.html', {'msg': 'یه چیزی اشتباه پیش رفت'})
             return redirect('/prefered_food')
     else:
