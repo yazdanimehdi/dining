@@ -9,6 +9,4 @@ def dashboard(request):
         a = Coins.objects.filter(user=request.user, active=True).count()
         return render(request, 'dining/templates/dashboard.html', {'username': u.username, 'coin': a})
     else:
-        redirect("/login")
-
-
+        return redirect("/login")

@@ -1,58 +1,69 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>ورود</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    {% load static %}
-    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/main.css' %}" />
-    <script src="static/js/main.js"></script>
+{% block content %}
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>ورود</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% load static %}
+        <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/main.css' %}"/>
+        <script src="static/js/main.js"></script>
 
-    <!-- Font Icon -->
-    <link rel="stylesheet" href="{% static 'fonts/material-design-iconic-font/css/material-design-iconic-font.css'%}">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!-- Font Icon -->
+        <link rel="stylesheet"
+              href="{% static 'fonts/material-design-iconic-font/css/material-design-iconic-font.css' %}">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <!-- Main css -->
-    <link rel="stylesheet" href="{% static 'css/style.css'%}">
-</head>
-<body>
-<!-- Sing in  Form -->
-<section class="sign-in">
-    <div class="container">
-        <div class="signin-content">
-            <div class="signin-image">
-                <figure><img src="./1.jpg" alt="sing up image"></figure>
-                <a href="/signup" class="signup-image-link">عضو نیستی؟؟</a>
-            </div>
+        <!-- Main css -->
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    </head>
+    <body>
+    <!-- Sing in  Form -->
+    <section class="sign-in">
+        <div class="container">
+            <div class="signin-content">
+                <div class="signin-image">
+                    <figure><img src="./1.jpg" alt="sing up image"></figure>
+                    <a href="/signup" class="signup-image-link">عضو نیستی؟؟</a>
+                </div>
 
-            <div class="signin-form">
-                <h2 class="form-title">ورود</h2>
-                <h3 style="color: #CE272D;font-size: 18px">{{ msg }}</h3>
-                <form method="POST" class="register-form" id="login-form" >
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="your_name"><i class="material-icons">account_box</i></label>
-                        <input type="text" name="username" id="username" placeholder="نام‌کاربری"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="your_pass"><i class="material-icons">lock</i></label>
-                        <input type="password" name="password" id="password" placeholder="رمزعبور"/>
-                    </div>
-                    <div class="form-group">
-                        <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
-                        <label for="remember-me" class="label-agree-term"><span><span></span></span>مرا به یاد داشته باش</label>
-                    </div>
-                    <div class="form-group form-button">
-                        <input type="submit" name="signin" id="signin" class="form-submit" value="ورود"/>
-                    </div>
-                </form>
+                <div class="signin-form">
+                    <h2 class="form-title">ورود</h2>
+                    <h3 style="color: #CE272D;font-size: 18px">{{ msg }}</h3>
+                    <form method="POST" class="register-form" id="login-form">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="your_name"><i class="material-icons">account_box</i></label>
+                            <input type="text" name="username" id="username" placeholder="نام‌کاربری"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="your_pass"><i class="material-icons">lock</i></label>
+                            <input type="password" name="password" id="password" placeholder="رمزعبور"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="checkbox" name="remember-me" id="remember-me" class="agree-term"/>
+                            <label for="remember-me" class="label-agree-term"><span><span></span></span>مرا به یاد داشته
+                                باش</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="checkbox" name="remember-me" id="remember-me" class="agree-term"/>
+                            <a href="/password_reset" for="remember-me"
+                               class="label-agree-term"><span><span></span></span>رمز عبورتو فراموش کردی؟</a>
+                        </div>
 
+
+                        <div class="form-group form-button">
+                            <input type="submit" name="signin" id="signin" class="form-submit" value="ورود"/>
+                        </div>
+                    </form>
+
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-</div>
-</body>
-</html>
+    </div>
+    </body>
+    </html>
+{% endblock %}

@@ -124,4 +124,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'dining.CustomUser'
-
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+LOGIN_REDIRECT_URL = "/dashboard"
+AUTH_PROFILE_MODULE = 'dining.dashboard'
+LOGIN_URL = '/login'
