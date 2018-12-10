@@ -37,29 +37,28 @@ class UserDiningData(models.Model):
     reserve_saturday_dinner = models.BooleanField(default=False)
 
     def test_account(self):
-        uni = self.__getattribute__('university')
-        login_url = uni.__getattribute__('login_url')
-        url = uni.__getattribute__('reserve_table')
-        payload = {
-            'LoginForm[username]': self.dining_username,
-            'LoginForm[password]': self.dining_password,
-            '_csrf': uni.__getattribute__('csrf_token')
-        }
-        flag = False
+        login_url = self.university.login_url
         session_requests = requests.session()
         result = session_requests.get(login_url)
-
+        csrf = self.university.csrf_name
         tree = html.fromstring(result.text)
-        authenticity_token = list(set(tree.xpath("//input[@name='_csrf']/@value")))[0]
-
+        authenticity_token = list(set(tree.xpath(f"//input[@name='{csrf}']/@value")))[0]
+        payload = {
+            self.university.form_username: self.dining_username,
+            self.university.form_password: self.dining_password,
+            self.university.csrf_name: authenticity_token,
+        }
         result = session_requests.post(login_url, data=payload, headers=dict(referer=login_url))
-        result = session_requests.get(url, headers=dict(referer=url))
-        regex_find = re.findall(r'load_diet_reserve_table\((.*)\);\">هفته بعد', result.text)
+        result = session_requests.get(self.university.reserve_url)
+        self_id = re.findall(r'<option value=\"(.+?)\"', result.text)
+        self_names = re.findall(r'<option value=\".*\">(.+)</option>', result.text)
+        self_dict = dict()
+        i = 0
+        for item in self_names:
+            self_dict[item] = self_id[i]
+            i += 1
 
-        if regex_find != []:
-            flag = True
-
-        return flag
+        return self_dict
 
     def __str__(self):
         return str(self.user)
@@ -74,16 +73,11 @@ class UserPreferableFood(models.Model):
         return str(self.user)
 
 
-class UserServicesUniversities(models.Model):
-    university = models.ForeignKey(to='dining.University', on_delete=models.CASCADE)
+class UserSelfs(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    served_breakfast_self_id = models.CharField(max_length=10)
-    served_breakfast_self_name = models.CharField(max_length=100)
-    served_lunch_self_id = models.CharField(max_length=10)
-    served_lunch_self_name = models.CharField(max_length=100)
-    served_dinner_self_id = models.CharField(max_length=10)
-    served_dinner_self_name = models.CharField(max_length=100)
-
+    self_name = models.CharField(max_length=100)
+    self_id = models.CharField(max_length=100)
+    is_active = models.BooleanField(default=False)
 
 
 

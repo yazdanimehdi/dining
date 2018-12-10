@@ -21,7 +21,7 @@ def prefer_food(request):
                         d.food = Food.objects.get(name=food)
                         d.score = request.POST.get(food)
                         d.save()
-                    return redirect('/payment')
+                    return redirect('/self_select')
                 except:
                     return render(request, 'dining/templates/prefered_food.html',
                                   {'food_list': food_list, 'count': len(food_list),

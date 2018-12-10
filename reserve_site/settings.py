@@ -77,8 +77,12 @@ WSGI_APPLICATION = 'reserve_site.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'diningdb',
+        'USER': 'postgres',
+        'PASSWORD': 'salam1392',
+        'HOST': 'localhost',
+        'port': '5432'
     }
 }
 

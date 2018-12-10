@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from dining.models import UserDiningData
+from dining.models import UserDiningData, UserSelfs
 
 
 def userdiningdata_wizard(request):
@@ -13,13 +13,20 @@ def userdiningdata_wizard(request):
                 for x in request.POST:
                     if hasattr(u, x):
                         u.__setattr__(x, request.POST.get(x))
-                if u.test_account() is True:
+                a = u.test_account()
+                if a != {}:
+                    for item in a:
+                        self = UserSelfs()
+                        self.user = request.user
+                        self.self_name = item
+                        self.self_id = a[item]
+                        self.save()
                     u.save()
                 else:
                     return render(request, 'dining/templates/register_wizard.html',
                                   {'msg': 'نام کاربری یا رمز عبور سامانه‌ی غذا اشتباه مي‌باشد'})
 
-            except ValueError:
+            except:
                 return render(request, 'dining/templates/register_wizard.html', {'msg': 'یه چیزی اشتباه پیش رفت'})
             return redirect('/prefered_food')
     else:

@@ -18,7 +18,7 @@ from django.urls import path
 
 from dining.views import signup, login, home, userdiningdata_wizard, logout_view, contact_us, prefer_food, dashboard, \
     payment, prefer_food_dashboard, change_info, change_info_dining, change_days, CustomReset, CustomResetDone, \
-    CustomResetConfirm, CustomResetComplete
+    CustomResetConfirm, CustomResetComplete, self_id
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -39,6 +39,7 @@ urlpatterns = [
     path('password_reset/done/', CustomResetDone.as_view(), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', CustomResetConfirm.as_view(), name='password_reset_confirm'),
     path('reset/done/', CustomResetComplete.as_view(), name='password_reset_complete'),
+    path('self_select/', self_id)
 
 ]
 

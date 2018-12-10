@@ -10,4 +10,5 @@ from .payment import payment
 from .prefer_dashboard import prefer_food_dashboard
 from .prefer_food import prefer_food
 from .register_wizard import userdiningdata_wizard
+from .selfid import self_id
 from .signup import signup
