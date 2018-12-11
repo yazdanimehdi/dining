@@ -36,7 +36,7 @@ def payment(request):
                         u.is_paid = True
                         u.save()
                         return render(request, 'dining/templates/dashboard.html', {
-                            'msg': '!پرداخت با موفقیت انجام شد از این به بعد مسترزرو خودش برات رزرو غذا رزرو می‌کنه',
+                            'msg': '!پرداخت با موفقیت انجام شد از این به بعد مسترزرو خودش برات غذا رزرو می‌کنه',
                             'color': '#39b54a', 'coin': coin})
                     else:
                         return render(request, 'dining/templates/peyment.html',
