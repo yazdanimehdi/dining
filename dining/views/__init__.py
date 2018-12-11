@@ -12,3 +12,4 @@ from .prefer_food import prefer_food
 from .register_wizard import userdiningdata_wizard
 from .selfid import self_id
 from .signup import signup
+from .zarinpal_online_payment import send_request, verify

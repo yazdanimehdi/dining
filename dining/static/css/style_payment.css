@@ -5,11 +5,222 @@
   box-sizing: border-box;
 }
 
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+@font-face {
+    font-family: 'iransans';
+    font-style: normal;
+    font-weight: 300;
+    src: url("font-awesome/fonts/iran_sans_web.ttf");
+}
+
+body {
+    font-family: iransans;
+    background: linear-gradient(to right bottom, #1b1b1e, #333);
+}
+
+.list {
+    flex: 0 0 20rem;
+}
+
+.list__item {
+    position: relative;
+}
+
+.list__item:hover > .label {
+    color: #39b54a;
+}
+
+.list__item:hover > .label::before {
+    border: 0.5rem solid #39b54a;
+    margin-right: 2rem;
+}
+
+.radio-btn {
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.radio-btn:checked + .label {
+    color: #39b54a;
+}
+
+.radio-btn:checked + .label::before {
+    margin-right: 2rem;
+    border: 0.5rem solid #39b54a;
+    background: #fff;
+}
+
+.label {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 0;
+    color: #fff;
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.25s linear;
+}
+
+.label::before {
+    display: inline-block;
+    content: "";
+    height: 1.125rem;
+    width: 1.125rem;
+    margin-right: 0.625rem;
+    border: 0.5rem solid #fff;
+    border-radius: 50%;
+    transition: all 0.25s linear;
+}
+
+
+
 body {
   width:100%;
     background-image:url(https://i.imgur.com/3jhku0g.gif);
   background-size:cover;
 }
+
+.inputGroup {
+    background-color: #fff;
+    display: block;
+    margin: 10px 0;
+    position: relative;
+}
+
+.inputGroup label {
+    padding: 12px 30px;
+    width: 100%;
+    display: block;
+    text-align: left;
+    color: #3c454c;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+    transition: color 200ms ease-in;
+    overflow: hidden;
+}
+
+.inputGroup label:before {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    content: "";
+    background-color: #39b54a;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%) scale3d(1, 1, 1);
+    transform: translate(-50%, -50%) scale3d(1, 1, 1);
+    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    z-index: -1;
+}
+
+.inputGroup label:after {
+    width: 32px;
+    height: 32px;
+    content: "";
+    border: 2px solid #d1d7dc;
+    background-color: #fff;
+    background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.414 11L4 12.414l5.414 5.414L20.828 6.414 19.414 5l-10 10z' fill='%23fff' fill-rule='nonzero'/%3E%3C/svg%3E ");
+    background-repeat: no-repeat;
+    background-position: 2px 3px;
+    border-radius: 50%;
+    z-index: 2;
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    cursor: pointer;
+    transition: all 200ms ease-in;
+}
+
+.inputGroup input:checked ~ label {
+    color: #fff;
+}
+
+.inputGroup input:checked ~ label:before {
+    -webkit-transform: translate(-50%, -50%) scale3d(56, 56, 1);
+    transform: translate(-50%, -50%) scale3d(56, 56, 1);
+    opacity: 1;
+}
+
+.inputGroup input:checked ~ label:after {
+    background-color: #39b54a;
+    border-color: #39b54a;
+}
+
+.inputGroup input {
+    width: 32px;
+    height: 32px;
+    order: 1;
+    z-index: 2;
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    cursor: pointer;
+    visibility: hidden;
+}
+
+.form {
+    padding: 0 16px;
+    max-width: 550px;
+    margin: 50px auto;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 36px;
+}
+
+body {
+    background-color: #d1d7dc;
+    font-family: iransans;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+html {
+    box-sizing: border-box;
+}
+
+code {
+    background-color: #9aa3ac;
+    padding: 0 8px;
+}
+
+body {
+    background-color: #D1D7DC;
+    font-family: iransans;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+html {
+    box-sizing: border-box;
+}
+
+code {
+    background-color: #9AA3AC;
+    padding: 0 8px;
+}
+
+
 
 .container {
   display: flex;
@@ -58,7 +269,8 @@ table td:nth-child(3) {
 .credit-card-box {
   width: 400px;
   height: 280px;
-  background: linear-gradient(135deg, #03A9F4, #1976D2);
+    background: linear-gradient(135deg, #0C0C0C, #f0f0f0);
+    background: linear-gradient(135deg, #0C0C0C, #f0f0f0);
   border-radius: 15px;
   color: #fff !important;
   text-shadow: 0 1px 1px hsla(0, 0, 0, 0.3);

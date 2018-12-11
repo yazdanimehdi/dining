@@ -1,100 +1,107 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 
 <head>
-  <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <title>پرداخت</title>
-  
-  {% load static %}
-  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css'>
-<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
 
-      <link rel="stylesheet" href="{%static 'css/style_payment.css'%}">
+    {% load static %}
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css'>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
 
-  
+    <link rel="stylesheet" href="{% static 'css/style_payment.css' %}">
+
+
 </head>
 
 <body>
 
-  <!-- Compiled and minified JavaScript -->
+<!-- Compiled and minified JavaScript -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
 
 <!--Begin Checkout-->
 
 <div class="container">
-  <p class="help" style="color:#ffffff;">
-    Please review your bill and pay </p>
-  <div class="box card-panel z-depth-3">
-    <div class="merchant">
-      <img id="crickets" src="http://ishtyaqhabib.com/assets/images/forcodepen/cricketsCafe.png" />
-      <h5 class="center-align">Crickets Café</h5>
-      <p>Feb 10, 2016 9:36 PM</p>
-    </div>
-    <div class="invoice">
-      <table class="highlight">
-        <thead>
-          <tr>
-            <th>QTY</th>
-            <th>ITEM</th>
-            <th class="right-align">PRICE</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>2</td>
-            <td>Large Mocha Latte</td>
-            <td class="right-align">$4.25</td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>Banana Nut Muffin</td>
-            <td class="right-align">$2.00</td>
-          </tr>
-          <tr>
-            <td></td>
-            <td class="right-align">Tax</td>
-            <td class="right-align">$0.50</td>
-          </tr>
-          <tr>
-            <td></td>
-            <td class="right-align bold">Total</td>
-            <td class="right-align bold">$6.75</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="payment">
-      <h5>Payment Information</h5>
-      <div class="credit-card-box card-panel z-depth-2 animation-element slide-left">
-        <div class="flip">
-          <div class="front">
+    {#  <p class="help" style="color:#ffffff;">#}
+    {#    Please review your bill and pay </p>#}
+    <div class="box card-panel z-depth-3">
+        <div class="merchant">
+            <img id="crickets" src="http://ishtyaqhabib.com/assets/images/forcodepen/cricketsCafe.png"/>
+            <h5 class="center-align">مسترزرو</h5>
+            <p>{{ date }}</p>
+            <p>{{ time }}</p>
+            <p style="text-align: center;color: #CE272D">{{ msg }}</p>
 
-
-
-
-          </div>
 
         </div>
-      </div>
-    </div>
+        <div class="invoice">
+            <table class="highlight">
+                <thead>
+                <tr>
+                    <th style="width:90%;">خدمت</th>
+                    <th class="right-align">مبلغ</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>رزرو اتوماتیک غذا برای یک ترم</td>
+                    <td class="right-align">۱۰۰۰۰ تومن</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            <div class="payment">
+                <h5 style="direction: rtl">انتخاب نحوه‌ی پرداخت</h5>
 
-    <div class="button checkout row">
-      <button class="col s12 btn-large green btn waves-effect waves-dark register"><span>Checkout</span> <i class="fa fa-check"></i></button>
+                <div class="credit-card-box card-panel z-depth-2 animation-element slide-left">
+                    <div class="flip">
+                        <div class="front">
+                            <div class="container">
+
+                                <ul class="list">
+                                    <li class="list__item">
+                                        <input type="radio" class="radio-btn" name="choice" id="a-opt"
+                                               value="online_payment" checked/>
+                                        <label for="a-opt" class="label">پرداخت اینترنتی با کارت بانکی</label>
+                                    </li>
+                                    <br><br>
+
+                                    <li class="list__item">
+                                        <input type="radio" class="radio-btn" name="choice" id="b-opt" value="coin"/>
+                                        <label for="b-opt" class="label">قلکمو بشکون</label>
+                                        <p><span style="color: #39b54a">
+                                                 سکه‌هایی که تو قلک داری: {{ coin }}
+                                        </span></p>
+                                    </li>
+                                </ul>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="col s12 btn-large green btn waves-effect waves-dark register"
+                    style="width: 100%">پرداخت
+            </button>
+
+        </form>
     </div>
-  </div>
 
 </div>
 
 <script>
-  $(document).ready(function() {
+    $(document).ready(function () {
         $('select').material_select();
     });
 </script>
-  
-  
 
-    <script  src="{%static 'js/peyment.js'%}"></script>
+
+<script src="{% static 'js/peyment.js' %}"></script>
 
 
 
