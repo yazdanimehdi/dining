@@ -22,11 +22,15 @@ def start(bot, update):
 
 
 def get_phone(bot, update):
-    phone = '0' + update.message.contact.phone_number[2:]
+    if update.message.contact.phone_number[0] == '+':
+        phone = '0' + update.message.contact.phone_number[3:]
+    else:
+        phone = '0' + update.message.contact.phone_number[2:]
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'reserve_site.settings')
     django.setup()
     from dining.models import CustomUser
     u = list(CustomUser.objects.filter(phone=phone))
+    print(update.message.contact.phone_number)
     if u:
         chat_id = update.message.chat_id
         u[0].chat_id = int(chat_id)
@@ -37,7 +41,7 @@ def get_phone(bot, update):
                              "و هر هفته اطلاعات حساب سلف رو واست میفرستم که در صورت نیاز اعتبارت رو شارژ کنی\n"
                              "اگر حواست نبود من در ۳ مرحله بهت هشدار میدم\n"
                              "اولین مرحله وقتی حسابت به صفر برسه\n"
-                             "دومین هشدار وقتی که به منفی ۱۵ هزار تومن برسی\n"
+                             "دومین هشدار وقتی که به منفی ۱۵ برسی\n"
                              "و هشدار آخر وقتی که منفی ۲۰ شدی\n"
                              "من از اون لحظه به بعد قادر به رزرو غذا نیستم. تا وقتی دوباره اعتبارت رو افزایش بدی\n"
                              "فقط یادت باشه که منو متوقف نکنی چون اونطوری دیگه نمی‌تونم بهت خدمت بدم\n"

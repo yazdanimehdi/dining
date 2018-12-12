@@ -67,7 +67,7 @@
                                                value="online_payment" checked/>
                                         <label for="a-opt" class="label">پرداخت اینترنتی با کارت بانکی</label>
                                     </li>
-                                    <br><br>
+                                    <br>
 
                                     <li class="list__item">
                                         <input type="radio" class="radio-btn" name="choice" id="b-opt" value="coin"/>
@@ -75,6 +75,16 @@
                                         <p><span style="color: #39b54a">
                                                  سکه‌هایی که تو قلک داری: {{ coin }}
                                         </span></p>
+                                    </li>
+                                    <br>
+
+                                    <li class="list__item">
+                                        <input type="radio" class="radio-btn" name="choice" id="c-opt"
+                                               value="zorocode"/>
+                                        <label for="c-opt" class="label">استفاده از زروکد</label>
+                                    </li>
+                                    <li>
+                                        <input type="text" name="zorocode" id="zorocode" placeholder="زورو کد">
                                     </li>
                                 </ul>
 
@@ -90,9 +100,12 @@
             </button>
 
         </form>
+        <a href="/dashboard" style="text-align: center;color: black;font-size: 11px;text-decoration: underline;">فعلا
+            نمی‌خوام پرداخت کنم</a>
     </div>
 
 </div>
+
 
 <script>
     $(document).ready(function () {
