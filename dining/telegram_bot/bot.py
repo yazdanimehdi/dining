@@ -1,6 +1,7 @@
 import logging
 import os
 
+import django
 import telegram
 from telegram.ext import Updater, CommandHandler, Filters, MessageHandler
 
@@ -23,6 +24,7 @@ def start(bot, update):
 def get_phone(bot, update):
     phone = '0' + update.message.contact.phone_number[2:]
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'reserve_site.settings')
+    django.setup()
     from dining.models import CustomUser
     u = list(CustomUser.objects.filter(phone=phone))
     if u:
@@ -52,12 +54,7 @@ def get_phone(bot, update):
                         reply_markup=reply_markup, parse_mode=telegram.ParseMode.MARKDOWN)
 
 
-def unknown(bot, update):
-    bot.sendMessage(chat_id=update.message.chat_id, text="ببخشید دستورتو متوجه نشدم")
-
-
 start_handler = CommandHandler('start', start)
-dispatcher.addHandler(MessageHandler([Filters.command], unknown))
 contact_handler = MessageHandler(Filters.contact, get_phone)
 dispatcher.add_handler(start_handler)
 dispatcher.add_handler(contact_handler)
