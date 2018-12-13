@@ -29,3 +29,5 @@ class ReservedTable(models.Model):
     friday_dinner = models.CharField(max_length=100, default='-')
     saturday_dinner = models.CharField(max_length=100, default='-')
     sunday_dinner = models.CharField(max_length=100, default='-')
+
+    credit = models.FloatField(default=-30)
