@@ -56,9 +56,22 @@ CELERY_BROKER_URL = "amqp://localhost"
 
 CELERY_BEAT_SCHEDULE = {
     'bot_reserve_announcement_task': {
-        'task': 'dinning.telegram_bot.reserve_announcement',
+        'task': 'dining.telegram_bot.reserve_announcement',
         'schedule': crontab(hour=11, minute=00),
-    }
+    },
+    'bot_credit_announcement_task': {
+        'task': 'dining.telegram_bot.credit_announcement',
+        'schedule': crontab(hour=19, minute=00, day_of_week=2),
+    },
+    'bot_credit_insufficient_task': {
+        'task': 'dining.telegram_bot.credit_insufficient',
+        'schedule': crontab(hour=19, minute=00),
+    },
+    'sharif_reserve_task': {
+        'task': 'dining.tasks.reserve_function',
+        'schedule': crontab(hour=19, minute=00, day_of_week=3),
+    },
+
 }
 
 
