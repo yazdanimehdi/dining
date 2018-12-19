@@ -72,10 +72,6 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'dining.tasks.reservation_sharif.reserve_function',
         'schedule': crontab(hour=19, minute=00, day_of_week=3),
     },
-    'hello_world': {
-        'schedule': 5,
-        'task': 'dining.tasks.reservation_sharif.hello_world'
-    }
 
 }
 

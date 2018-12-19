@@ -7,10 +7,6 @@ from lxml import html
 
 
 @task()
-def hello_world():
-    print("Hello Wordl!!!")
-
-@task()
 def reserve_function():
     from dining.models import UserDiningData, ReservedTable, UserSelfs, UserPreferableFood
     for user_data in UserDiningData.objects.filter(university='Sharif University Of Technology'):
