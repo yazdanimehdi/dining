@@ -65,8 +65,8 @@ def reserve_function():
                     for food in food_names_dinner:
                         if '<span class="label label-warning food_reserve_label">(نیمه تعطیل)</span>' in food:
                             food = \
-                                food.split('<span class="label label-warning food_reserve_label">(نیمه تعطیل)</span>')[
-                                    0].strip()
+                            food.split('<span class="label label-warning food_reserve_label">(نیمه تعطیل)</span>')[
+                                0].strip()
                         foods.append((food_id_dinner[i], food))
                         i += 1
                     data_dinner[(day[0], date[0])] = foods
@@ -80,8 +80,8 @@ def reserve_function():
                             food.split('<span class="label label-warning food_reserve_label">(نیمه تعطیل)</span>')[
                                 0].strip()
                         for db_food in UserPreferableFood.objects.filter(user=user_data.user):
-                            if db_food in food:
-                                food = db_food
+                            if db_food.food in food:
+                                food = db_food.food
                         foods.append((food_id_lunch[i], food))
                         i += 1
                     data_lunch[(day[0], date[0])] = foods
