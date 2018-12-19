@@ -7,6 +7,10 @@ from lxml import html
 
 
 @task()
+def hello_world():
+    print("Hello Wordl!!!")
+
+@task()
 def reserve_function():
     from dining.models import UserDiningData, ReservedTable, UserSelfs, UserPreferableFood
     for user_data in UserDiningData.objects.filter(university='Sharif University Of Technology'):
@@ -211,5 +215,13 @@ def reserve_function():
             reserved.tuesday_dinner = data_dinner['سه شنبه']
             reserved.wednesday_dinner = data_dinner['چهارشنبه']
             reserved.thursday_dinner = data_dinner['پنج شنبه']
+
+            result = session_requests.get('http://dining.sharif.ir/admin/payment/payment/charge')
+            soup = BeautifulSoup(result.text, 'html.parser')
+            soup_find = soup.find_all('h4', {'class': 'control-label'})
+            credit_raw = soup_find[0].find_all('span', {'dir': 'ltr'})[0].text.strip()
+            credit = float(re.sub(',', '.', credit_raw))
+
+            reserved.credit = credit
 
             reserved.save()

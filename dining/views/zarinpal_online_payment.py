@@ -1,6 +1,8 @@
 from django.http import HttpResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from zeep import Client
+
+from dining.models import CustomUser, Coins
 
 MERCHANT = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX'
 client = Client('https://www.zarinpal.com/pg/services/WebGate/wsdl')
@@ -23,10 +25,19 @@ def verify(request):
     if request.GET.get('Status') == 'OK':
         result = client.service.PaymentVerification(MERCHANT, request.GET['Authority'], amount)
         if result.Status == 100:
-            return HttpResponse('Transaction success.\nRefID: ' + str(result.RefID))
+            coin = Coins.objects.get(introduced_user=request.user)
+            coin.active = True
+            u = CustomUser.objects.get(username=request.user)
+            u.is_paid = True
+            coin = Coins.objects.filter(user=request.user, active=True).count()
+            return render(request, 'dining/templates/dashboard.html', {
+                'msg': '!پرداخت با موفقیت انجام شد از این به بعد مسترزرو خودش برات غذا رزرو می‌کنه',
+                'color': '#39b54a', 'coin': coin, 'ref_id': str(result.RefID)})
         elif result.Status == 101:
-            return HttpResponse('Transaction submitted : ' + str(result.Status))
+            return HttpResponse(
+                'Transaction submitted : ' + str(result.Status) + '<a href="/dashboard/">بازگشت به داشبورد</a>')
         else:
-            return HttpResponse('Transaction failed.\nStatus: ' + str(result.Status))
+            return HttpResponse(
+                'Transaction failed.\nStatus: ' + str(result.Status) + '<a href="/dashboard/">بازگشت به داشبورد</a>')
     else:
-        return HttpResponse('Transaction failed or canceled by user')
+        return redirect(to='/dashboard/')

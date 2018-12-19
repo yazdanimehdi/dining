@@ -71,6 +71,9 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'dining.tasks.reserve_function',
         'schedule': crontab(hour=19, minute=00, day_of_week=3),
     },
+    'hello_world': {
+        'task': 'dining.tasks.hello_world'
+    }
 
 }
 

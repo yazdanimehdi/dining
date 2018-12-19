@@ -45,11 +45,11 @@ def payment(request):
                 code_objects = list(ZorroCode.objects.filter(code=zorocode))
                 if not code_objects:
                     return render(request, 'dining/templates/peyment.html',
-                                  {'date': date, 'time': time, 'coin': a, 'msg': '!زوروکدت معتبر نیست'})
+                                  {'date': date, 'time': time, 'coin': a, 'msg': '!زروکدت معتبر نیست'})
                 else:
-                    if code_objects[0].active == False:
+                    if not code_objects[0].active:
                         return render(request, 'dining/templates/peyment.html',
-                                      {'date': date, 'time': time, 'coin': a, 'msg': '!زوروکدت قبلا استفاده شده'})
+                                      {'date': date, 'time': time, 'coin': a, 'msg': '!زروکدت قبلا استفاده شده'})
                     else:
                         u.is_paid = True
                         u.save()
