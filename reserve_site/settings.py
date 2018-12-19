@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from datetime import timedelta
 
 from celery.schedules import crontab
 
@@ -56,23 +57,24 @@ CELERY_BROKER_URL = "amqp://localhost"
 
 CELERY_BEAT_SCHEDULE = {
     'bot_reserve_announcement_task': {
-        'task': 'dining.telegram_bot.reserve_announcement',
+        'task': 'dining.tasks.reserve_announcement.reserve_announcement',
         'schedule': crontab(hour=11, minute=00),
     },
     'bot_credit_announcement_task': {
-        'task': 'dining.telegram_bot.credit_announcement',
+        'task': 'dining.tasks.credit_announcement.credit_announcement',
         'schedule': crontab(hour=19, minute=00, day_of_week=2),
     },
     'bot_credit_insufficient_task': {
-        'task': 'dining.telegram_bot.credit_insufficient',
+        'task': 'dining.tasks.credit_insufficient.credit_insufficient',
         'schedule': crontab(hour=19, minute=00),
     },
     'sharif_reserve_task': {
-        'task': 'dining.tasks.reserve_function',
+        'task': 'dining.tasks.reservation_sharif.reserve_function',
         'schedule': crontab(hour=19, minute=00, day_of_week=3),
     },
     'hello_world': {
-        'task': 'dining.tasks.hello_world'
+        'schedule': 5,
+        'task': 'dining.tasks.reservation_sharif.hello_world'
     }
 
 }
@@ -109,6 +111,8 @@ DATABASES = {
         'NAME': 'diningdb',
         'USER': 'admin',
         'PASSWORD': '99&3M+p`gw5{v%Jv',
+        # 'USER': 'postgres',
+        # 'PASSWORD': 'salam1392',
         'HOST': 'localhost',
         'port': '5432'
     }
