@@ -23,7 +23,7 @@ def reserve_function():
                 user_data.university.csrf_name: authenticity_token,
             }
             result = session_requests.post(login_url, data=payload, headers=dict(referer=login_url))
-            result = session_requests.get(user_data.university.reserve_url)
+            result = session_requests.get(user_data.university.reserve_table)
 
             regex_find = re.findall(r'load_diet_reserve_table\((.*)\);\">هفته بعد', result.text)
             user_id = re.findall(r'\,(\d\d+)', regex_find[0])[0]

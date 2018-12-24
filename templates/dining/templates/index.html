@@ -167,22 +167,18 @@
             </div>
         </div> <!-- end about-desc -->
 
-        <div class="row about-stats stats block-1-4 block-m-1-2 block-mob-full" data-aos="fade-up">
+        <div class="row about-stats stats block-1-3 block-m-1-2 block-mob-full" data-aos="fade-up">
                 
             <div class="col-block stats__col ">
-                <div class="stats__count">127</div>
+                <div class="stats__count">{{ uni }}</div>
                 <h5 style="font-family: iransans; font: bolder;">دانشگاه‌های تحت پوشش</h5>
             </div>
             <div class="col-block stats__col">
-                <div class="stats__count">1505</div>
-                <h5 style="font-family: iransans; font: bolder;">کاربران فعال</h5>
+                <div class="stats__count">{{ saved }}</div>
+                <h5 style="font-family: iransans; font: bolder;">(حداقل صرفه‌جویی دانشجویان در هفته(تومن</h5>
             </div>
             <div class="col-block stats__col">
-                <div class="stats__count">109</div>
-                <h5 style="font-family: iransans; font: bolder;">حداقل صرفه‌جویی برای دانشجویان</h5>
-            </div>
-            <div class="col-block stats__col">
-                <div class="stats__count">102</div>
+                <div class="stats__count">{{ r_count }}</div>
                 <h5 style="font-family: iransans; font: bolder;">تعداد رزرو در هفته</h5>
             </div>
 
@@ -399,7 +395,7 @@
 
 
     <!-- photoswipe background
-    ================================================== -->
+    ==================================================
     <div aria-hidden="true" class="pswp" role="dialog" tabindex="-1">
 
         <div class="pswp__bg"></div>
@@ -439,20 +435,20 @@
 
 
     <!-- preloader
-    ================================================== -->
-    <div id="preloader">
-        <div id="loader">
-            <div class="line-scale-pulse-out">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-        </div>
-    </div>
+    ==================================================
+{#    <div id="preloader">#}
+{#        <div id="loader">#}
+{#            <div class="line-scale-pulse-out">#}
+{#                <div></div>#}
+{#                <div></div>#}
+{#                <div></div>#}
+{#                <div></div>#}
+{#                <div></div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
 
-
+-->
     <!-- Java Script
     ================================================== -->
     <script src="{%static 'js/jquery-3.2.1.min.js'%}"></script>

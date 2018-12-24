@@ -38,18 +38,20 @@ class UserDiningData(models.Model):
 
     def test_account(self):
         login_url = self.university.login_url
+        url = self.university.reserve_table
         session_requests = requests.session()
         result = session_requests.get(login_url)
-        csrf = self.university.csrf_name
+
         tree = html.fromstring(result.text)
-        authenticity_token = list(set(tree.xpath(f"//input[@name='{csrf}']/@value")))[0]
+        authenticity_token = list(set(tree.xpath("//input[@name='_csrf']/@value")))[0]
         payload = {
             self.university.form_username: self.dining_username,
             self.university.form_password: self.dining_password,
             self.university.csrf_name: authenticity_token,
         }
         result = session_requests.post(login_url, data=payload, headers=dict(referer=login_url))
-        result = session_requests.get(self.university.reserve_url)
+
+        result = session_requests.get(url, headers=dict(referer=url))
         self_id = re.findall(r'<option value=\"(.+?)\"', result.text)
         self_names = re.findall(r'<option value=\".*\">(.+)</option>', result.text)
         self_dict = dict()
@@ -57,7 +59,6 @@ class UserDiningData(models.Model):
         for item in self_names:
             self_dict[item] = self_id[i]
             i += 1
-
         return self_dict
 
     def __str__(self):
