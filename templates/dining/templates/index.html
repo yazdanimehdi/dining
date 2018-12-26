@@ -45,8 +45,8 @@
     <header class="s-header">
 
         <div class="header-logo">
-            <a class="site-logo" href="index.html">
-                <img src="static/images/logo.png" alt="Homepage">
+            <a class="site-logo" href="">
+                <img src="{% static 'images/logo1.PNG' %}" alt="Homepage">
             </a>
         </div>
 
@@ -90,7 +90,9 @@
 
     <!-- home
     ================================================== -->
-    <section id="home" class="s-home target-section" data-parallax="scroll" data-image-src="images/hero-bg.jpg" data-natural-width=3000 data-natural-height=2000 data-position-y=center>
+    <section id="home" class="s-home target-section" data-parallax="scroll"
+             data-image-src="{% static 'images/big.jpg' %}" data-natural-width=3000 data-natural-height=2000
+             data-position-y=center>
 
         <div class="overlay"></div>
         <div class="shadow-overlay"></div>
@@ -204,7 +206,7 @@
 
             <div class="col-block service-item" data-aos="fade-up">
                 <div class="service-icon">
-                    <img src="hero-bg.jpg">
+                    <img src="{% static 'images/foods.PNG' %}">
                 </div>
                 <div class="service-text">
                     <h3 class="h2" style="direction: rtl;">ترجیحات</h3>
@@ -218,7 +220,7 @@
 
             <div class="col-block service-item" data-aos="fade-up">
                 <div class="service-icon">
-                    <img src="hero-bg.jpg">
+                    <img src="{% static 'images/forgetting.PNG' %}">
                 </div>
                 <div class="service-text">
                     <h3 class="h2" style="direction: rtl;">فراموشی</h3>
@@ -232,24 +234,24 @@
 
             <div class="col-block service-item" data-aos="fade-up">
                 <div class="service-icon">
-                
-                    <img src="hero-bg.jpg">
-                </div>  
+
+                    <img src="{% static 'images/telegram.png' %}">
+                </div>
                 <div class="service-text">
                     <h3 class="h2" style="direction: rtl;">اطلاع رسانی</h3>
                     <p style="direction: rtl;"> من میدونم کی باید واست کدوم غذا رو رزرو کنم. ولی
-                         تو که نمی دونی من چی رزرو کردم. میخوای تو کدوم صف وایسی؟ ربات 
+                        تو که نمی دونی من چی رزرو کردم. میخوای تو کدوم صف وایسی؟ ربات
                          تگرامم هر روزی که واست رزرو کرده باشه بهت خبر میده کدوم غذا رو گرفته.. فقط همین؟؟
                          البته که نه، متاسفانه بعضی وقتا خبرای بدی واست داره چون موجودی سلفت داره تموم میشه
-                         و دیگه نمیتونیم واست رزرو کنیم. اینجور وقتا باید زحمت شارژ حسابت رو بکشی 
+                        و دیگه نمیتونیم واست رزرو کنیم. اینجور وقتا باید زحمت شارژ حسابت رو بکشی
                     </p>
                 </div>
             </div>
 
             <div class="col-block service-item" data-aos="fade-up">
                 <div class="service-icon">
-             
-                    <img src="hero-bg.jpg">
+
+                    <img src="{% static 'images/days.png' %}">
                 </div>  
                 <div class="service-text">
                     <h3 class="h2" style="direction: rtl;">چه روزی؟</h3>
