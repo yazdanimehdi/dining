@@ -105,10 +105,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'diningdb',
-        'USER': 'admin',
-        'PASSWORD': '99&3M+p`gw5{v%Jv',
-        # 'USER': 'postgres',
-        # 'PASSWORD': 'salam1392',
+        # 'USER': 'admin',
+        # 'PASSWORD': '99&3M+p`gw5{v%Jv',
+        'USER': 'postgres',
+        'PASSWORD': 'salam1392',
         'HOST': 'localhost',
         'port': '5432'
     }

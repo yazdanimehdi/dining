@@ -14,7 +14,6 @@ def userdiningdata_wizard(request):
                     if hasattr(u, x):
                         u.__setattr__(x, request.POST.get(x))
                 a = u.test_account()
-                print(a)
                 if a != {}:
                     for item in a:
                         self = UserSelfs()

@@ -30,17 +30,22 @@ def signup(request):
             except:
                 return render(request, "dining/templates/register.html", {'msg':"!برای ثبت‌نام تمامی فیلد‌ها باید پر گرددند", 'university': university_list})
             if request.POST.get('agree-term') == 'on':
-                u.save()
-                d.user = CustomUser.objects.get(username=request.POST.get('username'))
-                d.university = University.objects.get(name=request.POST.get('university'))
-                d.save()
-                if 'introduced_user' in request.POST:
-                    if (request.POST.get('introduced_user'),) in list(CustomUser.objects.all().values_list('username')):
-                        coin.user = CustomUser.objects.get(username=request.POST.get('introduced_user'))
-                        coin.introduced_user = CustomUser.objects.get(username=request.POST.get('username'))
-                        coin.save()
-                auth_login(request, u)
-                return redirect('/wizard')
+                if not CustomUser.objects.filter(username=u.username):
+                    u.save()
+                    d.user = CustomUser.objects.get(username=request.POST.get('username'))
+                    d.university = University.objects.get(name=request.POST.get('university'))
+                    d.save()
+                    if 'introduced_user' in request.POST:
+                        if (request.POST.get('introduced_user'),) in list(
+                                CustomUser.objects.all().values_list('username')):
+                            coin.user = CustomUser.objects.get(username=request.POST.get('introduced_user'))
+                            coin.introduced_user = CustomUser.objects.get(username=request.POST.get('username'))
+                            coin.save()
+                    auth_login(request, u)
+                    return redirect('/wizard')
+                else:
+                    return render(request, "dining/templates/register.html",
+                                  {'msg': "!این نام کاربری قبلا استفاده شده", 'university': university_list})
             else:
                 return render(request, "dining/templates/register.html",
                               {'msg': "!موافقت با قوانین الزامی است", 'university': university_list})
