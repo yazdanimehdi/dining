@@ -10,7 +10,7 @@ amount = 10000  # Toman / Required
 description = "10000 تومن بابت خدمت رزرواسیون آنلاین مسترزرو"  # Required
 email = 'info@mrzoro.ir'  # Optional
 mobile = '09124156965'  # Optional
-CallbackURL = 'http://localhost:8000/payment/verify/'  # Important: need to edit for realy server.
+CallbackURL = 'http://www.mrzoro.ir/payment/verify/'  # Important: need to edit for realy server.
 
 
 def send_request(request):
