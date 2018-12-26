@@ -4,7 +4,7 @@ from zeep import Client
 
 from dining.models import CustomUser, Coins
 
-MERCHANT = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX'
+MERCHANT = 'ac663104-083d-11e9-82ac-005056a205be'
 client = Client('https://www.zarinpal.com/pg/services/WebGate/wsdl')
 amount = 10000  # Toman / Required
 description = "10000 تومن بابت خدمت رزرواسیون آنلاین مسترزرو"  # Required
