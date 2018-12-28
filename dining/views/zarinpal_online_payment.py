@@ -25,8 +25,11 @@ def verify(request):
     if request.GET.get('Status') == 'OK':
         result = client.service.PaymentVerification(MERCHANT, request.GET['Authority'], amount)
         if result.Status == 100:
-            coin = Coins.objects.get(introduced_user=request.user)
-            coin.active = True
+            try:
+                coin = Coins.objects.get(introduced_user=request.user)
+                coin.active = True
+            except:
+                pass
             u = CustomUser.objects.get(username=request.user)
             u.is_paid = True
             coin = Coins.objects.filter(user=request.user, active=True).count()
