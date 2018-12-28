@@ -294,19 +294,19 @@ input:focus {
 }
 
 input:focus::-webkit-input-placeholder {
-    color: #222;
+    color: white;
 }
 
 input:focus::-moz-placeholder {
-    color: #222;
+    color: white;
 }
 
 input:focus:-ms-input-placeholder {
-    color: #222;
+    color: white;
 }
 
 input:focus:-moz-placeholder {
-    color: #222;
+    color: white;
 }
 
 input[type=checkbox]:not(old) {
