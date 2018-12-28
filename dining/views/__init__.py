@@ -2,7 +2,7 @@ from .change_info import change_info
 from .change_info_dining import change_info_dining
 from .changeinfo_days import change_days
 from .dashboard import dashboard
-from .dashboard_mobile import dashboard_mobile
+from .dashboard_mobile import dashboard_mobile, dashboard_request
 from .index import home, contact_us
 from .login import login
 from .login_mobile import login_mobile

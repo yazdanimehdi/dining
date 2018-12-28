@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 
 from dining.models import CustomUser, Coins, MerchantUser
 
@@ -24,10 +24,16 @@ def dashboard_mobile(request):
             msgp = '.حساب کاربریت فعاله'
             colorp = '#39b54a'
         else:
-            msgp = '.حساب کاربریت غیره فعاله همین الان پرداخت کن'
+            msgp = '.حساب کاربریت غیر فعاله همین الان پرداخت کن'
             colorp = '#CE272D'
         return render(request, 'dining/templates/dashboard_mobile.html',
                       {'username': u.username, 'coin': coins, 'msgp': msgp, 'colorp': colorp, 'users': user_list,
                        'merchants': m_list, })
     else:
         return redirect("/login_mobile")
+
+
+def dashboard_request(request):
+    if request.user.is_authenticated:
+        u = CustomUser.objects.get(username=request.user)
+        return HttpResponse(u.username)
