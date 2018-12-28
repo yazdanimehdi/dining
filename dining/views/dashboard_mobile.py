@@ -36,4 +36,11 @@ def dashboard_mobile(request):
 def dashboard_request(request):
     if request.user.is_authenticated:
         u = CustomUser.objects.get(username=request.user)
-        return HttpResponse(u.username)
+        outpout = '''
+        <html>
+        <head>
+            <title>%s</title>
+        </head>
+    </html>
+        ''' % u.username
+        return HttpResponse(outpout)
