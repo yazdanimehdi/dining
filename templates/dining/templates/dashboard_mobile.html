@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Material Design Expanding Overlay</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+
+    <link rel="stylesheet" href="{% static 'css/style_dashboard_mobile.css' %}">
+
+
+</head>
+
+<body>
+
+
+<html>
+<body>
+<!-- Demo stuff-->
+<main>
+    <h1><a href="http://ettrics.com/">مسترزرو</a></h1>
+    <p>تا حالا هیچ کس حواسش بهت نبوده</p>
+    <p><a href="https://twitter.com/ettrics/" target="_blank"><i class="fa fa-twitter"></i></a></p><a
+        href="https://www.instagram.com/mr.zorrooo/?r=nametag" target="_blank"><i class="fa fa-instagram"></i></a></p>
+    <img class="plate" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/45226/plate.svg" alt=""/>
+</main>
+<!-- Component starts here-->
+<ul class="blocks-names">
+    <li class="blocks__name">قلک</li>
+    <li class="blocks__name">وضعیت</li>
+    <li class="blocks__name">توضیحات</li>
+    <li class="blocks__name">تخفیف‌ها</li>
+    <li class="blocks__name">خدمات دیگر</li>
+</ul>
+<ul class="blocks">
+    <li class="blocks__block" id="1"></li>
+    <li class="blocks__block" id="2"></li>
+    <li class="blocks__block" id="3"></li>
+    <li class="blocks__block" id="4"></li>
+    <li class="blocks__block" id="5"></li>
+</ul>
+<ul class="blocks-content">
+    <li class="blocks-content__content">
+        <div class="content__close"></div>
+        <h2>قلک</h2>
+        <p style="direction: rtl;">افرادی که معرفی کردی:</p>
+        <ul>{% for item in users %}
+            <li>{{ item }}</li>
+        {% endfor %}
+        </ul>
+        <p><span style="color: #39b54a">
+                    چنتا سکه تو قلک داری: {{ coin }}
+                    </span></p>
+        <p>
+            برای جمع کردن سکه همین الان برنامه به اشتراک بذار
+        </p><i class="blocks__content-close fa fa-close"></i>
+    </li>
+    <li class="blocks-content__content">
+        <h2>وضعیت حساب کاربری</h2>
+        <p style="color: {{ colorp }}; font-size: xx-large;">{{ msgp }}</p><i
+            class="blocks__content-close fa fa-close"></i>
+    </li>
+    <li class="blocks-content__content">
+        <h2>توضیحات</h2>
+        <p>ممکنه واست پیش بیاد سلف یه غذایی که دوست داری و بهش نمره بالا دادی رو برخلاف انتظارت درست کنه و مجبور بشی
+            تجدید نظر کنی، یا ممکنه یه روز به روز هایی که قرار تو دانشگاه غذا بخوری اضافه بشه یا ازش کم بشه. خلاصه هر
+            وقت هر تغییری که خواستی رو میتونی از اینجا اعمال کنی.
+            با امکاناتی که در منو سمت چپ در اختیارت گذاشتم میتونی علاوه بر تغییرات، اگر هنوز پرداختت کامل انجام نشده
+            اقدام کنی یا میتونی قلکتو چک کنی اگر سکه هات کافی باشه مجانی حسابتو فعال کنی</p><i
+            class="blocks__content-close fa fa-close"></i>
+    </li>
+    <li class="blocks-content__content">
+        <h2>تخفیف‌ها</h2>
+        <p style="direction: rtl;">کدهای تخفیف مختلف (اونایی رو که استفاده می‌کنی قرمز می‌شن)</p>
+        <ul>{% for merch, code, address, color in merchants %}
+            <li style="color: {{ color }}; direction: rtl;">{{ merch }} : {{ code }}</li>
+        {% endfor %}
+        </ul>
+        <p style="direction: rtl;">آدرس ها:</p>
+        <ul>{% for merch, code, address, color in merchants %}
+            <li style="color: white; direction: rtl;">{{ merch }} : {{ address }}</li>
+        {% endfor %}
+        </ul>
+        <i class="blocks__content-close fa fa-close"></i>
+    </li>
+    <li class="blocks-content__content">
+        <h2>خدمات دیگر</h2>
+        <p style="font-size: xx-large;">Coming Soon...</p><i class="blocks__content-close fa fa-close"></i>
+    </li>
+</ul>
+</body>
+</html>
+<script src='{% static 'js/jquery-3.2.1.min.js' %}'></script>
+
+
+<script src="{% static 'js/dashboard_mobile.js' %}"></script>
+
+
+</body>
+
+</html>
