@@ -33,7 +33,7 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                 'user_id': user_id
             }
             result = session_requests.post(url_next_week, data=next_week_payload)
-            print(result)
+            print(result.text)
 
             # mining main table
 
@@ -80,7 +80,8 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                     i += 1
                 data_lunch[(day[0], date[0])] = foods
 
-                print(foods)
+                print(data_lunch)
+                print(data_dinner)
 
             chosen_days_lunch = []
 
