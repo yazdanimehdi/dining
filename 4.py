@@ -24,7 +24,7 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
         print(result.text)
         regex_find = re.findall(r'load_diet_reserve_table\((.*)\);\">هفته بعد', result.text)
         user_id = re.findall(r'\,(\d\d+)', regex_find[0])[0]
-        url_next_week = user_data.university.reserve_table
+        url_next_week = user_data.university.url_next_week
         print(user_id)
         for self in UserSelfs.objects.filter(user=user_data.user, is_active=True):
             next_week_payload = {
