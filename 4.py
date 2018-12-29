@@ -200,6 +200,7 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
         soup = BeautifulSoup(result.text, 'html.parser')
         soup_find = soup.find_all('tr')
         soup_find.pop(0)
+        print(re.findall(r'<br\/>\s+(.+?)\s+', str(soup_find[0])))
         reserved.week_start_date = re.findall(r'<br\/>\s+(.+?)\s+', str(soup_find[0]))
         data_lunch = dict()
         data_dinner = dict()
@@ -219,6 +220,7 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                 data_dinner[day[0]] = foods
             else:
                 data_dinner[day[0]] = '-'
+
             i = 0
             foods = []
             if food_names_lunch:
@@ -231,7 +233,8 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                 data_lunch[day[0]] = foods
             else:
                 data_lunch[day[0]] = '-'
-
+        print(data_dinner)
+        print(data_lunch)
         reserved.friday_lunch = data_lunch['جمعه']
         reserved.saturday_lunch = data_lunch['شنبه']
         reserved.sunday_lunch = data_lunch['یک شنبه']
@@ -253,6 +256,7 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
         soup_find = soup.find_all('h4', {'class': 'control-label'})
         credit_raw = soup_find[0].find_all('span', {'dir': 'ltr'})[0].text.strip()
         credit = float(re.sub(',', '.', credit_raw))
+        print(credit)
 
         reserved.credit = credit
 
