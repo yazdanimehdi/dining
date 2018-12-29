@@ -126,11 +126,11 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                     if item[0] == day and data_lunch[item]:
                         food_list = []
                         for food in data_lunch[item]:
-                            food_list.append(food[1])
+                            food_list.append(UserPreferableFood.objects.get(food__name=food[1]))
                         prefered_data = UserPreferableFood.objects.filter(user=user_data.user,
                                                                           food__in=food_list).order_by('-score')
                         for food in data_lunch[item]:
-                            if food[1] == prefered_data[0].food:
+                            if food[1] == prefered_data[0].food.name:
                                 best_id = food[0]
                         if best_id != '-' and best_id != '':
                             food_reserve_request = {
@@ -149,11 +149,11 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                     if item[0] == day and data_dinner[item]:
                         food_list = []
                         for food in data_dinner[item]:
-                            food_list.append(food[1])
-                        prefered_data = UserPreferableFood.objects.filter(user=user_data.user,
-                                                                          food__in=food_list).order_by('-score')
+                            food_list.append(UserPreferableFood.objects.get(food__name=food[1]))
+                            prefered_data = UserPreferableFood.objects.filter(user=user_data.user,
+                                                                              food__in=food_list).order_by('-score')
                         for food in data_dinner[item]:
-                            if food[1] == prefered_data[0].food:
+                            if food[1] == prefered_data[0].food.name:
                                 best_id = food[0]
                         if best_id != '-' and best_id != '':
                             food_reserve_request = {
