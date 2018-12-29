@@ -21,10 +21,11 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
         }
         result = session_requests.post(login_url, data=payload, headers=dict(referer=login_url))
         result = session_requests.get(user_data.university.reserve_table)
-
+        print(result.text)
         regex_find = re.findall(r'load_diet_reserve_table\((.*)\);\">هفته بعد', result.text)
         user_id = re.findall(r'\,(\d\d+)', regex_find[0])[0]
         url_next_week = user_data.university.reserve_table
+        print(user_id)
         for self in UserSelfs.objects.filter(user=user_data.user, is_active=True):
             next_week_payload = {
                 'id': '0',
