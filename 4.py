@@ -116,6 +116,7 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                 chosen_days_dinner.append('پنج شنبه')
 
             for item in data_lunch:
+                print(data_lunch[item])
                 for day in chosen_days_lunch:
                     if item[0] == day and data_lunch[item][1] != None:
                         food_list = []
