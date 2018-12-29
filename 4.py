@@ -61,7 +61,7 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                                 0].strip()
                     flag = False
                     for db_food in UserPreferableFood.objects.filter(user=user_data.user):
-                        if set(db_food.food.name.split(' ')).issubset(food.split(' ')):
+                        if set(db_food.food.name.split(' ')).issubset(food.split(' ')) or (db_food.food.name in food):
                             food = db_food.food.name
                     flag = True
                     if flag:
@@ -90,7 +90,7 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                                 0].strip()
                     flag = False
                     for db_food in UserPreferableFood.objects.filter(user=user_data.user):
-                        if set(db_food.food.name.split(' ')).issubset(food.split(' ')):
+                        if (set(db_food.food.name.split(' ')).issubset(food.split(' '))) or (db_food.food.name in food):
                             food = db_food.food.name
                             flag = True
                     if flag:
@@ -98,6 +98,7 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                     else:
                         newfood = Food()
                         newfood.name = food
+                        newfood.university = user_data.university
                         newfood.id = 0
                         newfood.save()
                         u = UserPreferableFood()
@@ -105,7 +106,6 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                         u.food = newfood
                         u.score = 0
                         u.save()
-
 
                     i += 1
                 data_lunch[(day[0], date[0])] = foods
