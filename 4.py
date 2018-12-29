@@ -118,14 +118,13 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
             for item in data_lunch:
                 for day in chosen_days_lunch:
                     if item[0] == day and (data_lunch[item] is not None):
-                        print(data_lunch[item])
                         food_list = []
                         for food in data_lunch[item]:
                             food_list.append(
                                 (food[0], UserPreferableFood.objects.get(user=user_data.user, food__name=food[1])))
                         prefered_data = food_list.sort(key=lambda x: x[1].score, reverse=True)
                         print(prefered_data)
-                        if prefered_data[0][0] != '-' and prefered_data[0][0] != '':
+                        if prefered_data[0][0] != '-' or prefered_data[0][0] != '' or prefered_data[0][0] is not None:
                             food_reserve_request = {
                                 'id': prefered_data[0][0],
                                 'place_id': self.self_id,
