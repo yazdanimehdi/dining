@@ -9,7 +9,7 @@ from lxml import html
 @task()
 def reserve_function():
     from dining.models import UserDiningData, ReservedTable, UserSelfs, UserPreferableFood
-    for user_data in UserDiningData.objects.filter(university='Sharif University Of Technology'):
+    for user_data in UserDiningData.objects.filter(university__name='دانشگاه صنعتی شریف'):
         if user_data.user.is_paid:
             login_url = user_data.university.login_url
             session_requests = requests.session()
