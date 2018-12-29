@@ -122,9 +122,11 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                         for food in data_lunch[item]:
                             food_list.append(
                                 UserPreferableFood.objects.get(user=user_data.user, food__name=food[1]))
-                        print(food_list)
                         prefered_data = food_list.sort(key=lambda x: x.score, reverse=True)
+                        print(prefered_data)
                         for food in data_lunch[item]:
+                            print(food[1])
+                            print(prefered_data[0].food.name)
                             if food[1] == prefered_data[0].food.name:
                                 best_id = food[0]
                         if best_id != '-' and best_id != '':
