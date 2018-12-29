@@ -91,7 +91,7 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                 chosen_days_lunch.append('دوشنبه')
             if user_data.reserve_tuesday_lunch:
                 chosen_days_lunch.append('سه شنبه')
-            if user_data.wednesday_lunch:
+            if user_data.reserve_wednesday_lunch:
                 chosen_days_lunch.append('چهارشنبه')
             if user_data.reserve_thursday_lunch:
                 chosen_days_lunch.append('پنج شنبه')
@@ -108,7 +108,7 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                 chosen_days_dinner.append('دوشنبه')
             if user_data.reserve_tuesday_dinner:
                 chosen_days_dinner.append('سه شنبه')
-            if user_data.wednesday_dinner:
+            if user_data.reserve_wednesday_lunch:
                 chosen_days_dinner.append('چهارشنبه')
             if user_data.reserve_thursday_dinner:
                 chosen_days_dinner.append('پنج شنبه')
