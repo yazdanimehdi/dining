@@ -21,11 +21,9 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
         }
         result = session_requests.post(login_url, data=payload, headers=dict(referer=login_url))
         result = session_requests.get(user_data.university.reserve_table)
-        print(result.text)
         regex_find = re.findall(r'load_diet_reserve_table\((.*)\);\">هفته بعد', result.text)
         user_id = re.findall(r'\,(\d\d+)', regex_find[0])[0]
         url_next_week = user_data.university.url_next_week
-        print(user_id)
         for self in UserSelfs.objects.filter(user=user_data.user, is_active=True):
             next_week_payload = {
                 'id': '0',
@@ -34,7 +32,6 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                 'user_id': user_id
             }
             result = session_requests.post(url_next_week, data=next_week_payload)
-            print(result.text)
 
             # mining main table
 
@@ -62,6 +59,9 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                         food = \
                             food.split('<span class="label label-warning food_reserve_label">(نیمه تعطیل)</span>')[
                                 0].strip()
+                    for db_food in UserPreferableFood.objects.filter(user=user_data.user):
+                        if db_food.food in food:
+                            food = db_food.food.name
                     foods.append((food_id_dinner[i], food))
                     i += 1
                 data_dinner[(day[0], date[0])] = foods
@@ -76,7 +76,7 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                                 0].strip()
                     for db_food in UserPreferableFood.objects.filter(user=user_data.user):
                         if db_food.food in food:
-                            food = db_food.food
+                            food = db_food.food.name
                     foods.append((food_id_lunch[i], food))
                     i += 1
                 data_lunch[(day[0], date[0])] = foods
