@@ -29,7 +29,7 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
             next_week_payload = {
                 'id': '0',
                 'parent_id': self.self_id,
-                'week': '1',
+                'week': '0',
                 'user_id': user_id
             }
             result = session_requests.post(url_next_week, data=next_week_payload)
