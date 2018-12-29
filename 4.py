@@ -127,7 +127,8 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                                 (food[0], UserPreferableFood.objects.get(user=user_data.user, food__name=food[1])))
                             print(food)
                         print(food_list)
-                        prefered_data = food_list.sort(key=lambda x: x[1].score, reverse=True)
+                        food_list.sort(key=lambda x: x[1].score, reverse=True)
+                        prefered_data = food_list
                         print(prefered_data)
                         if prefered_data[0][0] != '-' or prefered_data[0][0] != '' or prefered_data[0][0] is not None:
                             food_reserve_request = {
@@ -147,14 +148,12 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                         food_list = []
                         for food in data_dinner[item]:
                             food_list.append(
-                                UserPreferableFood.objects.get(user=user_data.user, food__name=food[1]).food)
-                        prefered_data = food_list.sort(key=lambda x: x.score, reverse=True)
-                        for food in data_dinner[item]:
-                            if food[1] == prefered_data[0].food.name:
-                                best_id = food[0]
-                        if best_id != '-' and best_id != '':
+                                (food[0], UserPreferableFood.objects.get(user=user_data.user, food__name=food[1])))
+                        food_list.sort(key=lambda x: x[1].score, reverse=True)
+                        prefered_data = food_list
+                        if prefered_data[0][0] != '-' or prefered_data[0][0] != '' or prefered_data[0][0] is not None:
                             food_reserve_request = {
-                                'id': best_id,
+                                'id': prefered_data[0][0],
                                 'place_id': self.self_id,
                                 'food_place_id': '0',
                                 'self_id': self.self_id,
