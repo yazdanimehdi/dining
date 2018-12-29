@@ -126,7 +126,7 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                     if item[0] == day and data_lunch[item]:
                         food_list = []
                         for food in data_lunch[item]:
-                            food_list.append(UserPreferableFood.objects.get(food__name=food[1]))
+                            food_list.append(UserPreferableFood.objects.get(user=user_data.user, food__name=food[1]))
                         prefered_data = UserPreferableFood.objects.filter(user=user_data.user,
                                                                           food__in=food_list).order_by('-score')
                         for food in data_lunch[item]:
@@ -149,7 +149,7 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                     if item[0] == day and data_dinner[item]:
                         food_list = []
                         for food in data_dinner[item]:
-                            food_list.append(UserPreferableFood.objects.get(food__name=food[1]))
+                            food_list.append(UserPreferableFood.objects.get(user=user_data.user, food__name=food[1]))
                             prefered_data = UserPreferableFood.objects.filter(user=user_data.user,
                                                                               food__in=food_list).order_by('-score')
                         for food in data_dinner[item]:
