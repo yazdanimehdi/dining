@@ -165,28 +165,29 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
 
                                 session_requests.post(user_data.university.reserve_url + user_id,
                                                       data=food_reserve_request)
-            print(data_dinner)
-            for item in data_dinner:
-                for day in chosen_days_dinner:
-                    if item[0] == day and (data_dinner[item][1] is not None):
-                        food_list = []
-                        for food in data_dinner[item]:
-                            food_list.append(
-                                (food[0], UserPreferableFood.objects.get(user=user_data.user, food__name=food[1])))
-                        food_list.sort(key=lambda x: x[1].score, reverse=True)
-                        prefered_data = food_list
-                        if prefered_data:
-                            if prefered_data[0][0] != '-' and prefered_data[0][0] != '':
-                                food_reserve_request = {
-                                    'id': prefered_data[0][0],
-                                    'place_id': self.self_id,
-                                    'food_place_id': '0',
-                                    'self_id': self.self_id,
-                                    'user_id': user_id
-                                }
 
-                                session_requests.post(user_data.university.reserve_url + user_id,
-                                                      data=food_reserve_request)
+            for item in data_dinner:
+                if data_dinner[item]:
+                    for day in chosen_days_dinner:
+                        if item[0] == day and (data_dinner[item][1] is not None):
+                            food_list = []
+                            for food in data_dinner[item]:
+                                food_list.append(
+                                    (food[0], UserPreferableFood.objects.get(user=user_data.user, food__name=food[1])))
+                            food_list.sort(key=lambda x: x[1].score, reverse=True)
+                            prefered_data = food_list
+                            if prefered_data:
+                                if prefered_data[0][0] != '-' and prefered_data[0][0] != '':
+                                    food_reserve_request = {
+                                        'id': prefered_data[0][0],
+                                        'place_id': self.self_id,
+                                        'food_place_id': '0',
+                                        'self_id': self.self_id,
+                                        'user_id': user_id
+                                    }
+
+                                    session_requests.post(user_data.university.reserve_url + user_id,
+                                                          data=food_reserve_request)
         reserved = ReservedTable()
         reserved.user = user_data.user
         next_week_reserved_table = {
