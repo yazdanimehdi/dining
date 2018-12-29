@@ -60,7 +60,7 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                             food.split('<span class="label label-warning food_reserve_label">(نیمه تعطیل)</span>')[
                                 0].strip()
                     for db_food in UserPreferableFood.objects.filter(user=user_data.user):
-                        if db_food.food in food:
+                        if db_food.food.name in food:
                             food = db_food.food.name
                     foods.append((food_id_dinner[i], food))
                     i += 1
@@ -75,7 +75,7 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                             food.split('<span class="label label-warning food_reserve_label">(نیمه تعطیل)</span>')[
                                 0].strip()
                     for db_food in UserPreferableFood.objects.filter(user=user_data.user):
-                        if db_food.food in food:
+                        if db_food.food.name in food:
                             food = db_food.food.name
                     foods.append((food_id_lunch[i], food))
                     i += 1
