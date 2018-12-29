@@ -4,7 +4,7 @@ from django.db import models
 class ReservedTable(models.Model):
     user = models.ForeignKey(to='dining.CustomUser', on_delete=models.CASCADE)
 
-    week_start_date = models.DateField()
+    week_start_date = models.CharField(max_length=10, default='-')
 
     monday_breakfast = models.CharField(max_length=100, default='-')
     tuesday_breakfast = models.CharField(max_length=100, default='-')
