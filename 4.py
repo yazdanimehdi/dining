@@ -81,9 +81,6 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                     i += 1
                 data_lunch[(day[0], date[0])] = foods
 
-                print(data_lunch)
-                print(data_dinner)
-
             chosen_days_lunch = []
 
             if user_data.reserve_friday_lunch:
@@ -118,19 +115,15 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
             if user_data.reserve_thursday_dinner:
                 chosen_days_dinner.append('پنج شنبه')
 
-            print(chosen_days_dinner)
-            print(chosen_days_lunch)
-
             for item in data_lunch:
                 for day in chosen_days_lunch:
                     if item[0] == day and data_lunch[item]:
                         food_list = []
                         for food in data_lunch[item]:
                             food_list.append(
-                                UserPreferableFood.objects.get(user=user_data.user, food__name=food[1]).food)
+                                UserPreferableFood.objects.get(user=user_data.user, food__name=food[1]))
                         print(food_list)
-                        prefered_data = UserPreferableFood.objects.filter(food__in=food_list,
-                                                                          user=user_data.user).order_by('-score')
+                        prefered_data = food_list.sort(key=lambda x: x.score, reverse=True)
                         for food in data_lunch[item]:
                             if food[1] == prefered_data[0].food.name:
                                 best_id = food[0]
@@ -153,8 +146,7 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                         for food in data_dinner[item]:
                             food_list.append(
                                 UserPreferableFood.objects.get(user=user_data.user, food__name=food[1]).food)
-                        prefered_data = UserPreferableFood.objects.filter(user=user_data.use,
-                                                                          food__in=food_list).order_by('-score')
+                        prefered_data = food_list.sort(key=lambda x: x.score, reverse=True)
                         for food in data_dinner[item]:
                             if food[1] == prefered_data[0].food.name:
                                 best_id = food[0]
