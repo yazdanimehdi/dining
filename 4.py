@@ -209,19 +209,28 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
             food_names_dinner = re.findall(r'<span>(.+?)<\/span>', str(row.find_all('td')[1]))
             i = 0
             foods = []
-            for food in food_names_dinner:
-                foods.append(food)
-                i += 1
-            data_dinner[day[0]] = foods
+            if food_names_dinner:
+                for food in food_names_dinner:
+                    if '<span class="label label-warning food_reserve_label">(نیمه تعطیل)</span>' in food:
+                        food = food.split('<span class="label label-warning food_reserve_label">(نیمه تعطیل)</span>')[
+                            0].strip()
+                    foods.append(food)
+                    i += 1
+                data_dinner[day[0]] = foods
+            else:
+                data_dinner[day[0]] = '-'
             i = 0
             foods = []
-            for food in food_names_lunch:
-                if '<span class="label label-warning food_reserve_label">(نیمه تعطیل)</span>' in food:
-                    food = food.split('<span class="label label-warning food_reserve_label">(نیمه تعطیل)</span>')[
-                        0].strip()
-                foods.append(food)
-                i += 1
-            data_lunch[day[0]] = foods
+            if food_names_lunch:
+                for food in food_names_lunch:
+                    if '<span class="label label-warning food_reserve_label">(نیمه تعطیل)</span>' in food:
+                        food = food.split('<span class="label label-warning food_reserve_label">(نیمه تعطیل)</span>')[
+                            0].strip()
+                    foods.append(food)
+                    i += 1
+                data_lunch[day[0]] = foods
+            else:
+                data_lunch[day[0]] = '-'
 
         reserved.friday_lunch = data_lunch['جمعه']
         reserved.saturday_lunch = data_lunch['شنبه']
