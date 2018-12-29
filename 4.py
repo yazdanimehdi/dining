@@ -116,12 +116,17 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                 chosen_days_dinner.append('پنج شنبه')
 
             for item in data_lunch:
+                print(item)
                 for day in chosen_days_lunch:
+                    print(day)
                     if item[0] == day and (data_lunch[item] is not None):
                         food_list = []
+                        print(data_lunch[item])
                         for food in data_lunch[item]:
                             food_list.append(
                                 (food[0], UserPreferableFood.objects.get(user=user_data.user, food__name=food[1])))
+                            print(food)
+                        print(food_list)
                         prefered_data = food_list.sort(key=lambda x: x[1].score, reverse=True)
                         print(prefered_data)
                         if prefered_data[0][0] != '-' or prefered_data[0][0] != '' or prefered_data[0][0] is not None:
