@@ -33,6 +33,7 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                 'user_id': user_id
             }
             result = session_requests.post(url_next_week, data=next_week_payload)
+            print(result)
 
             # mining main table
 
