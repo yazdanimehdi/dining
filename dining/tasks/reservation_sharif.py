@@ -32,7 +32,7 @@ def reserve_function():
                 next_week_payload = {
                     'id': '0',
                     'parent_id': self.self_id,
-                    'week': '0',
+                    'week': '1',
                     'user_id': user_id
                 }
                 result = session_requests.post(url_next_week, data=next_week_payload)
