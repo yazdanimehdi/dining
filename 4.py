@@ -4,7 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 from lxml import html
 
-from dining.models import UserDiningData, ReservedTable, UserSelfs, UserPreferableFood
+from dining.models import UserDiningData, ReservedTable, UserSelfs, UserPreferableFood, Food
 
 for user_data in UserDiningData.objects.filter(university__name='دانشگاه صنعتی شریف'):
     if user_data.user.is_paid:
@@ -59,10 +59,23 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                         food = \
                             food.split('<span class="label label-warning food_reserve_label">(نیمه تعطیل)</span>')[
                                 0].strip()
+                    flag = False
                     for db_food in UserPreferableFood.objects.filter(user=user_data.user):
                         if db_food.food.name in food:
                             food = db_food.food.name
-                    foods.append((food_id_dinner[i], food))
+                    flag = True
+                    if flag:
+                        foods.append((food_id_lunch[i], food))
+                    else:
+                        newfood = Food()
+                        newfood.name = food
+                        newfood.id = 0
+                        newfood.save()
+                        u = UserPreferableFood()
+                        u.user = user_data.user
+                        u.food = newfood
+                        u.score = 0
+                        u.save()
                     i += 1
                 data_dinner[(day[0], date[0])] = foods
                 i = 0
@@ -74,10 +87,25 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                         food = \
                             food.split('<span class="label label-warning food_reserve_label">(نیمه تعطیل)</span>')[
                                 0].strip()
+                    flag = False
                     for db_food in UserPreferableFood.objects.filter(user=user_data.user):
                         if db_food.food.name in food:
                             food = db_food.food.name
-                    foods.append((food_id_lunch[i], food))
+                            flag = True
+                    if flag:
+                        foods.append((food_id_lunch[i], food))
+                    else:
+                        newfood = Food()
+                        newfood.name = food
+                        newfood.id = 0
+                        newfood.save()
+                        u = UserPreferableFood()
+                        u.user = user_data.user
+                        u.food = newfood
+                        u.score = 0
+                        u.save()
+
+
                     i += 1
                 data_lunch[(day[0], date[0])] = foods
 
@@ -123,9 +151,10 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
                         food_list = []
                         print(data_lunch[item])
                         for food in data_lunch[item]:
+                            print(food)
                             food_list.append(
                                 (food[0], UserPreferableFood.objects.get(user=user_data.user, food__name=food[1])))
-                            print(food)
+                            print(food_list)
                         print(food_list)
                         food_list.sort(key=lambda x: x[1].score, reverse=True)
                         prefered_data = food_list
