@@ -117,7 +117,7 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
 
             for item in data_lunch:
                 for day in chosen_days_lunch:
-                    if item[0] == day and data_lunch[item]:
+                    if item[0] == day and data_lunch[item][1] != None:
                         food_list = []
                         for food in data_lunch[item]:
                             food_list.append(
@@ -143,7 +143,7 @@ for user_data in UserDiningData.objects.filter(university__name='دانشگاه 
 
             for item in data_dinner:
                 for day in chosen_days_dinner:
-                    if item[0] == day and data_dinner[item]:
+                    if item[0] == day and data_dinner[item][1] != None:
                         food_list = []
                         for food in data_dinner[item]:
                             food_list.append(
