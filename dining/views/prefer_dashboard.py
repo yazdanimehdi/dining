@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from dining.models import Food, UserDiningData, UserPreferableFood, Coins
 
@@ -7,11 +7,15 @@ def prefer_food_dashboard(request):
     if request.user.is_authenticated:
         u = UserDiningData.objects.get(user=request.user)
         a = Coins.objects.filter(user=request.user, active=True).count()
+        p = UserPreferableFood.objects.filter(user=request.user).count()
         food_list = list()
         for foods in Food.objects.filter(university=u.university):
             food_list.append(foods.name)
         if request.method == 'GET':
-            return render(request, 'dining/templates/prefered_food_dashboard_change.html', {'food_list': food_list})
+            if p != 0:
+                return render(request, 'dining/templates/prefered_food_dashboard_change.html', {'food_list': food_list})
+            else:
+                return redirect('/prefered_food')
         elif request.method == 'POST':
             food = Food.objects.get(name=request.POST.get('food_select'))
             score = request.POST.get('food_change')
