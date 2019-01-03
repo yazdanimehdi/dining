@@ -53,8 +53,8 @@ def payment(request):
                     else:
                         u.is_paid = True
                         u.save()
-                        code_objects[0].active = False
-                        code_objects[0].save()
+                        # code_objects[0].active = False
+                        # code_objects[0].save()
                         return render(request, 'dining/templates/dashboard.html', {
                             'msg': '!پرداخت با موفقیت انجام شد از این به بعد مسترزرو خودش برات غذا رزرو می‌کنه',
                             'color': '#39b54a', 'coin': a})
