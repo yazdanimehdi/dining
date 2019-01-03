@@ -1,16 +1,19 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from dining.models import UserDiningData, Coins
 
 
 def change_info_dining(request):
     if request.user.is_authenticated:
-        u = UserDiningData.objects.get(user=request.user)
+        u = UserDiningData.objects.filter(user=request.user)
         a = Coins.objects.filter(user=request.user, active=True).count()
         if request.method == 'GET':
-            return render(request, 'dining/templates/change_info_dining .html',
-                          {'username': u.dining_username,
-                           'password': u.dining_password})
+            if u:
+                return render(request, 'dining/templates/change_info_dining .html',
+                              {'username': u.dining_username,
+                               'password': u.dining_password})
+            else:
+                return redirect('/wizard')
         elif request.method == 'POST':
             try:
                 u.dining_username = request.POST.get('dining_username')
