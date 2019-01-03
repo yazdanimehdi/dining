@@ -1,101 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-
+{% load static %}
 <head>
-    {% load static %}
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="colorlib.com">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>تغییر اطلاعات شخصی</title>
+    <title>Appointment Contact Form</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 
 
-    <link rel="stylesheet" type="text/css"
-          href="{% static 'fonts/material-icon/css/material-design-iconic-font.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'vendor/nouislider/nouislider.min.css' %}">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style_wizard.css' %}">
 
-    <!-- Main css -->
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style_infochange.css' %}">
+
 </head>
 
-<body>
+<body style="background: black;">
 
-<div class="main">
-
-    <div class="container">
-        <div class="container">
-            <div style="padding-left: 0%">
-                <a style="background-color: black;
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  outline: none;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;" href="/dashboard"><i class="material-icons">dashboard</i></a>
-            </div>
-            <form method="POST" id="signup-form" class="signup-form">
+<div class="landing-page">
+    <div class="form-appointment">
+        <div class="wpcf7" id="wpcf7-f560-p590-o1">
+            <form method="post" class="wpcf7-form" novalidate="novalidate" _lpchecked="1">
                 {% csrf_token %}
-                <div>
-                    <h3>تغییر اطلاعات شخصی</h3>
-                    <fieldset>
-                        <h2 style="text-align: center;">اطلاعات شخصی</h2>
-                        <h3 style="color: #CE272D;">{{ msg }}</h3>
-                        <p class="desc" style="text-align: center;color: #CE272D">{{ msg }}</p>
-                        <div class="fieldset-content">
-                            <div class="form-row">
-                                <label class="form-label" style="direction: rtl;">نام</label>
-                                <div class="form-flex">
-                                    <div class="form-group">
-                                        <input type="text" name="first_name" id="first_name" value="{{ firstname }}"/>
-                                        <span class="text-input" style="direction: rtl;">اسم</span>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" name="last_name" id="last_name" value="{{ lastname }}"/>
-                                        <span class="text-input" style="direction: rtl;">فامیل</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="email" class="form-label" style="direction: rtl;">ایمیل</label>
-                                <input type="email" name="email" id="email" value="{{ email }}"/>
-                                <span class="text-input"
-                                      style="direction: rtl;">مثال  :<span>  Jeff@gmail.com</span></span>
-                            </div>
-                            <div class="form-group">
-                                <label for="phone" class="form-label" style="direction: rtl;">تلفن</label>
-                                <input type="text" name="phone" id="phone" value="{{ phone }}"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="password" class="form-label" style="direction: rtl;">پسورد جدید</label>
-                                <input type="password" name="new_pass" id="new_pass"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="password" class="form-label" style="direction: rtl;">تکرار پسورد
-                                    جدید</label>
-                                <input type="password" name="new_pass_second" id="new_pass_second"/>
-                            </div>
+                <div style="display: none;">
+                    <input type="hidden" name="_wpcf7" value="560">
+                    <input type="hidden" name="_wpcf7_version" value="3.5">
+                    <input type="hidden" name="_wpcf7_locale" value="">
+                    <input type="hidden" name="_wpcf7_unit_tag" value="wpcf7-f560-p590-o1">
+                    <input type="hidden" name="_wpnonce" value="dbb28877d5">
+                </div>
+                <div class="group" style="text-align: center;">
+                    <div style="width: 100%; float: none;">
+                        <h4>اطلاعات سامانه‌ی غذای خود را وارد کنید</h4>
+                        <h6>نام</h6>
+                        <span class="wpcf7-form-control-wrap text-680"><input type="text" name="first_name"
+                                                                              id="first_name" value="{{ firstname }}"
+                                                                              size="45"
+                                                                              class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
+                                                                              aria-required="true"
+                                                                              placeholder=""></span><br>
+                        <h6>نام خانوادگی</h6>
+                        <span class="wpcf7-form-control-wrap email-680"><input type="text" name="last_name"
+                                                                               id="last_name" value="{{ lastname }}"
+                                                                               size="45"
+                                                                               class="wpcf7-form-control wpcf7-text wpcf7-email wpcf7-validates-as-required wpcf7-validates-as-email"
+                                                                               aria-required="true"
+                                                                               placeholde=""></span><br>
+                        <h6>ایمیل</h6>
+                        <span class="wpcf7-form-control-wrap text-680"><input type="email" name="email" id="email"
+                                                                              value="{{ email }}" size="45"
+                                                                              class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
+                                                                              aria-required="true"
+                                                                              placeholder=""></span><br>
+                        <h6>تلفن</h6>
+                        <span class="wpcf7-form-control-wrap text-680"><input type="text" name="phone" id="phone"
+                                                                              value="{{ phone }}" size="45"
+                                                                              class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
+                                                                              aria-required="true"
+                                                                              placeholder=""></span><br>
+                        <h6>رمز عبور جدید جهت عوض کردن رمز عبور</h6>
+                        <span class="wpcf7-form-control-wrap text-680"><input type="password" name="new_pass"
+                                                                              id="new_pass" value="" size="45"
+                                                                              class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
+                                                                              aria-required="true"
+                                                                              placeholder=""></span><br>
+                        <h6> تکرا رمز عبور جدید جهت عوض کردن رمز عبور</h6>
+                        <span class="wpcf7-form-control-wrap text-680"><input type="password" name="new_pass_second"
+                                                                              id="new_pass_second" value="" size="45"
+                                                                              class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
+                                                                              aria-required="true"
+                                                                              placeholder=""></span><br>
+
+                        <div style="text-align: center; padding-top: 1em; border-top: 1px solid rgb(153, 202, 129); margin-top: 1em;">
+                            <input type="submit" value="ثبت" class="wpcf7-form-control wpcf7-submit">
+
+
+                            <script src="{% static 'js/main_wizard.js' %}"></script>
+
 
                         </div>
+                    </div>
                 </div>
-                </fieldset>
-
             </form>
         </div>
-
     </div>
-
-    <!-- JS -->
-    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'vendor/jquery-validation/dist/jquery.validate.min.js' %}"></script>
-    <script src="{% static 'vendor/jquery-validation/dist/additional-methods.min.js' %}"></script>
-    <script src="{% static 'vendor/jquery-steps/jquery.steps.min.js' %}"></script>
-    <script src="{% static 'vendor/minimalist-picker/dobpicker.js' %}"></script>
-    <script src="{% static 'vendor/nouislider/nouislider.min.js' %}"></script>
-    <script src="{% static 'vendor/wnumb/wNumb.js' %}"></script>
-    <script src="{% static 'js/main_changeinfo.js' %}"></script>
+</div>
 </body>
 
 </html>

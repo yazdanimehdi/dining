@@ -1,0 +1,127 @@
+@font-face {
+    font-family: 'iransans';
+    font-style: normal;
+    font-weight: 300;
+    src: url("font-awesome/fonts/iran_sans_web.ttf");
+}
+
+.group:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.landing-page {
+    width: 882px;
+    margin: 100px auto 0;
+}
+
+.landing-page *,
+.landing-page *:before,
+.landing-page *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.landing-page .module {
+    border: 1px solid black;
+    border-radius: 4px;
+    float: left;
+    padding: 2em;
+    width: 48%;
+}
+
+.landing-page .module > *:last-child,
+.landing-page .module > *:last-child > *:last-child,
+.landing-page .module > *:last-child > *:last-child > *:last-child {
+    margin: 0;
+    padding: 0;
+}
+
+.landing-page .note {
+    background-color: black;
+    border: 1px dashed;
+    border-radius: 4px;
+    color: rgb(115, 136, 96);
+    font-family: 'iransans';
+    font-size: .9em;
+    font-style: italic;
+    margin: 20px auto;
+    padding: 2em;
+}
+
+.form-appointment {
+    padding: 2em;
+    background-color: white;
+    border-radius: 4px;
+    border: 1px solid white;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.1);
+    font-family: 'iransans';
+    margin: 20px auto;
+}
+
+.form-appointment input[type=text],
+.form-appointment input[type=email],
+.form-appointment input[type=tel],
+.form-appointment textarea {
+    border: 1px solid #39b54a;
+    border-radius: .2em;
+    font-family: 'iransans';
+    font-size: 1.1em;
+    padding: .4em 1em;
+    margin: 0 0 .8em;
+    width: 100%;
+    box-shadow: 0 0 8px rgba(0, 0, 0, .08) inset;
+}
+
+.form-appointment input[type=text],
+.form-appointment input[type=email],
+.form-appointment input[type=tel],
+.form-appointment input[type=submit],
+.form-appointment textarea {
+    -webkit-transition: all .2s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+
+.form-appointment input[type=text]:active,
+.form-appointment input[type=text]:focus,
+.form-appointment input[type=email]:active,
+.form-appointment input[type=email]:focus,
+.form-appointment input[type=tel]:active,
+.form-appointment input[type=tel]:focus,
+.form-appointment textarea:active,
+.form-appointment textarea:focus {
+    outline: 0;
+    box-shadow: 0 0 6px rgb(176, 226, 188);
+}
+
+.form-appointment textarea {
+    height: 160px;
+}
+
+.form-appointment input[type=submit] {
+    background-color: #39b54a;
+    border: 1px solid rgb(134, 189, 134);
+    border-radius: 4px;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    font-family: 'iransans';
+    font-size: 1.4em;
+    padding: 10px 18px;
+}
+
+.form-appointment input[type=submit]:hover {
+    background-color: white;
+    color: black;
+}
+
+.form-appointment .wpcf7-list-item-label {
+    color: black;
+}
+
+span.wpcf7-list-item {
+    display: block;
+    margin-left: -.02em;
+}

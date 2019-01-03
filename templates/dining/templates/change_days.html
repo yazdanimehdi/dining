@@ -1,242 +1,165 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+{% load static %}
 <head>
-    <meta charset="utf-8">
-    <title>تغییر روزها</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="colorlib.com">
-    {% load static %}
-    <!-- MATERIAL DESIGN ICONIC FONT -->
-    <link rel="stylesheet" href="{% static 'fonts/material-design-iconic-font/css/material-design-iconic-font.css' %}">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Appointment Contact Form</title>
 
-    <!-- STYLE CSS -->
-    <link rel="stylesheet" href="{% static 'css/style2.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+
+    <link rel="stylesheet" href="{% static 'css/style_wizard.css' %}">
+
+
 </head>
-<body>
-<div class="wrapper">
-    <div style="padding-left: 0%">
-        <a style="background-color: black;
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  outline: none;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;" href="/dashboard"><i class="material-icons">dashboard</i></a>
-    </div>
-    <form method="POST" id="wizard">
-        {% csrf_token %}
-        <!-- SECTION 2 -->
-        <h2></h2>
-        <section>
-            <div class="inner">
-                <div class="image-holder">
-                    <img src="{% static 'images/form-wizard-2.jpg' %}" alt="">
+
+<body style="background: black;">
+
+<div class="landing-page">
+    <div class="form-appointment">
+        <div class="wpcf7" id="wpcf7-f560-p590-o1">
+            <form method="post" class="wpcf7-form" novalidate="novalidate" _lpchecked="1">
+                {% csrf_token %}
+                <div style="display: none;">
+                    <input type="hidden" name="_wpcf7" value="560">
+                    <input type="hidden" name="_wpcf7_version" value="3.5">
+                    <input type="hidden" name="_wpcf7_locale" value="">
+                    <input type="hidden" name="_wpcf7_unit_tag" value="wpcf7-f560-p590-o1">
+                    <input type="hidden" name="_wpnonce" value="dbb28877d5">
                 </div>
-                <div class="form-content">
-                    <div class="form-header">
-                        <h3 style="font-size: 18px">
-                            <br>
-                            برای اضافه کردن روز جدید روزهای قبلی رو هم تیک بزن
+                <div class="group" style="text-align: center;">
+                    <div style="width: 100%; float: none;">
+                        <h4>برای اضافه کردن روز جدید روزهای قبلی رو هم تیک بزن</h4>
+                        <h4>صبحانه</h4>
+                        <p><span class="wpcf7-form-control-wrap checkbox-465"><span
+                                class="wpcf7-form-control wpcf7-checkbox"><span class="wpcf7-list-item"><label><input
+                                type="checkbox" name="reserve_saturday_breakfast" id="reserve_saturday_breakfast"
+                                value="True">&nbsp;<span class="wpcf7-list-item-label">شنبه</span></label></span><span
+                                class="wpcf7-list-item"><label><input type="checkbox" name="reserve_sunday_breakfast"
+                                                                      id="reserve_sunday_breakfast"
+                                                                      value="True">&nbsp;<span
+                                class="wpcf7-list-item-label">یکشنبه</span></label></span><span class="wpcf7-list-item"><label><input
+                                type="checkbox" id="reserve_monday_breakfast" name="reserve_monday_breakfast"
+                                value="True">&nbsp;<span class="wpcf7-list-item-label">دوشنبه</span></label></span><span
+                                class="wpcf7-list-item"><label><input type="checkbox" id="reserve_tuesday_breakfast"
+                                                                      name="reserve_tuesday_breakfast"
+                                                                      value="True">&nbsp;<span
+                                class="wpcf7-list-item-label">سه‌شنبه</span></label></span><span
+                                class="wpcf7-list-item"><label><input type="checkbox" id="reserve_wednesday_breakfast"
+                                                                      name="reserve_wednesday_breakfast"
+                                                                      value="True">&nbsp;<span
+                                class="wpcf7-list-item-label">چهارشنبه</span></label></span></span></span><label><span
+                                class="wpcf7-list-item"></span><input type="checkbox" id="reserve_thursday_breakfast"
+                                                                      name="reserve_thursday_breakfast"
+                                                                      value="True">&nbsp;<span
+                                class="wpcf7-list-item-label">پنج‌شنبه</span></label></span></span></span><label><span
+                                class="wpcf7-list-item"></span><input type="checkbox" id="reserve_friday_breakfast"
+                                                                      name="reserve_friday_breakfast"
+                                                                      value="True">&nbsp;<span
+                                class="wpcf7-list-item-label">جمعه</span></label></span></span></span></p>
 
-
-                        </h3>
+                        <h4>ناهار</h4>
+                        <p><span class="wpcf7-form-control-wrap checkbox-465"><span
+                                class="wpcf7-form-control wpcf7-checkbox"><span class="wpcf7-list-item"><label><input
+                                type="checkbox" name="reserve_saturday_lunch" id="reserve_saturday_lunch" value="True">&nbsp;<span
+                                class="wpcf7-list-item-label">شنبه</span></label></span><span
+                                class="wpcf7-list-item"><label><input type="checkbox" name="reserve_sunday_lunch"
+                                                                      id="reserve_sunday_lunch" value="True">&nbsp;<span
+                                class="wpcf7-list-item-label">یکشنبه</span></label></span><span class="wpcf7-list-item"><label><input
+                                type="checkbox" id="reserve_monday_lunch" name="reserve_monday_lunch" value="True">&nbsp;<span
+                                class="wpcf7-list-item-label">دوشنبه</span></label></span><span class="wpcf7-list-item"><label><input
+                                type="checkbox" id="reserve_tuesday_lunch" name="reserve_tuesday_lunch"
+                                value="True">&nbsp;<span
+                                class="wpcf7-list-item-label">سه‌شنبه</span></label></span><span
+                                class="wpcf7-list-item"><label><input type="checkbox" id="reserve_wednesday_lunch"
+                                                                      name="reserve_wednesday_lunch"
+                                                                      value="True">&nbsp;<span
+                                class="wpcf7-list-item-label">چهارشنبه</span></label></span></span></span><label><span
+                                class="wpcf7-list-item"></span><input type="checkbox" id="reserve_thursday_lunch"
+                                                                      name="reserve_thursday_lunch"
+                                                                      value="True">&nbsp;<span
+                                class="wpcf7-list-item-label">پنج‌شنبه</span></label></span></span></span><label><span
+                                class="wpcf7-list-item"></span><input type="checkbox" id="reserve_friday_lunch"
+                                                                      name="reserve_friday_lunch"
+                                                                      value="True">&nbsp;<span
+                                class="wpcf7-list-item-label">جمعه</span></label></span></span></span></p>
+                        <h4>شام</h4>
+                        <p><span class="wpcf7-form-control-wrap checkbox-465"><span
+                                class="wpcf7-form-control wpcf7-checkbox"><span class="wpcf7-list-item"><label><input
+                                type="checkbox" name="reserve_saturday_dinner" id="reserve_saturday_dinner"
+                                value="True">&nbsp;<span class="wpcf7-list-item-label">شنبه</span></label></span><span
+                                class="wpcf7-list-item"><label><input type="checkbox" name="reserve_sunday_dinner"
+                                                                      id="reserve_sunday_dinner"
+                                                                      value="True">&nbsp;<span
+                                class="wpcf7-list-item-label">یکشنبه</span></label></span><span class="wpcf7-list-item"><label><input
+                                type="checkbox" id="reserve_monday_dinner" name="reserve_monday_dinner" value="True">&nbsp;<span
+                                class="wpcf7-list-item-label">دوشنبه</span></label></span><span class="wpcf7-list-item"><label><input
+                                type="checkbox" id="reserve_tuesday_dinner" name="reserve_tuesday_dinner"
+                                value="True">&nbsp;<span
+                                class="wpcf7-list-item-label">سه‌شنبه</span></label></span><span
+                                class="wpcf7-list-item"><label><input type="checkbox" id="reserve_wednesday_dinner"
+                                                                      name="reserve_wednesday_dinner"
+                                                                      value="True">&nbsp;<span
+                                class="wpcf7-list-item-label">چهارشنبه</span></label></span></span></span><label><span
+                                class="wpcf7-list-item"></span><input type="checkbox" id="reserve_thursday_dinner"
+                                                                      name="reserve_thursday_dinner"
+                                                                      value="True">&nbsp;<span
+                                class="wpcf7-list-item-label">پنج‌شنبه</span></label></span></span></span><label><span
+                                class="wpcf7-list-item"></span><input type="checkbox" id="reserve_friday_dinner"
+                                                                      name="reserve_friday_dinner"
+                                                                      value="True">&nbsp;<span
+                                class="wpcf7-list-item-label">جمعه</span></label></span></span></span></p>
                     </div>
-                    <p>صبحانه</p>
-                    <div class="form-row" style="width: 100%;">
+                    <input type="hidden" id="reserve_saturday_breakfast" name="reserve_saturday_breakfast"
+                           value="False">
+                    <input type="hidden" id="reserve_sunday_breakfast" name="reserve_sunday_breakfast"
+                           value="False">
+                    <input type="hidden" id="reserve_monday_breakfast" name="reserve_monday_breakfast"
+                           value="False">
+                    <input type="hidden" id="reserve_tuesday_breakfast" name="reserve_tuesday_breakfast"
+                           value="False">
+                    <input type="hidden" id="reserve_wednesday_breakfast" name="reserve_wednesday_breakfast"
+                           value="False">
+                    <input type="hidden" id="reserve_thursday_breakfast" name="reserve_thursday_breakfast"
+                           value="False">
+                    <input type="hidden" id="reserve_friday_breakfast" name="reserve_friday_breakfast"
+                           value="False">
+                    <input type="hidden" id="reserve_saturday_lunch" name="reserve_saturday_lunch"
+                           value="False">
+                    <input type="hidden" id="reserve_sunday_lunch" name="reserve_sunday_lunch"
+                           value="False">
+                    <input type="hidden" id="reserve_monday_lunch" name="reserve_monday_lunch"
+                           value="False">
+                    <input type="hidden" id="reserve_tuesday_lunch" name="reserve_tuesday_lunch"
+                           value="False">
+                    <input type="hidden" id="reserve_wednesday_lunch" name="reserve_wednesday_lunch"
+                           value="False">
+                    <input type="hidden" id="reserve_thursday_lunch" name="reserve_thursday_lunch"
+                           value="False">
+                    <input type="hidden" id="reserve_friday_lunch" name="reserve_friday_lunch"
+                           value="False">
+                    <input type="hidden" id="reserve_saturday_dinner" name="reserve_saturday_dinner"
+                           value="False">
 
-                        <div>
-                            <input type="hidden" id="reserve_saturday_breakfast" name="reserve_saturday_breakfast"
-                                   value="False"><br>
-                            <input type="checkbox" id="reserve_saturday_breakfast" name="reserve_saturday_breakfast"
-                                   value="True" unchecked><br>
-                            <label for="coding">شنبه</label>
-                        </div>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <div>
-                            <input type="hidden" id="reserve_sunday_breakfast" name="reserve_sunday_breakfast"
-                                   value="False"><br>
-                            <input type="checkbox" id="reserve_sunday_breakfast" name="reserve_sunday_breakfast"
-                                   value="True" unchecked><br>
-                            <label for="coding">یکشنبه</label>
-                        </div>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <div>
-                            <input type="hidden" id="reserve_monday_breakfast" name="reserve_monday_breakfast"
-                                   value="False"><br>
-                            <input type="checkbox" id="reserve_monday_breakfast" name="reserve_monday_breakfast"
-                                   value="True" unchecked><br>
-                            <label for="coding">دوشنبه</label>
-                        </div>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <div>
-                            <input type="hidden" id="reserve_tuesday_breakfast" name="reserve_tuesday_breakfast"
-                                   value="False"><br>
-                            <input type="checkbox" id="reserve_tuesday_breakfast" name="reserve_tuesday_breakfast"
-                                   value="True" unchecked><br>
-                            <label for="coding">سه‌شنبه</label>
-                        </div>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <div>
-                            <input type="hidden" id="reserve_wednesday_breakfast" name="reserve_wednesday_breakfast"
-                                   value="False"><br>
-                            <input type="checkbox" id="reserve_wednesday_breakfast" name="reserve_wednesday_breakfast"
-                                   value="True" unchecked><br>
-                            <label for="coding">چهار‌شنبه</label>
-                        </div>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <div>
-                            <input type="hidden" id="reserve_thursday_breakfast" name="reserve_thursday_breakfast"
-                                   value="False"><br>
-                            <input type="checkbox" id="reserve_thursday_breakfast" name="reserve_thursday_breakfast"
-                                   value="True" unchecked><br>
-                            <label for="coding">پنجشنبه</label>
-                        </div>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <div>
-                            <input type="hidden" id="reserve_friday_breakfast" name="reserve_friday_breakfast"
-                                   value="False"><br>
-                            <input type="checkbox" id="reserve_friday_breakfast" name="reserve_friday_breakfast"
-                                   value="True" unchecked><br>
-                            <label for="coding">جمعه</label>
-                        </div>
-                    </div>
-                    <p>نهار</p>
-                    <div class="form-row" style="width: 100%;">
-
-                        <div>
-                            <input type="hidden" id="reserve_saturday_lunch" name="reserve_saturday_lunch"
-                                   value="False"><br>
-                            <input type="checkbox" id="reserve_saturday_lunch" name="reserve_saturday_lunch"
-                                   value="True" unchecked><br>
-                            <label for="coding">شنبه</label>
-                        </div>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <div>
-                            <input type="hidden" id="reserve_sunday_lunch" name="reserve_sunday_lunch"
-                                   value="False"><br>
-                            <input type="checkbox" id="reserve_sunday_lunch" name="reserve_sunday_lunch" value="True"
-                                   unchecked><br>
-                            <label for="coding">یکشنبه</label>
-                        </div>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <div>
-                            <input type="hidden" id="reserve_monday_lunch" name="reserve_monday_lunch"
-                                   value="False"><br>
-                            <input type="checkbox" id="reserve_monday_lunch" name="reserve_monday_lunch" value="True"
-                                   unchecked><br>
-                            <label for="coding">دوشنبه</label>
-                        </div>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <div>
-                            <input type="hidden" id="reserve_tuesday_lunch" name="reserve_tuesday_lunch"
-                                   value="False"><br>
-                            <input type="checkbox" id="reserve_tuesday_lunch" name="reserve_tuesday_lunch" value="True"
-                                   unchecked><br>
-                            <label for="coding">سه‌شنبه</label>
-                        </div>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <div>
-                            <input type="hidden" id="reserve_wednesday_lunch" name="reserve_wednesday_lunch"
-                                   value="False"><br>
-                            <input type="checkbox" id="reserve_wednesday_lunch" name="reserve_wednesday_lunch"
-                                   value="True" unchecked><br>
-                            <label for="coding">چهار‌شنبه</label>
-                        </div>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <div>
-                            <input type="hidden" id="reserve_thursday_lunch" name="reserve_thursday_lunch"
-                                   value="False"><br>
-                            <input type="checkbox" id="reserve_thursday_lunch" name="reserve_thursday_lunch"
-                                   value="True" unchecked><br>
-                            <label for="coding">پنجشنبه</label>
-                        </div>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <div>
-                            <input type="hidden" id="reserve_friday_lunch" name="reserve_friday_lunch"
-                                   value="False"><br>
-                            <input type="checkbox" id="reserve_friday_lunch" name="reserve_friday_lunch" value="True"
-                                   unchecked><br>
-                            <label for="coding">جمعه</label>
-                        </div>
-
-                    </div>
-
-                    <p>شام</p>
-                    <div class="form-row" style="width: 100%;">
-
-                        <div>
-                            <input type="hidden" id="reserve_saturday_dinner" name="reserve_saturday_dinner"
-                                   value="False"><br>
-                            <input type="checkbox" id="reserve_saturday_dinner" name="reserve_saturday_dinner"
-                                   value="True" unchecked><br>
-                            <label for="coding">شنبه</label>
-                        </div>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <div>
-                            <input type="hidden" id="reserve_sunday_dinner" name="reserve_sunday_dinner"
-                                   value="False"><br>
-                            <input type="checkbox" id="reserve_sunday_dinner" name="reserve_sunday_dinner" value="True"
-                                   unchecked><br>
-                            <label for="coding">یکشنبه</label>
-                        </div>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <div>
-                            <input type="hidden" id="reserve_monday_dinner" name="reserve_monday_dinner"
-                                   value="False"><br>
-                            <input type="checkbox" id="reserve_monday_dinner" name="reserve_monday_dinner" value="True"
-                                   unchecked><br>
-                            <label for="coding">دوشنبه</label>
-                        </div>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <div>
-                            <input type="hidden" id="reserve_tuesday_dinner" name="reserve_tuesday_dinner"
-                                   value="False"><br>
-                            <input type="checkbox" id="reserve_tuesday_dinner" name="reserve_tuesday_dinner"
-                                   value="True" unchecked><br>
-                            <label for="coding">سه‌شنبه</label>
-                        </div>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <div>
-                            <input type="hidden" id="reserve_wednesday_dinner" name="reserve_wednesday_dinner"
-                                   value="False"><br>
-                            <input type="checkbox" id="reserve_wednesday_dinner" name="reserve_wednesday_dinner"
-                                   value="True" unchecked><br>
-                            <label for="coding">چهار‌شنبه</label>
-                        </div>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <div>
-                            <input type="hidden" id="reserve_thursday_dinner" name="reserve_thursday_dinner"
-                                   value="False"><br>
-                            <input type="checkbox" id="reserve_thursday_dinner" name="reserve_thursday_dinner"
-                                   value="True" unchecked><br>
-                            <label for="coding">پنجشنبه</label>
-                        </div>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <div>
-                            <input type="hidden" id="reserve_friday_lunch" name="reserve_friday_dinner"
-                                   value="False"><br>
-                            <input type="checkbox" id="reserve_friday_lunch" name="reserve_friday_dinner" value="True"
-                                   unchecked><br>
-                            <label for="coding">جمعه</label>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </section>
-    </form>
-</div>
+                    <input type="hidden" id="reserve_sunday_dinner" name="reserve_sunday_dinner"
+                           value="False">
+                    <input type="hidden" id="reserve_monday_dinner" name="reserve_monday_dinner"
+                           value="False">
+                    <input type="hidden" id="reserve_tuesday_dinner" name="reserve_tuesday_dinner"
+                           value="False">
+                    <input type="hidden" id="reserve_wednesday_dinner" name="reserve_wednesday_dinner"
+                           value="False">
+                    <input type="hidden" id="reserve_thursday_dinner" name="reserve_thursday_dinner"
+                           value="False">
+                    <input type="hidden" id="reserve_friday_lunch" name="reserve_friday_dinner"
+                           value="False">
+                    <div style="text-align: center; padding-top: 1em; border-top: 1px solid rgb(153, 202, 129); margin-top: 1em;">
+                        <input type="submit" value="ثبت" class="wpcf7-form-control wpcf7-submit">
 
 
--- JQUERY -->
-<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+                        <script src="{% static 'js/main_wizard.js' %}"></script>
 
-<!-- JQUERY STEP -->
-<script src="{% static 'js/jquery.steps.js' %}"></script>
-<script src="{% static 'vendor/jquery-steps/jquery.steps.wizard.js' %}"></script>
-<!-- Template created and distributed by Colorlib -->
+
 </body>
+
 </html>

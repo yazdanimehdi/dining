@@ -10,7 +10,7 @@ def change_info_dining(request):
         if request.method == 'GET':
             if c:
                 u = UserDiningData.objects.get(user=request.user)
-                return render(request, 'dining/templates/change_info_dining .html',
+                return render(request, 'dining/templates/change_info_dining.html',
                               {'username': u.dining_username,
                                'password': u.dining_password})
             else:
@@ -22,7 +22,7 @@ def change_info_dining(request):
                 u.dining_password = request.POST.get('dining_password')
                 u.save()
             except:
-                return render(request, 'dining/templates/change_info_dining .html',
+                return render(request, 'dining/templates/change_info_dining.html',
                               {'username': u.dining_username,
                                'password': u.dining_password,
                                'msg': 'یه مشکلی پیش اومده دوباره تلاش کن'})
