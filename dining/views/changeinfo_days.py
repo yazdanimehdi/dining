@@ -5,10 +5,15 @@ from dining.models import UserDiningData, Coins
 
 def change_days(request):
     if request.user.is_authenticated:
+        c = UserDiningData.objects.filter(user=request.user)
         if request.method == 'GET':
-            return render(request, 'dining/templates/change_days.html')
+            if c:
+                return render(request, 'dining/templates/change_days.html')
+            else:
+                return redirect('/wizard')
         elif request.method == 'POST':
             a = Coins.objects.filter(user=request.user, active=True).count()
+
             try:
                 u = UserDiningData.objects.get(user=request.user)
                 # Breakfast data
@@ -36,11 +41,12 @@ def change_days(request):
                 u.reserve_friday_dinner = request.POST.get('reserve_friday_dinner')
                 u.reserve_saturday_dinner = request.POST.get('reserve_saturday_dinner')
                 u.save()
-            except ValueError:
+            except:
                 return render(request, 'dining/templates/change_days.html',
                               {'msg': 'یه چیزی اشتباه پیش رفت', 'coin': a})
             return render(request, 'dining/templates/dashboard.html',
                           {'msg': ' !روزها با موفقیت تغییر کرد', 'color': '#39b54a', 'username': request.user,
                            'coin': a})
+
     else:
         return redirect('/login')
