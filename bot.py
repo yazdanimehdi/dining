@@ -30,7 +30,6 @@ def get_phone(bot, update):
     django.setup()
     from dining.models import CustomUser
     u = list(CustomUser.objects.filter(phone=phone))
-    print(update.message.contact.phone_number)
     if u:
         chat_id = update.message.chat_id
         u[0].chat_id = int(chat_id)
