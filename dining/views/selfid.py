@@ -16,7 +16,7 @@ def self_id(request):
             user_self_names.pop('csrfmiddlewaretoken')
             for selfname in user_self_names:
                 try:
-                    self = UserSelfs.objects.get(user=CustomUser.objects.get(username=request.user), self_name=selfname)
+                    self = UserSelfs.objects.get(user=request.user, self_name=selfname)
                     self.is_active = request.POST.get(selfname)
                     self.save()
                 except:

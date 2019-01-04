@@ -21,13 +21,9 @@
             <form method="post" class="wpcf7-form" novalidate="novalidate" _lpchecked="1">
                 {% csrf_token %}
                 <div style="display: none;">
-                    <input type="hidden" name="_wpcf7" value="560">
-                    <input type="hidden" name="_wpcf7_version" value="3.5">
-                    <input type="hidden" name="_wpcf7_locale" value="">
-                    <input type="hidden" name="_wpcf7_unit_tag" value="wpcf7-f560-p590-o1">
-                    <input type="hidden" name="_wpnonce" value="dbb28877d5">
                 </div>
                 <div class="group" style="text-align: center;">
+                    <div>{{ msg }}</div>
                     <div style="width: 100%; float: none;">
                         <h4>سلف فعالتو انتخاب کن</h4>
                         {% for self_name in self_names %}
@@ -35,7 +31,8 @@
                                 class="wpcf7-form-control wpcf7-checkbox"><span class="wpcf7-list-item"><label><input
                                 type="checkbox" id="{{ self_name }}" name="{{ self_name }}"
                                 value="True">&nbsp;<span
-                                class="wpcf7-list-item-label">{{ self_name }}</span></label></span>
+                                    class="wpcf7-list-item-label">{{ self_name }}</span></label></span></span></span>
+                            </p>
                             <input type="hidden" id="{{ self_name }}" name="{{ self_name }}" value="False">
                             <input type="submit" value="ثبت" class="wpcf7-form-control wpcf7-submit">
                         {% endfor %}
