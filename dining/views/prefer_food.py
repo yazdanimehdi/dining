@@ -8,10 +8,10 @@ def prefer_food(request):
         if not UserPreferableFood.objects.filter(user=request.user).exists():
             u = UserDiningData.objects.filter(user=request.user)
             food_list = list()
-            for foods in Food.objects.filter(university=u[0].university):
-                food_list.append(foods.name)
             if request.method == 'GET':
                 if u:
+                    for foods in Food.objects.filter(university=u[0].university):
+                        food_list.append(foods.name)
                     return render(request, 'dining/templates/prefered_food.html',
                                   {'food_list': food_list, 'count': len(food_list)})
                 else:
