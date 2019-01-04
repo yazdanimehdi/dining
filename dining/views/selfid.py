@@ -17,6 +17,7 @@ def self_id(request):
             for selfname in user_self_names:
                 try:
                     self = UserSelfs.objects.get(user=request.user, self_name=selfname)
+                    self.is_active = False
                     self.is_active = request.POST.get(selfname)
                     self.save()
                 except:
