@@ -17,6 +17,8 @@ def prefer_food(request):
                 else:
                     return redirect('/wizard')
             elif request.method == 'POST':
+                for foods in Food.objects.filter(university=u[0].university):
+                    food_list.append(foods.name)
                 try:
                     for food in food_list:
                         d = UserPreferableFood()
