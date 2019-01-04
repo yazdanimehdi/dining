@@ -26,7 +26,7 @@
 
         $("html").addClass('cl-preload');
 
-        $WIN.on('load', function () {
+        $WIN.on('ready', function () {
 
             //force page scroll position to top at page refresh
             // $('html, body').animate({ scrollTop: 0 }, 'normal');
