@@ -11,6 +11,10 @@
     clear: both;
 }
 
+::placeholder {
+    color: red;
+}
+
 .landing-page {
     width: 882px;
     margin: 100px auto 0;
