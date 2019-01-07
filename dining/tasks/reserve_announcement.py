@@ -1,4 +1,5 @@
 import os
+import re
 
 import jdatetime
 import telegram
@@ -13,14 +14,18 @@ def reserve_announcement():
         bot.sendMessage(chat_id=chat_id, text=msg)
 
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'reserve_site.settings')
-    from dining.models import CustomUser, reserved
+    from dining.models import CustomUser, ReservedTable
 
     bot_token = '610448118:AAFVPBXMKPzqAiOJ9-zhusKrOloCiJuEwi8'
     users = CustomUser.objects.filter(~Q(chat_id=0), is_paid=True)
 
     for user in users:
-        last_saturdays_date = str(jdatetime.date.today() - jdatetime.timedelta(jdatetime.date.today().weekday()))
-        reserved_data = reserved.objects.get(week_start_date=last_saturdays_date, user=user)
+        date = str(jdatetime.date.today() - jdatetime.timedelta(jdatetime.date.today().weekday()))
+        date = re.sub(r'\-', '/', date)
+        last_saturdays_date = list()
+        last_saturdays_date.append(date)
+        last_saturdays_date = str(last_saturdays_date)
+        reserved_data = ReservedTable.objects.get(week_start_date=last_saturdays_date, user=user)
 
         if int(jdatetime.date.today().weekday()) == 0:
             breakfast = reserved_data.sunday_breakfast
