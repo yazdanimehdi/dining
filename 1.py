@@ -21,16 +21,86 @@ last_saturdays_date.append(date)
 last_saturdays_date = str(last_saturdays_date)
 
 for user in users:
-    reserved_object = list(ReservedTable.objects.filter(~Q(credit=-30), week_start_date=last_saturdays_date, user=user))
-    if reserved_object:
-        if -15 < reserved_object[0].credit < 0:
-            message = 'اعتبار سلفت از ۰ کمتره وقتشه حسابتو شارژ کنی'
-            send(message, user.chat_id, bot_token)
+    date = str(jdatetime.date.today() - jdatetime.timedelta(jdatetime.date.today().weekday()))
+    date = re.sub(r'\-', '/', date)
+    last_saturdays_date = list()
+    last_saturdays_date.append(date)
+    last_saturdays_date = str(last_saturdays_date)
+    reserved_data = ReservedTable.objects.filter(week_start_date=last_saturdays_date, user=user)
+    if reserved_data:
+        if int(jdatetime.date.today().weekday()) == 0:
+            breakfast = reserved_data[0].sunday_breakfast
+            lunch = reserved_data[0].saturday_lunch
+            dinner = reserved_data[0].saturday_dinner
+            if (dinner or breakfast or lunch) != "-":
+                message = "غذاهای رزرو شده امروز:\n" \
+                          "صبحانه‌ی فردا: %s \n" \
+                          "ناهار امروز: %s \n" \
+                          "شام امروز: %s \n" % (breakfast, lunch, dinner)
+                send(message, str(user.chat_id), bot_token)
 
-        elif -19 < reserved_object[0].credit < -15:
-            message = 'اعتبار سلفت از -۱۵ گذشته دیگه قطعا وقتشه حسابتو شارژ کنی'
-            send(message, user.chat_id, bot_token)
+        elif int(jdatetime.date.today().weekday()) == 1:
+            breakfast = reserved_data[0].monday_breakfast
+            lunch = reserved_data[0].sunday_lunch
+            dinner = reserved_data[0].sunday_dinner
+            if (dinner or breakfast or lunch) != "-":
+                message = "غذاهای رزرو شده امروز:\n" \
+                          "صبحانه‌ی فردا: %s \n" \
+                          "ناهار امروز: %s \n" \
+                          "شام امروز: %s \n" % (breakfast, lunch, dinner)
+                send(message, str(user.chat_id), bot_token)
 
-        elif reserved_object[0].credit < -19:
-            message = 'اعتبار سلفت از -۱۹ گذشته تا وقتی حسابتو شارژ نکنی من دیگه نمی‌تونم برات غذا رزرو کنم'
-            send(message, user.chat_id, bot_token)
+        elif int(jdatetime.date.today().weekday()) == 2:
+            breakfast = reserved_data[0].tuesday_breakfast
+            lunch = reserved_data[0].monday_lunch
+            dinner = reserved_data[0].monday_dinner
+            if (dinner or breakfast or lunch) != "-":
+                message = "غذاهای رزرو شده امروز:\n" \
+                          "صبحانه‌ی فردا: %s \n" \
+                          "ناهار امروز: %s \n" \
+                          "شام امروز: %s \n" % (breakfast, lunch, dinner)
+                send(message, str(user.chat_id), bot_token)
+
+        elif int(jdatetime.date.today().weekday()) == 3:
+            breakfast = reserved_data[0].wednesday_breakfast
+            lunch = reserved_data[0].tuesday_lunch
+            dinner = reserved_data[0].tuesday_dinner
+            if (dinner or breakfast or lunch) != "-":
+                message = "غذاهای رزرو شده امروز:\n" \
+                          "صبحانه‌ی فردا: %s \n" \
+                          "ناهار امروز: %s \n" \
+                          "شام امروز: %s \n" % (breakfast, lunch, dinner)
+                send(message, str(user.chat_id), bot_token)
+
+        elif int(jdatetime.date.today().weekday()) == 4:
+            breakfast = reserved_data[0].thursday_breakfast
+            lunch = reserved_data[0].wednesday_lunch
+            dinner = reserved_data[0].wednesday_dinner
+            if (dinner or breakfast or lunch) != "-":
+                message = "غذاهای رزرو شده امروز:\n" \
+                          "صبحانه‌ی فردا: %s \n" \
+                          "ناهار امروز: %s \n" \
+                          "شام امروز: %s \n" % (breakfast, lunch, dinner)
+                send(message, str(user.chat_id), bot_token)
+
+        elif int(jdatetime.date.today().weekday()) == 5:
+            breakfast = reserved_data[0].friday_breakfast
+            lunch = reserved_data[0].thursday_lunch
+            dinner = reserved_data[0].thursday_dinner
+            if (dinner or breakfast or lunch) != "-":
+                message = "غذاهای رزرو شده امروز:\n" \
+                          "صبحانه‌ی فردا: %s \n" \
+                          "ناهار امروز: %s \n" \
+                          "شام امروز: %s \n" % (breakfast, lunch, dinner)
+                send(message, str(user.chat_id), bot_token)
+
+        elif int(jdatetime.date.today().weekday()) == 6:
+            breakfast = reserved_data[0].saturday_breakfast
+            lunch = reserved_data[0].friday_lunch
+            dinner = reserved_data[0].friday_dinner
+            if (dinner or breakfast or lunch) != "-":
+                message = "غذاهای رزرو شده امروز:\n" \
+                          "صبحانه‌ی فردا: %s \n" \
+                          "ناهار امروز: %s \n" \
+                          "شام امروز: %s \n" % (breakfast, lunch, dinner)
+                send(message, str(user.chat_id), bot_token)
