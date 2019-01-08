@@ -31,7 +31,7 @@ def reserve_announcement():
                 breakfast = reserved_data[0].sunday_breakfast
                 lunch = reserved_data[0].saturday_lunch
                 dinner = reserved_data[0].saturday_dinner
-                if (dinner or breakfast or lunch) != "-":
+                if dinner != "-" or breakfast != "-" or lunch != "-":
                     message = "غذاهای رزرو شده امروز:\n" \
                               "صبحانه‌ی فردا: %s \n" \
                               "ناهار امروز: %s \n" \
@@ -42,7 +42,7 @@ def reserve_announcement():
                 breakfast = reserved_data[0].monday_breakfast
                 lunch = reserved_data[0].sunday_lunch
                 dinner = reserved_data[0].sunday_dinner
-                if (dinner or breakfast or lunch) != "-":
+                if dinner != "-" or breakfast != "-" or lunch != "-":
                     message = "غذاهای رزرو شده امروز:\n" \
                               "صبحانه‌ی فردا: %s \n" \
                               "ناهار امروز: %s \n" \
@@ -53,7 +53,7 @@ def reserve_announcement():
                 breakfast = reserved_data[0].tuesday_breakfast
                 lunch = reserved_data[0].monday_lunch
                 dinner = reserved_data[0].monday_dinner
-                if (dinner or breakfast or lunch) != "-":
+                if dinner != "-" or breakfast != "-" or lunch != "-":
                     message = "غذاهای رزرو شده امروز:\n" \
                               "صبحانه‌ی فردا: %s \n" \
                               "ناهار امروز: %s \n" \
@@ -64,7 +64,7 @@ def reserve_announcement():
                 breakfast = reserved_data[0].wednesday_breakfast
                 lunch = reserved_data[0].tuesday_lunch
                 dinner = reserved_data[0].tuesday_dinner
-                if (dinner or breakfast or lunch) != "-":
+                if dinner != "-" or breakfast != "-" or lunch != "-":
                     message = "غذاهای رزرو شده امروز:\n" \
                               "صبحانه‌ی فردا: %s \n" \
                               "ناهار امروز: %s \n" \
@@ -75,7 +75,7 @@ def reserve_announcement():
                 breakfast = reserved_data[0].thursday_breakfast
                 lunch = reserved_data[0].wednesday_lunch
                 dinner = reserved_data[0].wednesday_dinner
-                if (dinner or breakfast or lunch) != "-":
+                if dinner != "-" or breakfast != "-" or lunch != "-":
                     message = "غذاهای رزرو شده امروز:\n" \
                               "صبحانه‌ی فردا: %s \n" \
                               "ناهار امروز: %s \n" \
@@ -86,7 +86,7 @@ def reserve_announcement():
                 breakfast = reserved_data[0].friday_breakfast
                 lunch = reserved_data[0].thursday_lunch
                 dinner = reserved_data[0].thursday_dinner
-                if (dinner or breakfast or lunch) != "-":
+                if dinner != "-" or breakfast != "-" or lunch != "-":
                     message = "غذاهای رزرو شده امروز:\n" \
                               "صبحانه‌ی فردا: %s \n" \
                               "ناهار امروز: %s \n" \
@@ -97,7 +97,7 @@ def reserve_announcement():
                 breakfast = reserved_data[0].saturday_breakfast
                 lunch = reserved_data[0].friday_lunch
                 dinner = reserved_data[0].friday_dinner
-                if (dinner or breakfast or lunch) != "-":
+                if dinner != "-" or breakfast != "-" or lunch != "-":
                     message = "غذاهای رزرو شده امروز:\n" \
                               "صبحانه‌ی فردا: %s \n" \
                               "ناهار امروز: %s \n" \
