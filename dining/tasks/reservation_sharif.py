@@ -177,7 +177,7 @@ def reserve_function():
                 for item in data_dinner:
                     if data_dinner[item]:
                         for day in chosen_days_dinner:
-                            if item[0] == day and (data_dinner[item][1] is not None):
+                            if item[0] == day and (data_dinner[item] is not None):
                                 food_list = []
                                 for food in data_dinner[item]:
                                     food_list.append(
