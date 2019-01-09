@@ -63,10 +63,14 @@ for user_data in UserDiningData.objects.filter(university__tag='sharif'):
                     for db_food in UserPreferableFood.objects.filter(user=user_data.user):
                         if set(db_food.food.name.split(' ')).issubset(food.split(' ')):
                             food = db_food.food.name
+                            flag = True
                         elif db_food.food.name in food:
                             food = db_food.food.name
-                    flag = True
+                            flag = True
                     if flag:
+                        print(food_id_lunch)
+                        print(i)
+                        print(food_id_lunch[i])
                         foods.append((food_id_lunch[i], food))
                     else:
                         newfood = Food()
