@@ -29,7 +29,6 @@ def reserve_function():
             if regex_find:
                 user_id = re.findall(r'\,(\d\d+)', regex_find[0])[0]
             else:
-                print(user_data.user)
                 continue
             url_next_week = user_data.university.url_next_week
             for self in UserSelfs.objects.filter(user=user_data.user, is_active=True):
