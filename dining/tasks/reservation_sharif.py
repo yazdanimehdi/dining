@@ -26,9 +26,10 @@ def reserve_function():
             result = session_requests.post(login_url, data=payload, headers=dict(referer=login_url))
             result = session_requests.get(user_data.university.reserve_table)
             regex_find = re.findall(r'load_diet_reserve_table\((.*)\);\">هفته بعد', result.text)
-            if re.findall(r'\,(\d\d+)', regex_find[0]):
+            if regex_find[0]:
                 user_id = re.findall(r'\,(\d\d+)', regex_find[0])[0]
             else:
+                print(user_data.user)
                 continue
             url_next_week = user_data.university.url_next_week
             for self in UserSelfs.objects.filter(user=user_data.user, is_active=True):
