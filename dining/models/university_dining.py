@@ -3,6 +3,7 @@ from django.db import models
 
 class University(models.Model):
     name = models.CharField(max_length=100)
+    tag = models.CharField(max_length=100, default='-')
     login_url = models.CharField(max_length=200)
     reserve_table = models.CharField(max_length=200, default='0')
     reserve_url = models.CharField(max_length=200, default='0')

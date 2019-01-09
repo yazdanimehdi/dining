@@ -10,7 +10,7 @@ from lxml import html
 def reserve_function():
     from dining.models import UserDiningData, ReservedTable, UserSelfs, UserPreferableFood, Food
 
-    for user_data in UserDiningData.objects.filter(university__name='دانشگاه صنعتی شریف'):
+    for user_data in UserDiningData.objects.filter(university__tag='sharif'):
         if user_data.user.is_paid:
             login_url = user_data.university.login_url
             session_requests = requests.session()
@@ -65,7 +65,7 @@ def reserve_function():
                                     0].strip()
                         flag = False
                         for db_food in UserPreferableFood.objects.filter(user=user_data.user):
-                            if set(db_food.food.name.split(' ')).issubset(food.split(' ')) or (
+                            if set(db_food.food.name.split(' ')).issubset(food.split(' ')) in food or (
                                     db_food.food.name in food):
                                 food = db_food.food.name
                         flag = True
@@ -195,75 +195,79 @@ def reserve_function():
 
                                         session_requests.post(user_data.university.reserve_url + user_id,
                                                               data=food_reserve_request)
-            reserved = ReservedTable()
-            reserved.user = user_data.user
-            next_week_reserved_table = {
-                'week': '1',
-                'user_id': user_id
-            }
-            url_reserved_table = user_data.university.reserved_table
-            result = session_requests.post(url_reserved_table, data=next_week_reserved_table)
+            start = re.findall(r'<br\/>\s+(.+?)\s+', str(soup_find[0]))
+            if not ReservedTable.objects.filter(user=user_data.user):
+                reserved = ReservedTable()
+                reserved.user = user_data.user
+                next_week_reserved_table = {
+                    'week': '1',
+                    'user_id': user_id
+                }
+                url_reserved_table = user_data.university.reserved_table
+                result = session_requests.post(url_reserved_table, data=next_week_reserved_table)
 
-            soup = BeautifulSoup(result.text, 'html.parser')
-            soup_find = soup.find_all('tr')
-            soup_find.pop(0)
-            reserved.week_start_date = re.findall(r'<br\/>\s+(.+?)\s+', str(soup_find[0]))
-            data_lunch = dict()
-            data_dinner = dict()
-            for row in soup_find:
-                day = re.findall(r'<th>\s+(.*?)\s\s', str(row))
-                food_names_lunch = re.findall(r'<span>(.+?)<\/span>', str(row.find_all('td')[0]))
-                food_names_dinner = re.findall(r'<span>(.+?)<\/span>', str(row.find_all('td')[1]))
-                i = 0
-                foods = []
-                if food_names_dinner:
-                    for food in food_names_dinner:
-                        if '<span class="label label-warning food_reserve_label">(نیمه تعطیل)</span>' in food:
-                            food = \
-                                food.split('<span class="label label-warning food_reserve_label">(نیمه تعطیل)</span>')[
-                                    0].strip()
-                        foods.append(food)
-                        i += 1
-                    data_dinner[day[0]] = foods
-                else:
-                    data_dinner[day[0]] = '-'
+                soup = BeautifulSoup(result.text, 'html.parser')
+                soup_find = soup.find_all('tr')
+                soup_find.pop(0)
+                reserved.week_start_date = start
+                data_lunch = dict()
+                data_dinner = dict()
+                for row in soup_find:
+                    day = re.findall(r'<th>\s+(.*?)\s\s', str(row))
+                    food_names_lunch = re.findall(r'<span>(.+?)<\/span>', str(row.find_all('td')[0]))
+                    food_names_dinner = re.findall(r'<span>(.+?)<\/span>', str(row.find_all('td')[1]))
+                    i = 0
+                    foods = []
+                    if food_names_dinner:
+                        for food in food_names_dinner:
+                            if '<span class="label label-warning food_reserve_label">(نیمه تعطیل)</span>' in food:
+                                food = \
+                                    food.split(
+                                        '<span class="label label-warning food_reserve_label">(نیمه تعطیل)</span>')[
+                                        0].strip()
+                            foods.append(food)
+                            i += 1
+                        data_dinner[day[0]] = foods
+                    else:
+                        data_dinner[day[0]] = '-'
 
-                i = 0
-                foods = []
-                if food_names_lunch:
-                    for food in food_names_lunch:
-                        if '<span class="label label-warning food_reserve_label">(نیمه تعطیل)</span>' in food:
-                            food = \
-                                food.split('<span class="label label-warning food_reserve_label">(نیمه تعطیل)</span>')[
-                                    0].strip()
-                        foods.append(food)
-                        i += 1
-                    data_lunch[day[0]] = foods
-                else:
-                    data_lunch[day[0]] = '-'
+                    i = 0
+                    foods = []
+                    if food_names_lunch:
+                        for food in food_names_lunch:
+                            if '<span class="label label-warning food_reserve_label">(نیمه تعطیل)</span>' in food:
+                                food = \
+                                    food.split(
+                                        '<span class="label label-warning food_reserve_label">(نیمه تعطیل)</span>')[
+                                        0].strip()
+                            foods.append(food)
+                            i += 1
+                        data_lunch[day[0]] = foods
+                    else:
+                        data_lunch[day[0]] = '-'
 
-            reserved.friday_lunch = data_lunch['جمعه']
-            reserved.saturday_lunch = data_lunch['شنبه']
-            reserved.sunday_lunch = data_lunch['یک شنبه']
-            reserved.monday_lunch = data_lunch['دوشنبه']
-            reserved.tuesday_lunch = data_lunch['سه شنبه']
-            reserved.wednesday_lunch = data_lunch['چهارشنبه']
-            reserved.thursday_lunch = data_lunch['پنج شنبه']
+                reserved.friday_lunch = data_lunch['جمعه']
+                reserved.saturday_lunch = data_lunch['شنبه']
+                reserved.sunday_lunch = data_lunch['یک شنبه']
+                reserved.monday_lunch = data_lunch['دوشنبه']
+                reserved.tuesday_lunch = data_lunch['سه شنبه']
+                reserved.wednesday_lunch = data_lunch['چهارشنبه']
+                reserved.thursday_lunch = data_lunch['پنج شنبه']
 
-            reserved.friday_dinner = data_dinner['جمعه']
-            reserved.saturday_dinner = data_dinner['شنبه']
-            reserved.sunday_dinner = data_dinner['یک شنبه']
-            reserved.monday_dinner = data_dinner['دوشنبه']
-            reserved.tuesday_dinner = data_dinner['سه شنبه']
-            reserved.wednesday_dinner = data_dinner['چهارشنبه']
-            reserved.thursday_dinner = data_dinner['پنج شنبه']
+                reserved.friday_dinner = data_dinner['جمعه']
+                reserved.saturday_dinner = data_dinner['شنبه']
+                reserved.sunday_dinner = data_dinner['یک شنبه']
+                reserved.monday_dinner = data_dinner['دوشنبه']
+                reserved.tuesday_dinner = data_dinner['سه شنبه']
+                reserved.wednesday_dinner = data_dinner['چهارشنبه']
+                reserved.thursday_dinner = data_dinner['پنج شنبه']
 
-            result = session_requests.get('http://dining.sharif.ir/admin/payment/payment/charge')
-            soup = BeautifulSoup(result.text, 'html.parser')
-            soup_find = soup.find_all('h4', {'class': 'control-label'})
-            credit_raw = soup_find[0].find_all('span', {'dir': 'ltr'})[0].text.strip()
-            credit = float(re.sub(',', '.', credit_raw))
+                result = session_requests.get('http://dining.sharif.ir/admin/payment/payment/charge')
+                soup = BeautifulSoup(result.text, 'html.parser')
+                soup_find = soup.find_all('h4', {'class': 'control-label'})
+                credit_raw = soup_find[0].find_all('span', {'dir': 'ltr'})[0].text.strip()
+                credit = float(re.sub(',', '.', credit_raw))
 
-            reserved.credit = credit
+                reserved.credit = credit
 
-            reserved.save()
+                reserved.save()
