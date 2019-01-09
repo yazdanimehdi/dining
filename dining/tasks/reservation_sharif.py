@@ -67,11 +67,12 @@ def reserve_function():
                         for db_food in UserPreferableFood.objects.filter(user=user_data.user):
                             if set(db_food.food.name.split(' ')).issubset(food.split(' ')):
                                 food = db_food.food.name
+                                flag = True
                             elif db_food.food.name in food:
                                 food = db_food.food.name
-                        flag = True
+                                flag = True
                         if flag:
-                            foods.append((food_id_lunch[i], food))
+                            foods.append((food_id_dinner[i], food))
                         else:
                             newfood = Food()
                             newfood.name = food

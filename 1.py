@@ -68,10 +68,7 @@ for user_data in UserDiningData.objects.filter(university__tag='sharif'):
                             food = db_food.food.name
                             flag = True
                     if flag:
-                        print(food_id_lunch)
-                        print(i)
-                        print(food_id_lunch[i])
-                        foods.append((food_id_lunch[i], food))
+                        foods.append((food_id_dinner[i], food))
                     else:
                         newfood = Food()
                         newfood.name = food
