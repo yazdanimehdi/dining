@@ -57,7 +57,7 @@ def reserve_function():
                     i = 0
                     foods = []
                     if not food_id_dinner:
-                        food_id_dinner = ['-', '-', '-']
+                        food_id_dinner = ['-', '-', '-', '-']
                     for food in food_names_dinner:
                         if '<span class="label label-warning food_reserve_label">(نیمه تعطیل)</span>' in food:
                             food = \
