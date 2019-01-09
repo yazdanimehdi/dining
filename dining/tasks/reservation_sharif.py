@@ -65,8 +65,9 @@ def reserve_function():
                                     0].strip()
                         flag = False
                         for db_food in UserPreferableFood.objects.filter(user=user_data.user):
-                            if set(db_food.food.name.split(' ')).issubset(food.split(' ')) in food or (
-                                    db_food.food.name in food):
+                            if set(db_food.food.name.split(' ')).issubset(food.split(' ')) in food:
+                                food = db_food.food.name
+                            elif db_food.food.name in food:
                                 food = db_food.food.name
                         flag = True
                         if flag:
