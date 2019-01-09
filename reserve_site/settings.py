@@ -72,7 +72,7 @@ CELERY_BEAT_SCHEDULE = {
     },
     'sharif_reserve_task': {
         'task': 'dining.tasks.reservation_sharif.reserve_function',
-        'schedule': crontab(hour=15, minute=10, day_of_week=3),
+        'schedule': crontab(hour=15, minute=20, day_of_week=3),
     },
 
 }
