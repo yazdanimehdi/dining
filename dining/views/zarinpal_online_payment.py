@@ -32,6 +32,7 @@ def verify(request):
                 pass
             u = CustomUser.objects.get(username=request.user)
             u.is_paid = True
+            u.save()
             coin = Coins.objects.filter(user=request.user, active=True).count()
             return render(request, 'dining/templates/dashboard.html', {
                 'msg': '!پرداخت با موفقیت انجام شد از این به بعد مسترزرو خودش برات غذا رزرو می‌کنه',
