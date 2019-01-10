@@ -14,6 +14,8 @@ CallbackURL = 'http://www.mrzoro.ir/payment/verify/'  # Important: need to edit 
 
 
 def send_request(request):
+    global user
+    user = request.user
     result = client.service.PaymentRequest(MERCHANT, amount, description, email, mobile, CallbackURL)
     if result.Status == 100:
         return redirect('https://www.zarinpal.com/pg/StartPay/' + str(result.Authority))
@@ -26,14 +28,14 @@ def verify(request):
         result = client.service.PaymentVerification(MERCHANT, request.GET['Authority'], amount)
         if result.Status == 100:
             try:
-                coin = Coins.objects.get(introduced_user=request.user)
+                coin = Coins.objects.get(introduced_user=user)
                 coin.active = True
             except:
                 pass
-            u = CustomUser.objects.get(username=request.user)
+            u = CustomUser.objects.get(username=user)
             u.is_paid = True
             u.save()
-            coin = Coins.objects.filter(user=request.user, active=True).count()
+            coin = Coins.objects.filter(user=user, active=True).count()
             return render(request, 'dining/templates/dashboard.html', {
                 'msg': '!پرداخت با موفقیت انجام شد از این به بعد مسترزرو خودش برات غذا رزرو می‌کنه',
                 'color': '#39b54a', 'coin': coin, 'ref_id': str(result.RefID)})
