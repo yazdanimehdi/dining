@@ -15,3 +15,4 @@ class Coins(models.Model):
 class ZorroCode(models.Model):
     code = models.CharField(max_length=10)
     active = models.BooleanField(default=True)
+    percent = models.IntegerField(default=100)

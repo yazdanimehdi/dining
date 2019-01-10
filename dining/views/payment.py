@@ -18,11 +18,13 @@ def payment(request):
             if u.is_paid:
                 return render(request, 'dining/templates/dashboard.html',
                               {'msg': '!اکانتت فعاله لذت ببر',
-                               'color': '#39b54a', 'coin': a})
+                               'color': '#39b54a', 'coin': a, 'username': u.username})
             else:
                 return render(request, 'dining/templates/peyment.html', {'date': date, 'time': time, 'coin': a, })
         elif request.method == 'POST':
             if request.POST.get('choice') == 'online_payment':
+                request.session['amount'] = 10000
+                request.session['code'] = '-'
                 return redirect('/payment/request/')
             elif request.POST.get('choice') == 'coin':
                 if a >= 4:
@@ -37,7 +39,7 @@ def payment(request):
                     return render(request, 'dining/templates/dashboard.html', {
                         'msg': '!پرداخت با موفقیت انجام شد از این به بعد مسترزرو خودش برات غذا رزرو می‌کنه\n'
                                'عضو شدن توی ربات یادت نره!',
-                        'color': '#39b54a', 'coin': coin})
+                        'color': '#39b54a', 'coin': coin, 'username': u.username})
                 else:
                     return render(request, 'dining/templates/peyment.html',
                                   {'date': date, 'time': time, 'coin': a, 'msg': '!به اندازه‌ی کافی سکه نداری'})
@@ -52,13 +54,21 @@ def payment(request):
                         return render(request, 'dining/templates/peyment.html',
                                       {'date': date, 'time': time, 'coin': a, 'msg': '!زروکدت قبلا استفاده شده'})
                     else:
-                        u.is_paid = True
-                        u.save()
-                        # code_objects[0].active = False
-                        # code_objects[0].save()
-                        return render(request, 'dining/templates/dashboard.html', {
-                            'msg': '!پرداخت با موفقیت انجام شد از این به بعد مسترزرو خودش برات غذا رزرو می‌کنه',
-                            'color': '#39b54a', 'coin': a})
+                        if code_objects[0].percent == 100:
+                            u.is_paid = True
+                            u.code_used = code_objects[0].code
+                            u.save()
+                            # code_objects[0].active = False
+                            # code_objects[0].save()
+                            return render(request, 'dining/templates/dashboard.html', {
+                                'msg': '!پرداخت با موفقیت انجام شد از این به بعد مسترزرو خودش برات غذا رزرو می‌کنه',
+                                'color': '#39b54a', 'coin': a, 'username': u.username})
+                        if code_objects[0].percent < 100:
+                            request.session['amount'] = 100 * code_objects[0].percent
+                            request.session['code'] = code_objects[0].code
+                            # code_objects[0].active = False
+                            # code_objects[0].save()
+                            return redirect('/payment/request/')
 
     else:
         return redirect('/login')
