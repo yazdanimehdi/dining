@@ -24,8 +24,11 @@ def credit_announcement():
     last_saturdays_date = str(last_saturdays_date)
 
     for user in users:
-        reserved_object = list(
-            ReservedTable.objects.filter(~Q(credit=-30), week_start_date=last_saturdays_date, user=user))
-        if reserved_object:
-            message = 'اعتبار سلفت : %s' % reserved_object[0].credit
-            send(message, user.chat_id, bot_token)
+        try:
+            reserved_object = list(
+                ReservedTable.objects.filter(~Q(credit=-30), week_start_date=last_saturdays_date, user=user))
+            if reserved_object:
+                message = 'اعتبار سلفت : %s' % reserved_object[0].credit
+                send(message, user.chat_id, bot_token)
+        except:
+            pass
