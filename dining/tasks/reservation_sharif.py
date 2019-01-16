@@ -1,5 +1,6 @@
 import re
 
+import jdatetime
 import requests
 from bs4 import BeautifulSoup
 from celery import task
@@ -11,8 +12,8 @@ def reserve_function():
     from dining.models import UserDiningData, ReservedTable, UserSelfs, UserPreferableFood, Food
 
     for user_data in UserDiningData.objects.filter(university__tag='sharif'):
-        try:
-            if user_data.user.is_paid:
+        if user_data.user.is_paid:
+            try:
                 login_url = user_data.university.login_url
                 session_requests = requests.session()
                 result = session_requests.get(login_url)
@@ -206,8 +207,14 @@ def reserve_function():
 
                                             session_requests.post(user_data.university.reserve_url + user_id,
                                                                   data=food_reserve_request)
-                start = re.findall(r'<br\/>\s+(.+?)\s+', str(soup_find[0]))
-                if not ReservedTable.objects.filter(user=user_data.user):
+
+                date = str(jdatetime.date.today() + jdatetime.timedelta(3))
+                date = re.sub(r'\-', '/', date)
+                saturdays_date = list()
+                saturdays_date.append(date)
+                saturdays_date = str(saturdays_date)
+
+                if not ReservedTable.objects.filter(user=user_data.user, week_start_date=saturdays_date):
                     reserved = ReservedTable()
                     reserved.user = user_data.user
                     next_week_reserved_table = {
@@ -220,7 +227,7 @@ def reserve_function():
                     soup = BeautifulSoup(result.text, 'html.parser')
                     soup_find = soup.find_all('tr')
                     soup_find.pop(0)
-                    reserved.week_start_date = start
+                    reserved.week_start_date = saturdays_date
                     data_lunch = dict()
                     data_dinner = dict()
                     for row in soup_find:
@@ -282,5 +289,5 @@ def reserve_function():
                     reserved.credit = credit
 
                     reserved.save()
-        except:
-            pass
+            except:
+                pass
