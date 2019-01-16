@@ -289,5 +289,5 @@ def reserve_function():
                     reserved.credit = credit
 
                     reserved.save()
-            except:
-                print(user_data.user)
+            except Exception as e:
+                print(e)
