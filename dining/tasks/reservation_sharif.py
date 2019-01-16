@@ -290,4 +290,4 @@ def reserve_function():
 
                     reserved.save()
             except:
-                pass
+                print(user_data.user)
