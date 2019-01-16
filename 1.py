@@ -161,7 +161,7 @@ for self in UserSelfs.objects.filter(user=user_data.user, is_active=True):
                 for food in data_lunch[item]:
                     food_list.append(
                         (food[0],
-                         UserPreferableFood.objects.get(user=user_data.user, food__name=food[1])))
+                         UserPreferableFood.objects.filter(user=user_data.user, food__name=food[1])[0]))
                 food_list.sort(key=lambda x: x[1].score, reverse=True)
                 prefered_data = food_list
                 if prefered_data:
