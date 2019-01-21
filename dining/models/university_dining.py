@@ -17,7 +17,6 @@ class University(models.Model):
 class Food(models.Model):
     university = models.ForeignKey(to='dining.University', on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
-    food_id = models.CharField(max_length=20)
 
 
 

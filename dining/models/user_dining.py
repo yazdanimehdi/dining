@@ -81,12 +81,30 @@ class UserSelfs(models.Model):
     is_active = models.BooleanField(default=False)
 
 
-
-
-
-
-
-
-#
-# UserPreferableFood.objects.filter(user__username='Ali', food__university__id=1, food_name__in=[]).order_by('-score')
-
+class SamadPrefrredDays(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    active_self = models.ForeignKey(to='dining.UserSelfs', on_delete=models.CASCADE)
+    # Breakfast data
+    reserve_sunday_breakfast = models.BooleanField(default=False)
+    reserve_monday_breakfast = models.BooleanField(default=False)
+    reserve_tuesday_breakfast = models.BooleanField(default=False)
+    reserve_wednesday_breakfast = models.BooleanField(default=False)
+    reserve_thursday_breakfast = models.BooleanField(default=False)
+    reserve_friday_breakfast = models.BooleanField(default=False)
+    reserve_saturday_breakfast = models.BooleanField(default=False)
+    # lunch data
+    reserve_sunday_lunch = models.BooleanField(default=False)
+    reserve_monday_lunch = models.BooleanField(default=False)
+    reserve_tuesday_lunch = models.BooleanField(default=False)
+    reserve_wednesday_lunch = models.BooleanField(default=False)
+    reserve_thursday_lunch = models.BooleanField(default=False)
+    reserve_friday_lunch = models.BooleanField(default=False)
+    reserve_saturday_lunch = models.BooleanField(default=False)
+    # dinner data
+    reserve_sunday_dinner = models.BooleanField(default=False)
+    reserve_monday_dinner = models.BooleanField(default=False)
+    reserve_tuesday_dinner = models.BooleanField(default=False)
+    reserve_wednesday_dinner = models.BooleanField(default=False)
+    reserve_thursday_dinner = models.BooleanField(default=False)
+    reserve_friday_dinner = models.BooleanField(default=False)
+    reserve_saturday_dinner = models.BooleanField(default=False)

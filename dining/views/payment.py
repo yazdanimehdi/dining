@@ -54,20 +54,20 @@ def payment(request):
                         return render(request, 'dining/templates/peyment.html',
                                       {'date': date, 'time': time, 'coin': a, 'msg': '!زروکدت قبلا استفاده شده'})
                     else:
+                        code_objects[0].time_used = code_objects[0].time_used + 1
+                        if code_objects[0].time_used >= code_objects[0].max_time:
+                            code_objects[0].active = False
+                            code_objects[0].save()
                         if code_objects[0].percent == 100:
                             u.is_paid = True
                             u.code_used = code_objects[0].code
                             u.save()
-                            # code_objects[0].active = False
-                            # code_objects[0].save()
                             return render(request, 'dining/templates/dashboard.html', {
                                 'msg': '!پرداخت با موفقیت انجام شد از این به بعد مسترزرو خودش برات غذا رزرو می‌کنه',
                                 'color': '#39b54a', 'coin': a, 'username': u.username})
                         if code_objects[0].percent < 100:
                             request.session['amount'] = 100 * code_objects[0].percent
                             request.session['code'] = code_objects[0].code
-                            # code_objects[0].active = False
-                            # code_objects[0].save()
                             return redirect('/payment/request/')
 
     else:

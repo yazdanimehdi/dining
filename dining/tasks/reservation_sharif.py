@@ -85,7 +85,6 @@ def reserve_function():
                                 newfood = Food()
                                 newfood.name = food
                                 newfood.university = user_data.university
-                                newfood.id = 0
                                 newfood.save()
                                 u = UserPreferableFood()
                                 u.user = user_data.user

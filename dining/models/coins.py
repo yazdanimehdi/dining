@@ -16,3 +16,5 @@ class ZorroCode(models.Model):
     code = models.CharField(max_length=10)
     active = models.BooleanField(default=True)
     percent = models.IntegerField(default=100)
+    max_time = models.IntegerField(default=10000)
+    time_used = models.IntegerField(default=0)
