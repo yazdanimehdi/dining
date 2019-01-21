@@ -24,7 +24,10 @@ def prefer_food(request):
                         d = UserPreferableFood()
                         d.user = request.user
                         d.food = Food.objects.get(name=food)
-                        d.score = request.POST.get(food)
+                        if not request.POST.get(food):
+                            d.score = 5
+                        else:
+                            d.score = request.POST.get(food)
                         d.save()
                     if u[0].university.tag == 'sharif':
                         return redirect('/self_select')
