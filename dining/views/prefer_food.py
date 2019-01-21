@@ -26,7 +26,10 @@ def prefer_food(request):
                         d.food = Food.objects.get(name=food)
                         d.score = request.POST.get(food)
                         d.save()
-                    return redirect('/self_select')
+                    if u[0].university.tag == 'sharif':
+                        return redirect('/self_select')
+                    elif u[0].university.tag == 'samad':
+                        return redirect('/payment')
                 except:
                     return render(request, 'dining/templates/prefered_food.html',
                                   {'food_list': food_list, 'count': len(food_list),

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>ثبت اطلاعات</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+
+    <link rel="stylesheet" href="{% static 'css/style_wizard.css' %}">
+
+
+</head>
+
+<body style="background: black;">
+
+<div class="landing-page">
+    <div class="form-appointment">
+        <div class="wpcf7" id="wpcf7-f560-p590-o1">
+            <form method="post" class="wpcf7-form" novalidate="novalidate" _lpchecked="1">
+                {% csrf_token %}
+                <div style="display: none;">
+                    <input type="hidden" name="_wpcf7" value="560">
+                    <input type="hidden" name="_wpcf7_version" value="3.5">
+                    <input type="hidden" name="_wpcf7_locale" value="">
+                    <input type="hidden" name="_wpcf7_unit_tag" value="wpcf7-f560-p590-o1">
+                    <input type="hidden" name="_wpnonce" value="dbb28877d5">
+                </div>
+                <div style="color: red;">{{ msg }}</div>
+                <div class="group" style="text-align: center;">
+                    <div style="width: 100%; float: none;">
+                        <h2 style="color: #39b54a">اطلاعات سامانه‌ی غذای خود را وارد کنید</h2>
+                        <span class="wpcf7-form-control-wrap text-680"><input type="text" name="dining_username"
+                                                                              id="dining_username" value="" size="45"
+                                                                              class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required"
+                                                                              aria-required="true"
+                                                                              placeholder="نام کاربری سامانه‌ي غذا"></span><br>
+                        <span class="wpcf7-form-control-wrap email-680"><input type="text" name="dining_password"
+                                                                               id="dining_password" value="" size="45"
+                                                                               class="wpcf7-form-control wpcf7-text wpcf7-email wpcf7-validates-as-required wpcf7-validates-as-email"
+                                                                               aria-required="true"
+                                                                               placeholder="رمز عبور سامانه‌ی غذا"></span><br>
+                        <div style="text-align: center; padding-top: 1em; border-top: 1px solid rgb(153, 202, 129); margin-top: 1em;">
+                            <input type="submit" value="ثبت" class="wpcf7-form-control wpcf7-submit">
+
+
+                            <script src="{% static 'js/main_wizard.js' %}"></script>
+
+
+</body>
+
+</html>

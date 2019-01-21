@@ -19,7 +19,7 @@ from django.urls import path
 from dining.views import signup, login, home, userdiningdata_wizard, logout_view, contact_us, prefer_food, dashboard, \
     payment, prefer_food_dashboard, change_info, change_info_dining, change_days, CustomReset, CustomResetDone, \
     CustomResetConfirm, CustomResetComplete, self_id, send_request, verify, dashboard_mobile, login_mobile, \
-    dashboard_request
+    dashboard_request, userdiningdata_wizard_samad, samad_day_select
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -45,8 +45,9 @@ urlpatterns = [
     path('payment/verify/', verify, name='verify'),
     path('dashboard_mobile/', dashboard_mobile),
     path('login_mobile/', login_mobile),
-    path('request_username/', dashboard_request)
-
+    path('request_username/', dashboard_request),
+    path('samad_days/', samad_day_select),
+    path('samad_wizard/', userdiningdata_wizard_samad),
 
 ]
 

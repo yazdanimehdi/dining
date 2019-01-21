@@ -42,7 +42,10 @@ def signup(request):
                             coin.introduced_user = CustomUser.objects.get(username=request.POST.get('username'))
                             coin.save()
                     auth_login(request, u)
-                    return redirect('/wizard')
+                    if University.objects.get(name=request.POST.get('university')).tag == 'sharif':
+                        return redirect('/wizard')
+                    elif University.objects.get(name=request.POST.get('university')).tag == 'samad':
+                        return redirect('/samad_wizard')
                 else:
                     return render(request, "dining/templates/register.html",
                                   {'msg': "!این نام کاربری قبلا استفاده شده", 'university': university_list})

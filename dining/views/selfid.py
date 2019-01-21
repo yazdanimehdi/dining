@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from dining.models import UserSelfs, CustomUser
+from dining.models import UserSelfs, CustomUser, UserDiningData
 
 
 def self_id(request):
@@ -23,4 +23,8 @@ def self_id(request):
                 except:
                     return render(request, 'dining/templates/self_selection.html',
                                   {'self_names': self_list, 'msg': 'خطا!'})
-            return redirect('/payment')
+            u = UserDiningData.objects.get(user=request.user)
+            if u.university.tag == 'sharif':
+                return redirect('/payment')
+            elif u.university.tag == 'samad':
+                return redirect('/samad_days')
