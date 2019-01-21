@@ -30,7 +30,8 @@ def prefer_food(request):
                         return redirect('/self_select')
                     elif u[0].university.tag == 'samad':
                         return redirect('/payment')
-                except:
+                except Exception as e:
+                    print(e)
                     return render(request, 'dining/templates/prefered_food.html',
                                   {'food_list': food_list, 'count': len(food_list),
                                    'msg': 'یه چیزی اشتباه شد دوباره تلاش کن'})
