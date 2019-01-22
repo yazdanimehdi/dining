@@ -25,7 +25,7 @@ self_id = re.findall(r'<option value=\"(.+?)\"', result.text)
 self_names = re.findall(r'<option value=\".*\">(.+)</option>', result.text)
 self_ids = set(self_id)
 
-for ids in ['11']:
+for ids in self_ids:
     k = 0
     while k < 200:
         tree = html.fromstring(result.text)
@@ -50,8 +50,8 @@ for ids in ['11']:
         flag = False
         for item in food_name:
             item = re.findall(r'\|(.+)', item)[0].split('|')[0]
-            if Food.objects.filter(university__name='دانشگاه علم و صنعت'):
-                for db_food in Food.objects.filter(university__name='دانشگاه علم و صنعت'):
+            if Food.objects.filter(university__name='University Of Science And Technology'):
+                for db_food in Food.objects.filter(university__name='University Of Science And Technology'):
                     if set(db_food.name.split(' ')).issubset(item.split(' ')):
                         flag = True
                     elif db_food.name in item:
@@ -63,13 +63,13 @@ for ids in ['11']:
                             flag = True
 
                 if not flag:
-                    uni = University.objects.get(name='دانشگاه علم و صنعت')
+                    uni = University.objects.get(name='University Of Science And Technology')
                     newfood = Food()
                     newfood.name = item
                     newfood.university = uni
                     newfood.save()
             else:
-                uni = University.objects.get(name='دانشگاه علم و صنعت')
+                uni = University.objects.get(name='University Of Science And Technology')
                 newfood = Food()
                 newfood.name = item
                 newfood.university = uni

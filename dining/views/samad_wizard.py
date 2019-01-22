@@ -26,7 +26,8 @@ def userdiningdata_wizard_samad(request):
                     return render(request, 'dining/templates/register_wizard_samad.html',
                                   {'msg': 'نام کاربری یا رمز عبور سامانه‌ی غذا اشتباه مي‌باشد'})
 
-            except:
+            except Exception as e:
+                print(e)
                 return render(request, 'dining/templates/register_wizard_samad.html', {'msg': 'یه چیزی اشتباه پیش رفت'})
             return redirect('/self_select')
         else:

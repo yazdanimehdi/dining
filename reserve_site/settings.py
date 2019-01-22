@@ -58,6 +58,10 @@ CELERY_BROKER_URL = "amqp://localhost"
 CELERY_TIMEZONE = "Asia/Tehran"
 
 CELERY_BEAT_SCHEDULE = {
+    'sharif_reserve_get': {
+        'task': 'dining.tasks.sharif_get_reserved_food.get_reserved_sharif',
+        'schedule': crontab(hour=6, minute=00),
+    },
     'bot_reserve_announcement_task': {
         'task': 'dining.tasks.reserve_announcement.reserve_announcement',
         'schedule': crontab(hour=9, minute=00),
