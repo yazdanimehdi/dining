@@ -74,5 +74,5 @@ if user_data.user.chat_id != 0:
     bot_token = '610448118:AAFVPBXMKPzqAiOJ9-zhusKrOloCiJuEwi8'
 
     message = "سلام\nامروز چهارشنبه‌س و غذاهاتو برات رزرو کردم\nغذاهایی که رزرو کردم ایناست\n"
-    send(message, str(user_data.user.chat_id), bot_token)
-    send_photo(path='reserve_img.png', chat_id=str(user_data.user.chat_id), token=bot_token)
+    send(message, str(user_data.chat_id), bot_token)
+    send_photo(path='reserve_img.png', chat_id=str(user_data.chat_id), token=bot_token)
