@@ -7,10 +7,10 @@ def change_days(request):
     if request.user.is_authenticated:
         c = UserDiningData.objects.filter(user=request.user)
         if request.method == 'GET':
-            if c:
+            if c[0].university.tag == 'sharif':
                 return render(request, 'dining/templates/change_days.html')
-            else:
-                return redirect('/wizard')
+            elif c[0].university.tag == 'samad':
+                return redirect('/samad_days')
         elif request.method == 'POST':
             a = Coins.objects.filter(user=request.user, active=True).count()
             u = UserDiningData.objects.get(user=request.user)
