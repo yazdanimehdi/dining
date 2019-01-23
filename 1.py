@@ -4,7 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 from lxml import html
 
-from dining.models import UserDiningData, ReservedTable, UserSelfs, UserPreferableFood, Food
+from dining.models import UserDiningData, ReservedTable, UserSelfs, UserPreferableFood, Food, SamadPrefrredDays
 
 for user_data in UserDiningData.objects.filter(university__tag='samad'):
     if user_data.user.is_paid:

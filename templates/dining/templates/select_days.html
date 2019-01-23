@@ -88,119 +88,119 @@
                                     <col style="width: 236px">
                                 </colgroup>
                                 <tr>
-                                    <th class="tg-baqh">شام</th>
-                                    <th class="tg-baqh">ناهار</th>
                                     <th class="tg-baqh">صبحانه</th>
+                                    <th class="tg-baqh">ناهار</th>
+                                    <th class="tg-baqh">شام</th>
                                     <th class="tg-baqh">روز هفته</th>
                                 </tr>
 
                                 <tr>
 
                                     <td class="tg-0lax">
-                                        {% for self in active_self %}
-                                            <input type="radio" name="saturday_breakfast_self" value={{ self }}>
+                                        {% for self, id in active_self %}
+                                            <input type="radio" name="saturday_breakfast_self" value={{ id }}>
                                             {{ self }}<br>
                                         {% endfor %}
                                     </td>
-                                    <td class="tg-0lax">{% for self in active_self %}
-                                        <input type="radio" name="saturday_lunch_self" value={{ self }}>{{ self }}<br>
+                                    <td class="tg-0lax">{% for self, id in active_self %}
+                                        <input type="radio" name="saturday_lunch_self" value={{ id }}>{{ self }}<br>
                                     {% endfor %}
                                     </td>
-                                    <td class="tg-0lax">{% for self in active_self %}
-                                        <input type="radio" name="saturday_dinner_self" value={{ self }}>{{ self }}<br>
+                                    <td class="tg-0lax">{% for self, id in active_self %}
+                                        <input type="radio" name="saturday_dinner_self" value={{ id }}>{{ self }}<br>
                                     {% endfor %}
                                     </td>
                                     <td class="tg-baqh"><span style="font-weight:bold">شنبه</span></td>
                                 </tr>
                                 <tr>
-                                    <td class="tg-0lax">{% for self in active_self %}
-                                        <input type="radio" name="sunday_breakfast_self" value={{ self }}>{{ self }}<br>
+                                    <td class="tg-0lax">{% for self, id in active_self %}
+                                        <input type="radio" name="sunday_breakfast_self" value={{ id }}>{{ self }}<br>
                                     {% endfor %}
                                     </td>
-                                    <td class="tg-0lax">{% for self in active_self %}
-                                        <input type="radio" name="sunday_lunch_self" value={{ self }}>{{ self }}<br>
+                                    <td class="tg-0lax">{% for self, id in active_self %}
+                                        <input type="radio" name="sunday_lunch_self" value={{ id }}>{{ self }}<br>
                                     {% endfor %}
                                     </td>
-                                    <td class="tg-0lax">{% for self in active_self %}
-                                        <input type="radio" name="sunday_dinner_self" value={{ self }}>{{ self }}<br>
+                                    <td class="tg-0lax">{% for self, id in active_self %}
+                                        <input type="radio" name="sunday_dinner_self" value={{ id }}>{{ self }}<br>
                                     {% endfor %}
                                     </td>
                                     <td class="tg-baqh"><span style="font-weight:bold">یکشنبه</span></td>
                                 </tr>
                                 <tr>
-                                    <td class="tg-0lax">{% for self in active_self %}
-                                        <input type="radio" name="monday_breakfast_self" value={{ self }}>{{ self }}<br>
+                                    <td class="tg-0lax">{% for self, id in active_self %}
+                                        <input type="radio" name="monday_breakfast_self" value={{ id }}>{{ self }}<br>
                                     {% endfor %}
                                     </td>
-                                    <td class="tg-0lax">{% for self in active_self %}
-                                        <input type="radio" name="monday_lunch_self" value={{ self }}>{{ self }}<br>
+                                    <td class="tg-0lax">{% for self, id in active_self %}
+                                        <input type="radio" name="monday_lunch_self" value={{ id }}>{{ self }}<br>
                                     {% endfor %}
                                     </td>
-                                    <td class="tg-0lax">{% for self in active_self %}
-                                        <input type="radio" name="monday_dinner_self" value={{ self }}>{{ self }}<br>
+                                    <td class="tg-0lax">{% for self, id in active_self %}
+                                        <input type="radio" name="monday_dinner_self" value={{ id }}>{{ self }}<br>
                                     {% endfor %}
                                     </td>
                                     <td class="tg-baqh"><span style="font-weight:bold">دوشنبه</span></td>
                                 </tr>
                                 <tr>
-                                    <td class="tg-0lax">{% for self in active_self %}
-                                        <input type="radio" name="tuesday_breakfast_self" value={{ self }}>{{ self }}
+                                    <td class="tg-0lax">{% for self, id in active_self %}
+                                        <input type="radio" name="tuesday_breakfast_self" value={{ id }}>{{ self }}
                                         <br>
                                     {% endfor %}
                                     </td>
-                                    <td class="tg-0lax">{% for self in active_self %}
-                                        <input type="radio" name="tuesday_lunch_self" value={{ self }}>{{ self }}<br>
+                                    <td class="tg-0lax">{% for self, id in active_self %}
+                                        <input type="radio" name="tuesday_lunch_self" value={{ id }}>{{ self }}<br>
                                     {% endfor %}
                                     </td>
-                                    <td class="tg-0lax">{% for self in active_self %}
-                                        <input type="radio" name="tuesday_dinner_self" value={{ self }}>{{ self }}<br>
+                                    <td class="tg-0lax">{% for self, id in active_self %}
+                                        <input type="radio" name="tuesday_dinner_self" value={{ id }}>{{ self }}<br>
                                     {% endfor %}
                                     </td>
                                     <td class="tg-baqh"><span style="font-weight:bold">سه‌شنبه</span></td>
                                 </tr>
                                 <tr>
-                                    <td class="tg-0lax">{% for self in active_self %}
-                                        <input type="radio" name="wednesday_breakfast_self" value={{ self }}>{{ self }}
+                                    <td class="tg-0lax">{% for self, id in active_self %}
+                                        <input type="radio" name="wednesday_breakfast_self" value={{ id }}>{{ self }}
                                         <br>
                                     {% endfor %}
                                     </td>
-                                    <td class="tg-0lax">{% for self in active_self %}
-                                        <input type="radio" name="wednesday_lunch_self" value={{ self }}>{{ self }}<br>
+                                    <td class="tg-0lax">{% for self, id in active_self %}
+                                        <input type="radio" name="wednesday_lunch_self" value={{ id }}>{{ self }}<br>
                                     {% endfor %}
                                     </td>
-                                    <td class="tg-0lax">{% for self in active_self %}
-                                        <input type="radio" name="wednesday_dinner_self" value={{ self }}>{{ self }}<br>
+                                    <td class="tg-0lax">{% for self, id in active_self %}
+                                        <input type="radio" name="wednesday_dinner_self" value={{ id }}>{{ self }}<br>
                                     {% endfor %}
                                     </td>
                                     <td class="tg-baqh"><span style="font-weight:bold">چهارشنبه</span></td>
                                 </tr>
                                 <tr>
-                                    <td class="tg-0lax">{% for self in active_self %}
-                                        <input type="radio" name="thursday_breakfast_self" value={{ self }}>{{ self }}
+                                    <td class="tg-0lax">{% for self, id in active_self %}
+                                        <input type="radio" name="thursday_breakfast_self" value={{ id }}>{{ self }}
                                         <br>
                                     {% endfor %}
                                     </td>
-                                    <td class="tg-0lax">{% for self in active_self %}
-                                        <input type="radio" name="thursday_lunch_self" value={{ self }}>{{ self }}<br>
+                                    <td class="tg-0lax">{% for self, id in active_self %}
+                                        <input type="radio" name="thursday_lunch_self" value={{ id }}>{{ self }}<br>
                                     {% endfor %}
                                     </td>
-                                    <td class="tg-0lax">{% for self in active_self %}
-                                        <input type="radio" name="thursday_dinner_self" value={{ self }}>{{ self }}<br>
+                                    <td class="tg-0lax">{% for self, id in active_self %}
+                                        <input type="radio" name="thursday_dinner_self" value={{ id }}>{{ self }}<br>
                                     {% endfor %}
                                     </td>
                                     <td class="tg-baqh"><span style="font-weight:bold">پنجشنبه</span></td>
                                 </tr>
                                 <tr>
-                                    <td class="tg-0lax">{% for self in active_self %}
-                                        <input type="radio" name="friday_breakfast_self" value={{ self }}>{{ self }}<br>
+                                    <td class="tg-0lax">{% for self, id in active_self %}
+                                        <input type="radio" name="friday_breakfast_self" value={{ id }}>{{ self }}<br>
                                     {% endfor %}
                                     </td>
-                                    <td class="tg-0lax">{% for self in active_self %}
-                                        <input type="radio" name="friday_lunch_self" value={{ self }}>{{ self }}<br>
+                                    <td class="tg-0lax">{% for self, id in active_self %}
+                                        <input type="radio" name="friday_lunch_self" value={{ id }}>{{ self }}<br>
                                     {% endfor %}
                                     </td>
-                                    <td class="tg-0lax">{% for self in active_self %}
-                                        <input type="radio" name="friday_dinner_self" value={{ self }}>{{ self }}<br>
+                                    <td class="tg-0lax">{% for self, id in active_self %}
+                                        <input type="radio" name="friday_dinner_self" value={{ id }}>{{ self }}<br>
                                     {% endfor %}
                                     </td>
                                     <td class="tg-baqh"><span style="font-weight:bold">جمعه</span></td>

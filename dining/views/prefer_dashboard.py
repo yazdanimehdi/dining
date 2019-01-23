@@ -9,6 +9,7 @@ def prefer_food_dashboard(request):
         a = Coins.objects.filter(user=request.user, active=True).count()
         p = UserPreferableFood.objects.filter(user=request.user).count()
         food_list = list()
+        u = UserDiningData.objects.get(user=request.user)
         if request.method == 'GET':
             if p != 0:
                 u = UserDiningData.objects.get(user=request.user)
@@ -18,7 +19,9 @@ def prefer_food_dashboard(request):
             else:
                 return redirect('/prefered_food')
         elif request.method == 'POST':
-            food = Food.objects.get(name=request.POST.get('food_select'))
+            print(request.POST)
+            print(request.POST.get('food_select'))
+            food = Food.objects.get(name=request.POST.get('food_select'), university=u.university)
             score = request.POST.get('food_change')
             d = UserPreferableFood.objects.get_or_create(user=request.user,
                                                          food=food,

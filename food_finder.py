@@ -65,13 +65,13 @@ for ids in self_ids:
                 if not flag:
                     uni = University.objects.get(name='University Of Science And Technology')
                     newfood = Food()
-                    newfood.name = item
+                    newfood.name = item.strip()
                     newfood.university = uni
                     newfood.save()
             else:
                 uni = University.objects.get(name='University Of Science And Technology')
                 newfood = Food()
-                newfood.name = item
+                newfood.name = item.strip()
                 newfood.university = uni
                 newfood.save()
         k += 1
