@@ -63,7 +63,8 @@ if user_data.chat_id != 0:
 
     def send_photo(path, chat_id, token):
         bot = telegram.Bot(token=token)
-        bot.send_photo(chat_id=chat_id, photo=open(path, 'rb'))
+        # bot.send_photo(chat_id=chat_id, photo=open(path, 'rb'))
+        bot.send_document(chat_id=chat_id, document=open(path, 'rb'))
 
 
     def send(msg, chat_id, token):
@@ -71,8 +72,9 @@ if user_data.chat_id != 0:
         bot.send_message(chat_id=chat_id, text=msg)
 
 
+
     bot_token = '610448118:AAFVPBXMKPzqAiOJ9-zhusKrOloCiJuEwi8'
 
     message = "سلام\nامروز چهارشنبه‌س و غذاهاتو برات رزرو کردم\nغذاهایی که رزرو کردم ایناست\n"
     send(message, str(user_data.chat_id), bot_token)
-    send_photo(path='reserve_img.png', chat_id=str(user_data.chat_id), token=bot_token)
+    send_photo(path='html.html', chat_id=str(user_data.chat_id), token=bot_token)
