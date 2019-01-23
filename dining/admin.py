@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from dining.models import University, UserDiningData, Food, UserPreferableFood, Coins, UserSelfs, ZorroCode, \
-    MerchantUser, Merchants, ReservedTable
+    MerchantUser, Merchants, ReservedTable, SamadPrefrredDays
 from .models import CustomUser
 
 
@@ -22,3 +22,4 @@ admin.site.register(ZorroCode)
 admin.site.register(Merchants)
 admin.site.register(MerchantUser)
 admin.site.register(ReservedTable)
+admin.site.register(SamadPrefrredDays)
