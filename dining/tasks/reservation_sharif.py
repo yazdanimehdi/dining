@@ -330,6 +330,10 @@ def reserve_function():
                                       index=['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه'])
 
                     css = """
+                    <!DOCTYPE html>
+                    <head>
+                        <meta charset="UTF-8">
+                    </head>
                     <style type=\"text/css\">
                     table {
                     color: #333;
