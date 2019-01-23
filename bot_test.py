@@ -14,7 +14,7 @@ last_saturdays_date = list()
 last_saturdays_date.append(date)
 last_saturdays_date = str(last_saturdays_date)
 u = ReservedTable.objects.get(user=user_data, week_start_date=last_saturdays_date)
-if user_data.user.chat_id != 0:
+if user_data.chat_id != 0:
     data = {'ناهار': [u.sunday_lunch, u.sunday_lunch, u.monday_lunch,
                       u.tuesday_lunch, u.wednesday_lunch, u.thursday_lunch_self,
                       u.friday_lunch],
