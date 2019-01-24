@@ -113,6 +113,8 @@ def samad_day_select(request):
                             obj[0].reserve_thursday_dinner = True
                         if request.POST.get('friday_dinner_self') == item.self_id:
                             obj[0].reserve_friday_dinner = True
+
+                        obj[0].save()
                 return redirect('/prefered_food')
             except:
                 return render(request, 'dining/templates/select_days.html',

@@ -1,5 +1,6 @@
 import re
 
+import jdatetime
 import requests
 from bs4 import BeautifulSoup
 from lxml import html
@@ -190,6 +191,8 @@ for user_data in UserDiningData.objects.filter(university__tag='samad'):
                 total_price = 0
 
                 saturdays_date = list()
+                date = str(jdatetime.date.today() + jdatetime.timedelta(3))
+                date = re.sub(r'\-', '/', date)
                 saturdays_date.append(date)
                 saturdays_date = str(saturdays_date)
 

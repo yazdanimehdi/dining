@@ -1,5 +1,6 @@
 import re
 
+import jdatetime
 import requests
 from bs4 import BeautifulSoup
 from celery import task
@@ -78,7 +79,7 @@ def samad_reserve_function():
                             programId = re.findall(r'programId\" type=\"hidden\" value=\"(.+)\"', str(soupf))[0]
                             mealTypeId = re.findall(r'mealTypeId\" type=\"hidden\" value=\"(.+)\"', str(soupf))[0]
                             programDateTime = \
-                            re.findall(r'programDateTime\" type=\"hidden\" value=\"(.+)\"', str(soupf))[0]
+                                re.findall(r'programDateTime\" type=\"hidden\" value=\"(.+)\"', str(soupf))[0]
                             foodTypeId = re.findall(
                                 r'userWeekReserves\[.\]\.foodTypeId\" type=\"hidden\" value=\"(.+)\"',
                                 str(soupf))
@@ -89,8 +90,8 @@ def samad_reserve_function():
                             else:
                                 foodTypeId = '0'
                             freeFoodSelected = \
-                            re.findall(r'freeFoodSelected\" type=\"hidden\" value="(.+)\"', str(soupf))[
-                                0]
+                                re.findall(r'freeFoodSelected\" type=\"hidden\" value="(.+)\"', str(soupf))[
+                                    0]
                             food_name = re.findall(r'this.offsetLeft, this.offsetTop\);\">\s+(.+)', str(soupf))[0]
                             flag = False
                             for db_food in UserPreferableFood.objects.filter(user=user_data.user):
@@ -194,6 +195,8 @@ def samad_reserve_function():
                     total_price = 0
 
                     saturdays_date = list()
+                    date = str(jdatetime.date.today() + jdatetime.timedelta(3))
+                    date = re.sub(r'\-', '/', date)
                     saturdays_date.append(date)
                     saturdays_date = str(saturdays_date)
 
@@ -211,51 +214,50 @@ def samad_reserve_function():
                             payload_reserve[f'userWeekReserves[{lunch_data[item][k][0]}].selected'] = 'false'
                             payload_reserve[f'userWeekReserves[{lunch_data[item][k][0]}].id'] = ''
                             payload_reserve[f'userWeekReserves[{lunch_data[item][k][0]}].programId'] = \
-                            lunch_data[item][k][3]
+                                lunch_data[item][k][3]
                             payload_reserve[f'userWeekReserves[{lunch_data[item][k][0]}].mealTypeId'] = \
-                            lunch_data[item][k][4]
+                                lunch_data[item][k][4]
                             payload_reserve[f'userWeekReserves[{lunch_data[item][k][0]}].programDateTime'] = \
-                            lunch_data[item][k][5]
+                                lunch_data[item][k][5]
                             payload_reserve[f'userWeekReserves[{lunch_data[item][k][0]}].selfId'] = self.self_id
                             payload_reserve[f'userWeekReserves[{lunch_data[item][k][0]}].foodTypeId'] = \
-                            lunch_data[item][k][6]
+                                lunch_data[item][k][6]
                             payload_reserve[f'userWeekReserves[{lunch_data[item][k][0]}].selectedCount'] = 1
                             payload_reserve[f'userWeekReserves[{lunch_data[item][k][0]}].freeFoodSelected'] = \
-                            lunch_data[item][k][7]
-
+                                lunch_data[item][k][7]
                         k = 0
                         while k < len(breakfast_data[item]):
                             payload_reserve[f'userWeekReserves[{breakfast_data[item][k][0]}].selected'] = 'false'
                             payload_reserve[f'userWeekReserves[{breakfast_data[item][k][0]}].id'] = ''
                             payload_reserve[f'userWeekReserves[{breakfast_data[item][k][0]}].programId'] = \
-                            breakfast_data[item][k][3]
+                                breakfast_data[item][k][3]
                             payload_reserve[f'userWeekReserves[{breakfast_data[item][k][0]}].mealTypeId'] = \
-                            breakfast_data[item][k][4]
+                                breakfast_data[item][k][4]
                             payload_reserve[f'userWeekReserves[{breakfast_data[item][k][0]}].programDateTime'] = \
-                            breakfast_data[item][k][5]
+                                breakfast_data[item][k][5]
                             payload_reserve[f'userWeekReserves[{breakfast_data[item][k][0]}].selfId'] = self.self_id
                             payload_reserve[f'userWeekReserves[{breakfast_data[item][k][0]}].foodTypeId'] = \
-                            breakfast_data[item][k][6]
+                                breakfast_data[item][k][6]
                             payload_reserve[f'userWeekReserves[{breakfast_data[item][k][0]}].selectedCount'] = 1
                             payload_reserve[f'userWeekReserves[{breakfast_data[item][k][0]}].freeFoodSelected'] = \
-                            breakfast_data[item][k][7]
+                                breakfast_data[item][k][7]
 
                         k = 0
                         while k < len(dinner_data[item]):
                             payload_reserve[f'userWeekReserves[{dinner_data[item][k][0]}].selected'] = 'false'
                             payload_reserve[f'userWeekReserves[{dinner_data[item][k][0]}].id'] = ''
                             payload_reserve[f'userWeekReserves[{dinner_data[item][k][0]}].programId'] = \
-                            dinner_data[item][k][3]
+                                dinner_data[item][k][3]
                             payload_reserve[f'userWeekReserves[{dinner_data[item][k][0]}].mealTypeId'] = \
-                            dinner_data[item][k][4]
+                                dinner_data[item][k][4]
                             payload_reserve[f'userWeekReserves[{dinner_data[item][k][0]}].programDateTime'] = \
-                            dinner_data[item][k][5]
+                                dinner_data[item][k][5]
                             payload_reserve[f'userWeekReserves[{dinner_data[item][k][0]}].selfId'] = self.self_id
                             payload_reserve[f'userWeekReserves[{dinner_data[item][k][0]}].foodTypeId'] = \
-                            dinner_data[item][k][6]
+                                dinner_data[item][k][6]
                             payload_reserve[f'userWeekReserves[{dinner_data[item][k][0]}].selectedCount'] = 1
                             payload_reserve[f'userWeekReserves[{dinner_data[item][k][0]}].freeFoodSelected'] = \
-                            dinner_data[item][k][7]
+                                dinner_data[item][k][7]
 
                         for daye in dinner_data:
                             if dinner_data[daye]:
