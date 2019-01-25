@@ -26,5 +26,5 @@ def self_id(request):
             u = UserDiningData.objects.get(user=request.user)
             if u.university.tag == 'sharif':
                 return redirect('/payment')
-            elif u.university.tag == 'samad':
+            else:
                 return redirect('/samad_days')

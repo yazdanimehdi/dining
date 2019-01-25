@@ -140,11 +140,15 @@ class UserDiningData(models.Model):
             result = session_requests.get(url)
             self_id = re.findall(r'<option value=\"(.+?)\"', result.text)
             self_names = re.findall(r'<option value=\".*\">(.+)</option>', result.text)
+            self_id_selected = re.findall(r'<option selected=\"selected\" value=\"(.+?)\"', result.text)
+            self_name_selected = re.findall(r'<option selected=\"selected\" value=\".*\">(.+)</option>', result.text)
             self_dict = dict()
             i = 0
             for item in self_names:
                 self_dict[item] = self_id[i]
                 i += 1
+            self_dict[self_name_selected[0]] = self_id_selected[0]
+
             return self_dict
 
         else:

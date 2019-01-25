@@ -31,7 +31,7 @@ def prefer_food(request):
                         d.save()
                     if u[0].university.tag == 'sharif':
                         return redirect('/self_select')
-                    elif u[0].university.tag == 'samad':
+                    else:
                         return redirect('/payment')
                 except Exception as e:
                     print(e)

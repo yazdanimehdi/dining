@@ -44,7 +44,7 @@ def signup(request):
                     auth_login(request, u)
                     if University.objects.get(name=request.POST.get('university')).tag == 'sharif':
                         return redirect('/wizard')
-                    elif University.objects.get(name=request.POST.get('university')).tag == 'samad':
+                    else:
                         return redirect('/samad_wizard')
                 else:
                     return render(request, "dining/templates/register.html",
