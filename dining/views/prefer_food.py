@@ -23,7 +23,7 @@ def prefer_food(request):
                     for food in food_list:
                         d = UserPreferableFood()
                         d.user = request.user
-                        d.food = Food.objects.get(name=food)
+                        d.food = Food.objects.get(name=food, university=u[0].university)
                         if not request.POST.get(food):
                             d.score = 5
                         else:

@@ -15,9 +15,6 @@ def samad_day_select(request):
             try:
                 for item in selfs:
                     obj = SamadPrefrredDays.objects.filter(user=request.user, active_self=item)
-                    print(request.POST)
-                    print(request.POST.get('saturday_breakfast_self'))
-                    print(item.self_id)
                     if not obj:
                         u = SamadPrefrredDays()
                         u.user = request.user
@@ -69,6 +66,46 @@ def samad_day_select(request):
 
                         u.save()
                     else:
+
+                        obj[0].reserve_saturday_breakfast = False
+
+                        obj[0].reserve_sunday_breakfast = False
+
+                        obj[0].reserve_monday_breakfast = False
+
+                        obj[0].reserve_tuesday_breakfast = False
+
+                        obj[0].reserve_wednesday_breakfast = False
+
+                        obj[0].reserve_thursday_breakfast = False
+
+                        obj[0].reserve_friday_breakfast = False
+
+                        obj[0].reserve_saturday_lunch = False
+                        obj[0].reserve_sunday_lunch = False
+                        obj[0].reserve_monday_lunch = False
+
+                        obj[0].reserve_tuesday_lunch = False
+
+                        obj[0].reserve_wednesday_lunch = False
+
+                        obj[0].reserve_thursday_lunch = False
+                        obj[0].reserve_friday_lunch = False
+
+                        obj[0].reserve_saturday_dinner = False
+
+                        obj[0].reserve_sunday_dinner = False
+
+                        obj[0].reserve_monday_dinner = False
+
+                        obj[0].reserve_tuesday_dinner = False
+
+                        obj[0].reserve_wednesday_dinner = False
+
+                        obj[0].reserve_thursday_dinner = False
+
+                        obj[0].reserve_friday_dinner = False
+
                         if request.POST.get('saturday_breakfast_self') == item.self_id:
                             obj[0].reserve_saturday_breakfast = True
                         if request.POST.get('sunday_breakfast_self') == item.self_id:
