@@ -9,6 +9,7 @@ class University(models.Model):
     reserve_url = models.CharField(max_length=200, default='0')
     url_next_week = models.CharField(max_length=200, default='0')
     reserved_table = models.CharField(max_length=200, default='0')
+    captcha_url = models.CharField(max_length=400, default='-')
     csrf_name = models.CharField(max_length=100)
     form_username = models.CharField(max_length=100)
     form_password = models.CharField(max_length=100)

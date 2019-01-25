@@ -1,5 +1,7 @@
 from .credit_announcement import credit_announcement
 from .credit_insufficient import credit_insufficient
+from .reservation_samad import samad_reserve_function
 from .reservation_sharif import reserve_function
+from .reservation_yas import reservation_yas
 from .reserve_announcement import reserve_announcement
 from .sharif_get_reserved_food import get_reserved_sharif

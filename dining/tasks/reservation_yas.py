@@ -7,20 +7,22 @@ import jdatetime
 import numpy as np
 import requests
 from celery import task
-from helpers import resize_to_fit
 from keras.models import load_model
 from lxml import html
+
+from helpers import resize_to_fit
 
 
 @task
 def reservation_yas():
-    from dining.models import UserDiningData, ReservedTable, UserSelfs, UserPreferableFood, SamadPrefrredDays
+    from dining.models import UserDiningData, ReservedTable, UserSelfs, UserPreferableFood, SamadPrefrredDays, Food, \
+        University
     for user_data in UserDiningData.objects.filter(university__tag='yas'):
         if user_data.user.is_paid:
             try:
-                login_url = 'http://meal.khu.ac.ir'
-                captcha_url = 'http://meal.khu.ac.ir/GenerateCaptcha.ashx'
-                reserve_get_url = 'http://meal.khu.ac.ir/Reserve.aspx'
+                login_url = user_data.university.login_url
+                captcha_url = user_data.university.captcha_url
+                reserve_get_url = user_data.university.reserve_url
                 i = 830
 
                 session_requests = requests.session()
@@ -131,7 +133,7 @@ def reservation_yas():
                     dinner_data = dict()
                     for day in days:
                         for kind in kinds:
-                            meal_url = f'http://meal.khu.ac.ir/SelectGhaza.aspx?date={date}&dow={day}&kind={kind}&sel=False&selg=True&week=1&personeli={username}'
+                            meal_url = f'{login_url}/SelectGhaza.aspx?date={date}&dow={day}&kind={kind}&sel=False&selg=True&week=1&personeli={username}'
                             result = session_requests.get(meal_url)
                             regex_find = re.findall(r'javascript:SelectGhaza\((.+)\)', result.text)
                             foods = []
@@ -141,6 +143,26 @@ def reservation_yas():
                                 for particle in particles:
                                     particle = particle.strip('"')
                                     food.append(particle)
+                                flag = False
+                                for db_food in Food.objects.filter(university__name='دانشگاه خوارزمی کرج'):
+                                    if set(db_food.name.split(' ')).issubset(food[2].split(' ')):
+                                        flag = True
+                                        food[2] = db_food.name
+                                    elif db_food.name in food[2]:
+                                        flag = True
+                                        food[2] = db_food.name
+                                    elif '+' in food[2]:
+                                        if db_food.name in food[2].split('+')[0]:
+                                            flag = True
+                                            food[2] = db_food.name
+                                        elif db_food.name in food[2].split('+')[1]:
+                                            flag = True
+                                            food[2] = db_food.name
+                                if not flag:
+                                    uni = University.objects.get(name='دانشگاه خوارزمی کرج')
+                                    newfood = Food()
+                                    newfood.name = food[2].strip()
+                                    newfood.university = uni
                                 foods.append(food)
                             if kind == 0:
                                 breakfast_data[day] = foods
@@ -317,8 +339,8 @@ def reservation_yas():
                         if breakfast_data[day - 1]:
                             food_list = []
                             for food in breakfast_data[day - 1]:
-                                food_list.append(food, UserPreferableFood.objects.filter(user=user_data.user,
-                                                                                         food__name=food[2])[0])
+                                food_list.append((food, UserPreferableFood.objects.filter(user=user_data.user,
+                                                                                          food__name=food[2])[0]))
                             food_list.sort(key=lambda x: x[1].score, reverse=True)
                             prefered_data = food_list
                             payload_reserve[f'txtc_numGhaza{day}'] = prefered_data[0][0][1]
@@ -352,8 +374,8 @@ def reservation_yas():
                     for day in chosen_days_lunch:
                         if lunch_data[day - 1]:
                             for food in lunch_data[day - 1]:
-                                food_list.append(food, UserPreferableFood.objects.filter(user=user_data.user,
-                                                                                         food__name=food[2])[0])
+                                food_list.append((food, UserPreferableFood.objects.filter(user=user_data.user,
+                                                                                          food__name=food[2])[0]))
                             food_list.sort(key=lambda x: x[1].score, reverse=True)
                             prefered_data = food_list
                             payload_reserve[f'txtn_numGhaza{i}'] = prefered_data[0][0][1]
@@ -387,8 +409,8 @@ def reservation_yas():
                     for day in chosen_days_dinner:
                         if dinner_data[day - 1]:
                             for food in dinner_data[day - 1]:
-                                food_list.append(food, UserPreferableFood.objects.filter(user=user_data.user,
-                                                                                         food__name=food[2])[0])
+                                food_list.append((food, UserPreferableFood.objects.filter(user=user_data.user,
+                                                                                          food__name=food[2])[0]))
                             food_list.sort(key=lambda x: x[1].score, reverse=True)
                             prefered_data = food_list
                             payload_reserve[f'txts_numGhaza{i}'] = prefered_data[0][0][1]
