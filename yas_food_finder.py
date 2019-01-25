@@ -12,9 +12,9 @@ from lxml import html
 from dining.models import University, Food
 from helpers import resize_to_fit
 
-login_url = 'http://meal.khu.ac.ir'
-captcha_url = 'http://meal.khu.ac.ir/GenerateCaptcha.ashx'
-reserve_get_url = 'http://meal.khu.ac.ir/Reserve.aspx'
+login_url = 'http://frs.modares.ac.ir'
+captcha_url = 'http://frs.modares.ac.ir/GenerateCaptcha.ashx'
+reserve_get_url = 'http://frs.modares.ac.ir/Reserve.aspx'
 i = 830
 
 session_requests = requests.session()
@@ -88,14 +88,14 @@ VIEWSTATEGENERATOR = list(set(tree.xpath("//input[@name='__VIEWSTATEGENERATOR']/
 VIEWSTATEENCRYPTED = list(set(tree.xpath("//input[@name='__VIEWSTATEENCRYPTED']/@value")))[0]
 EVENTVALIDATION = list(set(tree.xpath("//input[@name='__EVENTVALIDATION']/@value")))[0]
 
-username = '68559'
-password = '1373'
+username = '9766131003'
+password = '1050630548'
 date = re.sub(r'-', '', str(jdatetime.date.today() + jdatetime.timedelta(1)))[2:]
 kinds = [0, 1, 2]
 days = [0, 1, 2, 3, 4, 5, 6]
 payload = {
-    'txtusername': '68559',
-    'txtpassword': '1373',
+    'txtusername': username,
+    'txtpassword': password,
     'txtCaptchaText': captcha_text,
     '__VIEWSTATE': VIEWSTATE,
     '__VIEWSTATEGENERATOR': VIEWSTATEGENERATOR,
@@ -131,7 +131,7 @@ while i < 64:
     dinner_data = dict()
     for day in days:
         for kind in kinds:
-            meal_url = f'http://meal.khu.ac.ir/SelectGhaza.aspx?date={date}&dow={day}&kind={kind}&sel=False&selg=True&week=1&personeli={username}'
+            meal_url = f'http://frs.modares.ac.ir/SelectGhaza.aspx?date={date}&dow={day}&kind={kind}&sel=False&selg=True&week=1&personeli={username}'
             result = session_requests.get(meal_url)
             regex_find = re.findall(r'javascript:SelectGhaza\((.+)\)', result.text)
             foods = []
@@ -142,8 +142,8 @@ while i < 64:
                     particle = particle.strip('"')
                     food.append(particle)
                 flag = False
-                if Food.objects.filter(university__name='دانشگاه خوارزمی کرج'):
-                    for db_food in Food.objects.filter(university__name='دانشگاه خوارزمی کرج'):
+                if Food.objects.filter(university__name='دانشگاه تربیت مدرس'):
+                    for db_food in Food.objects.filter(university__name='دانشگاه تربیت مدرس'):
                         if set(db_food.name.split(' ')).issubset(food[2].split(' ')):
                             flag = True
                         elif db_food.name in food[2]:
@@ -155,13 +155,17 @@ while i < 64:
                                 flag = True
 
                     if not flag:
-                        uni = University.objects.get(name='دانشگاه خوارزمی کرج')
+                        if '+' in food[2]:
+                            food[2] = food[2].split('+')[0]
+                        uni = University.objects.get(name='دانشگاه تربیت مدرس')
                         newfood = Food()
                         newfood.name = food[2].strip()
                         newfood.university = uni
                         newfood.save()
                 else:
-                    uni = University.objects.get(name='دانشگاه خوارزمی کرج')
+                    if '+' in food[2]:
+                        food[2] = food[2].split('+')[0]
+                    uni = University.objects.get(name='دانشگاه تربیت مدرس')
                     newfood = Food()
                     newfood.name = food[2].strip()
                     newfood.university = uni
