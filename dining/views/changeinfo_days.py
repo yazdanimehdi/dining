@@ -9,7 +9,7 @@ def change_days(request):
         if request.method == 'GET':
             if c[0].university.tag == 'sharif':
                 return render(request, 'dining/templates/change_days.html')
-            elif c[0].university.tag == 'samad':
+            else:
                 return redirect('/samad_days')
         elif request.method == 'POST':
             a = Coins.objects.filter(user=request.user, active=True).count()
