@@ -20,8 +20,12 @@ def signup(request):
                 u.first_name = request.POST.get('first_name')
                 u.last_name = request.POST.get('last_name')
                 u.phone = request.POST.get('phone')
+                if not request.POST.get('phone'):
+                    raise ValueError
                 u.username = request.POST.get('username')
                 u.email = request.POST.get('email')
+                if not request.POST.get('email'):
+                    raise ValueError
                 u.sex = request.POST.get('sex')
                 if request.POST.get('password1') == request.POST.get('password2'):
                     u.set_password(request.POST.get('password1'))
