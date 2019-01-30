@@ -1,6 +1,7 @@
 import pickle
 import re
 import shutil
+import sys
 
 import cv2
 import jdatetime
@@ -431,4 +432,6 @@ for user_data in UserDiningData.objects.filter(university__tag='yas'):
                 reserved.credit = credit
                 reserved.save()
         except Exception as e:
-            print(e)
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            print(exc_type, fname, exc_tb.tb_lineno)
