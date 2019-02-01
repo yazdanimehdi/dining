@@ -1,17 +1,21 @@
 {% load i18n %}{% autoescape off %}
-    {% blocktrans %}دریافت کرده اید{{ site_name }}شما این ایمیل را به خاطر درخواست تغییر رمز عبور اکانتتان در سایت
+    {% blocktrans %}شما این ایمیل را به خاطر درخواست تغییر رمز عبور اکانتتان دریافت کرده اید
     {% endblocktrans %}
 
     {% trans "لطفا بر روی لینک زیر کلیک کرده و رمز عبور جدیدتان را وارد کنید:" %}
+    <br>
     <br>
     {% block reset_link %}
         {{ protocol }}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}
     {% endblock %}
     <br>
-    {% trans "نام کاربری شما، اگر آن را فراموش کرده اید :" %} {{ user.get_username }}
+    <br>
+    {% trans "نام کاربری شما، اگر آن را فراموش کرده اید :" %}
+    <br>
+    {{ user.get_username }}
     <br>
     {% trans "از اینکه با ما همراه هستید متشکریم!" %}
     <br>
-    {% blocktrans %}The {{ site_name }} team{% endblocktrans %}
+    {% blocktrans %}خانواده‌ي Mrzorro{% endblocktrans %}
 
 {% endautoescape %}
