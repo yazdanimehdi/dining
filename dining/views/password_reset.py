@@ -3,7 +3,7 @@ from django.contrib.auth import views
 
 class CustomReset(views.PasswordResetView):
     template_name = 'dining/templates/reset_password.html'
-    subject_template_name = 'dining/templates/email/subject.text'
+    subject_template_name = 'dining/templates/email/subject.txt'
     html_email_template_name = 'dining/templates/email/content.html'
 
 
