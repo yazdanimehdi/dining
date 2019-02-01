@@ -1,0 +1,15 @@
+{% load i18n %}{% autoescape off %}
+    {% blocktrans %}دریافت کرده اید{{ site_name }}شما این ایمیل را به خاطر درخواست تغییر رمز عبور اکانتتان در سایت
+    {% endblocktrans %}
+
+    {% trans "لطفا بر روی لینک زیر کلیک کرده و رمز عبور جدیدتان را وارد کنید:" %}
+    {% block reset_link %}
+        {{ protocol }}://{{ domain }}{% url 'accounts:password-reset-confirm' uidb64=uid token=token %}
+    {% endblock %}
+    {% trans "نام کاربری شما، اگر آن را فراموش کرده اید :" %} {{ user.get_username }}
+
+    {% trans "از اینکه با ما همراه هستید متشکریم!" %}
+
+    {% blocktrans %}The {{ site_name }} team{% endblocktrans %}
+
+{% endautoescape %}
