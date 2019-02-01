@@ -1,3 +1,1 @@
-{% templatetag openblock %} load i18n {% templatetag closeblock %}{% templatetag openblock %} autoescape off {% templatetag closeblock %}
-{% templatetag openblock %} blocktrans {% templatetag closeblock %}تغییر رمز عبور در {% templatetag openvariable %} site_name {% templatetag closevariable %}{% templatetag openblock %} endblocktrans {% templatetag closeblock %}
-{% templatetag openblock %} endautoescape {% templatetag closeblock %}
+ریست کردن رمز عبور در سایت Mrzoro.ir
