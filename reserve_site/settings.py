@@ -111,6 +111,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'reserve_site.wsgi.application'
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = False
+DEFAULT_FROM_EMAIL = 'MR.Zorro Admin <info@mrzoro.ir>'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
