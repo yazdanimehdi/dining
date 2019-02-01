@@ -4,7 +4,7 @@
 
     {% trans "لطفا بر روی لینک زیر کلیک کرده و رمز عبور جدیدتان را وارد کنید:" %}
     {% block reset_link %}
-        {{ protocol }}://{{ domain }}{% url 'dining:reset' uidb64=uid token=token %}
+        {{ protocol }}://{{ domain }}{% url 'reserve_site:reset' uidb64=uid token=token %}
     {% endblock %}
     {% trans "نام کاربری شما، اگر آن را فراموش کرده اید :" %} {{ user.get_username }}
 
