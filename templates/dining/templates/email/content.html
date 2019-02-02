@@ -2,7 +2,7 @@
     {% blocktrans %}شما این ایمیل را به خاطر درخواست تغییر رمز عبور اکانتتان دریافت کرده اید
     {% endblocktrans %}
 
-    {% trans "لطفا بر روی لینک زیر کلیک کرده و رمز عبور جدیدتان را وارد کنید:" %}
+    {% trans " : لطفا بر روی لینک زیر کلیک کرده و رمز عبور جدیدتان را وارد کنید" %}
     <br>
     <br>
     {% block reset_link %}
@@ -10,12 +10,12 @@
     {% endblock %}
     <br>
     <br>
-    {% trans "نام کاربری شما، اگر آن را فراموش کرده اید :" %}
+    {% trans " : نام کاربری شما، اگر آن را فراموش کرده اید" %}
     <br>
     {{ user.get_username }}
     <br>
-    {% trans "از اینکه با ما همراه هستید متشکریم!" %}
+    {% trans " ! از اینکه با ما همراه هستید متشکریم" %}
     <br>
-    {% blocktrans %}خانواده‌ي Mrzorro{% endblocktrans %}
+    {% blocktrans %}The Mrzoro.ir Team {% endblocktrans %}
 
 {% endautoescape %}

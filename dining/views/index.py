@@ -1,3 +1,4 @@
+from django.core.mail import send_mail
 from django.http import HttpResponseForbidden, HttpResponse
 from django.shortcuts import render
 
@@ -38,10 +39,10 @@ def contact_us(request):
         message = request.POST.get('contactMessage')
         from_email = request.POST.get('contactEmail')
         if subject and message and from_email:
-            # try:
-            #     send_mail(subject, message, from_email, ['myjahromi@gmail.com'])
-            # except BadHeaderError:
-            #     return HttpResponse(status=400, content='{"msg":  "هدری وجود ندارد"}')
+            try:
+                send_mail(subject + from_email, message, 'contact@mrzoro.ir', ['khodabandeh.ali7@gmail.com'])
+            except:
+                return HttpResponse(status=400, content='{"msg":  "یه چیزی اشتباه پیش رفت"}')
             return HttpResponse(status=200)
         else:
             return HttpResponse(status=400, content='{"msg": "تمامی فیلدها را پر کنید"}')

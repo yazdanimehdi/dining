@@ -20,7 +20,15 @@ def change_info_dining(request):
             try:
                 u.dining_username = request.POST.get('dining_username')
                 u.dining_password = request.POST.get('dining_password')
-                u.save()
+                u.test_account()
+                if a != {}:
+                    u.save()
+                else:
+                    return render(request, 'dining/templates/change_info_dining.html',
+                                  {'username': u.dining_username,
+                                   'password': u.dining_password,
+                                   'msg': 'نام کاربری یا رمز عبور سامانه‌ی غذایی که وارد کردی اشتباست'})
+
             except:
                 return render(request, 'dining/templates/change_info_dining.html',
                               {'username': u.dining_username,
