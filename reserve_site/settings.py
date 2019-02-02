@@ -28,7 +28,7 @@ SECRET_KEY = '^(*nwl^zk-n6v5q5u_6zua^3n&sf%j$z^p8ck7fus=fqa1^k46'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['mrzoro.ir', ]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -126,10 +126,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'diningdb',
-        'USER': 'admin',
-        'PASSWORD': '99&3M+p`gw5{v%Jv',
-        # 'USER': 'postgres',
-        # 'PASSWORD': 'salam1392',
+        # 'USER': 'admin',
+        # 'PASSWORD': '99&3M+p`gw5{v%Jv',
+        'USER': 'postgres',
+        'PASSWORD': 'salam1392',
         'HOST': 'localhost',
         'port': '5432'
     }
