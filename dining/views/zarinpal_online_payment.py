@@ -1,6 +1,5 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from rest_framework import status
 from zeep import Client
 from zeep.transports import Transport
 
@@ -33,8 +32,8 @@ def send_request(request):
         try:
             initialize_client()
         except Exception:
-            return HttpResponse(status=status.HTTP_504_GATEWAY_TIMEOUT,
-                                content='<html><body><h1>درگاه پرداخت با مشکل مواجه شده است. لطفا بعدا تلاش کنید.</h1></body></html>')
+            return HttpResponse(
+                content='<html><body><h1>درگاه پرداخت با مشکل مواجه شده است. لطفا بعدا تلاش کنید.</h1></body></html>')
 
     result = client.service.PaymentRequest(MERCHANT, amount, description, email, mobile,
                                            CallbackURL)
