@@ -26,9 +26,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '^(*nwl^zk-n6v5q5u_6zua^3n&sf%j$z^p8ck7fus=fqa1^k46'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['mrzoro.ir', ]
 
 
 # Application definition
