@@ -34,13 +34,14 @@ def home(request):
 
 def contact_us(request):
     if request.method == 'POST':
-        print(request.POST)
+        name = request.POST.get('contactName')
         subject = request.POST.get('contactSubject')
         message = request.POST.get('contactMessage')
         from_email = request.POST.get('contactEmail')
         if subject and message and from_email:
             try:
-                send_mail(subject + from_email, message, 'contact@mrzoro.ir', ['khodabandeh.ali7@gmail.com'])
+                send_mail(subject + ' : ' + from_email, f'from : {name}' + '\n' + message, 'contact@mrzoro.ir',
+                          ['khodabandeh.ali7@gmail.com'])
             except:
                 return HttpResponse(status=400, content='{"msg":  "یه چیزی اشتباه پیش رفت"}')
             return HttpResponse(status=200)

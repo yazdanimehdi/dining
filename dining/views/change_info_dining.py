@@ -20,8 +20,8 @@ def change_info_dining(request):
             try:
                 u.dining_username = request.POST.get('dining_username')
                 u.dining_password = request.POST.get('dining_password')
-                u.test_account()
-                if a != {}:
+                test = u.test_account()
+                if test != {}:
                     u.save()
                 else:
                     return render(request, 'dining/templates/change_info_dining.html',
