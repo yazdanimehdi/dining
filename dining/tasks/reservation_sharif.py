@@ -15,7 +15,7 @@ def reserve_function():
     from dining.models import UserDiningData, ReservedTable, UserSelfs, UserPreferableFood, Food
 
     for user_data in UserDiningData.objects.filter(university__tag='sharif'):
-        if user_data.user.is_paid:
+        if user_data.user.is_paid == True and user_data.user.reserve == True:
             try:
                 login_url = user_data.university.login_url
                 session_requests = requests.session()
