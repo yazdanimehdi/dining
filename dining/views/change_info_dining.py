@@ -17,6 +17,8 @@ def change_info_dining(request):
                 return redirect('/wizard')
         elif request.method == 'POST':
             u = UserDiningData.objects.get(user=request.user)
+            user = u.dining_username
+            password = u.dining_password
             try:
                 u.dining_username = request.POST.get('dining_username')
                 u.dining_password = request.POST.get('dining_password')
@@ -25,8 +27,8 @@ def change_info_dining(request):
                     u.save()
                 else:
                     return render(request, 'dining/templates/change_info_dining.html',
-                                  {'username': u.dining_username,
-                                   'password': u.dining_password,
+                                  {'username': user,
+                                   'password': password,
                                    'msg': 'نام کاربری یا رمز عبور سامانه‌ی غذایی که وارد کردی اشتباست'})
 
             except:
