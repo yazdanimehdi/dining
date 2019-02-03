@@ -63,8 +63,8 @@ def stop_reserve(bot, update):
     django.setup()
     from dining.models import CustomUser
     u = CustomUser.objects.filter(chat_id=update.message.chat_id)
-    u.reserve = False
-    u.save()
+    u[0].reserve = False
+    u[0].save()
     reply_markup = telegram.ReplyKeyboardMarkup(
         [[telegram.KeyboardButton('start_reserve')]], one_time_keyboard=False)
     bot.sendMessage(chat_id=update.message.chat_id,
