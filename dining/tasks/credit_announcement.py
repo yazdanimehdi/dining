@@ -32,3 +32,18 @@ def credit_announcement():
                 send(message, user.chat_id, bot_token)
         except:
             pass
+
+        user.reserve = True
+        user.save()
+
+        def send_stop(chat_id, token):
+            bot = telegram.Bot(token=token)
+            reply_markup = telegram.ReplyKeyboardMarkup(
+                [[telegram.KeyboardButton('توقف رزرو')]], one_time_keyboard=True)
+
+            bot.sendMessage(chat_id=chat_id,
+                            text="برای رزرو نکردن هفته‌ی آینده گزینه‌ي توقف رزرو را انتخاب کن",
+                            reply_markup=reply_markup,
+                            parse_mode=telegram.ParseMode.MARKDOWN)
+
+        send_stop(user.chat_id, bot_token)

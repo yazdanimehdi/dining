@@ -47,6 +47,7 @@ def get_phone(bot, update):
                              "دوستدار شما\n"
                              "*mrzoro",
                         parse_mode=telegram.ParseMode.MARKDOWN)
+
     else:
         reply_markup = telegram.ReplyKeyboardMarkup(
             [[telegram.KeyboardButton('شمارتو به اشتراک بذار', request_contact=True)]], one_time_keyboard=True)
@@ -57,8 +58,39 @@ def get_phone(bot, update):
                         reply_markup=reply_markup, parse_mode=telegram.ParseMode.MARKDOWN)
 
 
+def stop_reserve(bot, update):
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'reserve_site.settings')
+    django.setup()
+    from dining.models import CustomUser
+    u = CustomUser.objects.filter(chat_id=update.message.chat_id)
+    u.reserve = False
+    u.save()
+    reply_markup = telegram.ReplyKeyboardMarkup(
+        [[telegram.KeyboardButton('شروع رزرو')]], one_time_keyboard=False)
+    bot.sendMessage(chat_id=update.message.chat_id,
+                    text="خب هفته‌ي بعد رو برات رزرو نمی‌کنم اگه می‌خوای هفته‌ي بعد رو برات رزرو کنم گزینه‌ی شروع رزرو رو انتخاب کن",
+                    reply_markup=reply_markup,
+                    parse_mode=telegram.ParseMode.MARKDOWN)
+
+
+def start_reserve(bot, update):
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'reserve_site.settings')
+    django.setup()
+    from dining.models import CustomUser
+    u = CustomUser.objects.filter(chat_id=update.message.chat_id)
+    u.reserve = True
+    u.save()
+    bot.sendMessage(chat_id=update.message.chat_id,
+                    text="خب ازاین به بعد دوباره برات غذا رزرو میکنم",
+                    parse_mode=telegram.ParseMode.MARKDOWN)
+
+
 start_handler = CommandHandler('start', start)
 contact_handler = MessageHandler(Filters.contact, get_phone)
+stop_handler = CommandHandler('توقف رزرو', stop_reserve)
+start_reserve_handler = CommandHandler('شروع رزرو', start_reserve)
 dispatcher.add_handler(start_handler)
 dispatcher.add_handler(contact_handler)
+dispatcher.add_handler(stop_handler)
+dispatcher.add_handler(start_reserve_handler)
 updater.start_polling()
