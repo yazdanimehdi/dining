@@ -53,8 +53,8 @@ for ids in self_ids:
         flag = False
         for item in food_name:
             item = re.findall(r'\|(.+)', item)[0].split('|')[0]
-            if Food.objects.filter(university__name='Tehran'):
-                for db_food in Food.objects.filter(university__name='Tehran'):
+            if Food.objects.filter(university__name='دانشگاه تهران'):
+                for db_food in Food.objects.filter(university__name='دانشگاه تهران'):
                     if set(db_food.name.split(' ')).issubset(item.split(' ')):
                         flag = True
                     elif db_food.name in item:
@@ -66,13 +66,13 @@ for ids in self_ids:
                             flag = True
 
                 if not flag:
-                    uni = University.objects.get(name='Tehran')
+                    uni = University.objects.get(name='دانشگاه تهران')
                     newfood = Food()
                     newfood.name = item.strip()
                     newfood.university = uni
                     newfood.save()
             else:
-                uni = University.objects.get(name='Tehran')
+                uni = University.objects.get(name='دانشگاه تهران')
                 newfood = Food()
                 newfood.name = item.strip()
                 newfood.university = uni
