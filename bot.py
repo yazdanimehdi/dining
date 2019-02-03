@@ -66,7 +66,7 @@ def stop_reserve(bot, update):
     u.reserve = False
     u.save()
     reply_markup = telegram.ReplyKeyboardMarkup(
-        [[telegram.KeyboardButton('شروع رزرو')]], one_time_keyboard=False)
+        [[telegram.KeyboardButton('start_reserve')]], one_time_keyboard=False)
     bot.sendMessage(chat_id=update.message.chat_id,
                     text="خب هفته‌ي بعد رو برات رزرو نمی‌کنم اگه می‌خوای هفته‌ي بعد رو برات رزرو کنم گزینه‌ی شروع رزرو رو انتخاب کن",
                     reply_markup=reply_markup,
@@ -87,8 +87,8 @@ def start_reserve(bot, update):
 
 start_handler = CommandHandler('start', start)
 contact_handler = MessageHandler(Filters.contact, get_phone)
-stop_handler = CommandHandler('توقف رزرو', stop_reserve)
-start_reserve_handler = CommandHandler('شروع رزرو', start_reserve)
+stop_handler = CommandHandler('stop_reserve', stop_reserve)
+start_reserve_handler = CommandHandler('start_reserve', start_reserve)
 dispatcher.add_handler(start_handler)
 dispatcher.add_handler(contact_handler)
 dispatcher.add_handler(stop_handler)
