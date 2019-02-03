@@ -68,7 +68,7 @@ def stop_reserve(bot, update):
     reply_markup = telegram.ReplyKeyboardMarkup(
         [[telegram.KeyboardButton('/start_reserve')]], one_time_keyboard=False)
     bot.sendMessage(chat_id=update.message.chat_id,
-                    text="خب هفته‌ي بعد رو برات رزرو نمی‌کنم اگه می‌خوای هفته‌ي بعد رو برات رزرو کنم گزینه‌ی شروع رزرو رو انتخاب کن",
+                    text="خب هفته‌ي بعد رو برات رزرو نمی‌کنم اگه می‌خوای هفته‌ي بعد رو برات رزرو کنم گزینه‌ی شروع رزرو رو تا آخر امروز انتخاب کن",
                     reply_markup=reply_markup,
                     parse_mode=telegram.ParseMode.MARKDOWN)
 
