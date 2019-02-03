@@ -78,8 +78,8 @@ def start_reserve(bot, update):
     django.setup()
     from dining.models import CustomUser
     u = CustomUser.objects.filter(chat_id=update.message.chat_id)
-    u.reserve = True
-    u.save()
+    u[0].reserve = True
+    u[0].save()
     bot.sendMessage(chat_id=update.message.chat_id,
                     text="خب ازاین به بعد دوباره برات غذا رزرو میکنم",
                     parse_mode=telegram.ParseMode.MARKDOWN)
