@@ -64,7 +64,7 @@ CELERY_BEAT_SCHEDULE = {
     },
     'bot_reserve_announcement_task': {
         'task': 'dining.tasks.reserve_announcement.reserve_announcement',
-        'schedule': crontab(hour=12, minute=22),
+        'schedule': crontab(hour=12, minute=32),
     },
     'bot_credit_announcement_task': {
         'task': 'dining.tasks.credit_announcement.credit_announcement',
