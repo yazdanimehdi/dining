@@ -7,7 +7,6 @@ import numpy as np
 import requests
 from django.conf import settings
 from django.db import models
-from keras.models import load_model
 from lxml import html
 
 from helpers import resize_to_fit
@@ -45,6 +44,8 @@ class UserDiningData(models.Model):
     reserve_saturday_dinner = models.BooleanField(default=False)
 
     def test_account(self):
+        from keras.models import load_model
+
         if self.university.tag == 'yas':
             login_url = self.university.login_url
             url = self.university.reserve_table

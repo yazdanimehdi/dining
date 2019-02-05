@@ -10,7 +10,6 @@ import pandas as pd
 import requests
 import telegram
 from celery import task
-from keras.models import load_model
 from lxml import html
 
 from helpers import resize_to_fit
@@ -18,6 +17,7 @@ from helpers import resize_to_fit
 
 @task
 def reservation_yas():
+    from keras.models import load_model
     from dining.models import UserDiningData, ReservedTable, UserSelfs, UserPreferableFood, SamadPrefrredDays, Food
     for user_data in UserDiningData.objects.filter(university__tag='yas'):
         if user_data.user.is_paid:

@@ -1,6 +1,5 @@
-import random
+
 import re
-import time
 
 import jdatetime
 import requests
@@ -15,7 +14,6 @@ def get_reserved_sharif():
     for user_data in UserDiningData.objects.filter(university__tag='sharif'):
         if user_data.user.is_paid:
             try:
-                time.sleep(random.Random.randint(2, 5))
                 login_url = user_data.university.login_url
                 session_requests = requests.session()
                 result = session_requests.get(login_url)
