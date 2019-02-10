@@ -189,6 +189,8 @@ class UserDiningData(models.Model):
                     self.university.form_password: self.dining_password,
                     self.university.csrf_name: authenticity_token,
                 }
+                if self.university.name == 'دانشگاه صنعتی امیرکبیر':
+                    payload['login'] = 'ورود'
                 result = session_requests.post(login_url, data=payload, headers=dict(referer=login_url))
                 result = session_requests.get(url, headers=dict(referer=url))
             self_id = re.findall(r'<option value=\"(\d+?)\"', result.text)

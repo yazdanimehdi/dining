@@ -23,3 +23,4 @@ admin.site.register(Merchants)
 admin.site.register(MerchantUser)
 admin.site.register(ReservedTable)
 admin.site.register(SamadPrefrredDays)
+

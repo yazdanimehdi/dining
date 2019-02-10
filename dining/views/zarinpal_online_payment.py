@@ -23,12 +23,12 @@ def initialize_client():
     client = Client(payment_channel_url, transport=transport)
 
 
-def send_request(request):
+def generate_payment_link(user, amount, discount_code):
     pending_payment = PendingPayment()
-    pending_payment.user = request.user
+    pending_payment.user = user
     pending_payment.code = ''.join(random.choices(string.ascii_letters + string.digits, k=15))
-    pending_payment.amount = request.session['amount']
-    pending_payment.discount_code = request.session['code']
+    pending_payment.amount = amount
+    pending_payment.discount_code = discount_code
     description = f"{pending_payment.amount} تومن بابت خدمت رزرواسیون آنلاین مسترزرو"
 
     if client is None:
@@ -36,16 +36,24 @@ def send_request(request):
             initialize_client()
         except Exception as e:
             print(e)
-            return HttpResponse(
-                content='<html><body><h1>درگاه پرداخت با مشکل مواجه شده است. لطفا بعدا تلاش کنید.</h1></body></html>')
+            return None, '<html><body><h1>درگاه پرداخت با مشکل مواجه شده است. لطفا بعدا تلاش کنید.</h1></body></html>'
+
     # with client.options(timeout=5):
     result = client.service.PaymentRequest(MERCHANT, pending_payment.amount, description, email, mobile,
                                            CallbackURL + pending_payment.code)
     if result.Status == 100:
         pending_payment.save()
-        return redirect('https://www.zarinpal.com/pg/StartPay/' + str(result.Authority))
+        return 'https://www.zarinpal.com/pg/StartPay/' + str(result.Authority), None
     else:
-        return HttpResponse('Error code: ' + str(result.Status))
+        return None, 'Error code: ' + str(result.Status)
+
+
+def send_request(request):
+    link, error = generate_payment_link(request.user, request.session['amount'], request.session['code'])
+    if not error:
+        redirect(link)
+    else:
+        return HttpResponse(error)
 
 
 def verify(request):

@@ -54,7 +54,8 @@ def samad_reserve_function():
                         user_data.university.form_password: user_data.dining_password,
                         csrf: authenticity_token,
                     }
-
+                    if user_data.university.name == 'دانشگاه صنعتی امیرکبیر':
+                        payload['login'] = 'ورود'
                     result = session_requests.post(login_url, data=payload, headers=dict(referer=login_url))
                     result = session_requests.get(reserve_get_url)
 

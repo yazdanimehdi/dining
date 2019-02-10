@@ -46,4 +46,7 @@ def credit_announcement():
                             reply_markup=reply_markup,
                             parse_mode=telegram.ParseMode.MARKDOWN)
 
-        send_stop(user.chat_id, bot_token)
+        try:
+            send_stop(user.chat_id, bot_token)
+        except Exception as e:
+            print(e)
