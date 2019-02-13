@@ -25,15 +25,12 @@ result = session_requests.get(reserve_get_url)
 self_id = re.findall(r'<option value=\"(.+?)\"', result.text)
 self_names = re.findall(r'<option value=\".*\">(.+)</option>', result.text)
 self_ids = set(self_id)
-print(self_ids)
 session_requests.close()
 for ids in self_ids:
     session_requests = requests.session()
-    result = session_requests.get(login_url, verify=False)
-    tree = html.fromstring(result.text)
-    authenticity_token_execution = list(set(tree.xpath("//input[@name='execution']/@value")))[0]
-    authenticity_token_lt = list(set(tree.xpath("//input[@name='lt']/@value")))[0]
-
+    result = session_requests.get(login_url)
+    k = 0
+    authenticity_token = list(set(tree.xpath("//input[@name='_csrf']/@value")))[0]
     payload = {
         'username': '96125110',
         'password': '1271934108',
@@ -41,9 +38,9 @@ for ids in self_ids:
         'login': 'ورود'
     }
 
-    result = session_requests.post(login_url, data=payload, headers=dict(referer=login_url))
+    result = session_requests.post(login_url, data=payload)
     result = session_requests.get(reserve_get_url)
-    k = 0
+
     while k < 54:
         tree = html.fromstring(result.text)
         authenticity_token = list(set(tree.xpath("//input[@name='_csrf']/@value")))[0]
