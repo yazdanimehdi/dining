@@ -37,13 +37,12 @@ for ids in self_ids:
     payload = {
         'username': '96125110',
         'password': '1271934108',
-        'lt': authenticity_token_lt,
-        'execution': authenticity_token_execution,
-        '_eventId': 'submit'
-
+        '_csrf': authenticity_token,
+        'login': 'ورود'
     }
-    result = session_requests.post(login_url, data=payload, headers=dict(referer=login_url), verify=False)
-    result = session_requests.get(reserve_get_url, verify=False)
+
+    result = session_requests.post(login_url, data=payload, headers=dict(referer=login_url))
+    result = session_requests.get(reserve_get_url)
     k = 0
     while k < 54:
         tree = html.fromstring(result.text)
