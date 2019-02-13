@@ -13,7 +13,8 @@ def payment(request):
         date_time = str(jdatetime.datetime.now()).split(' ')
         date = date_time[0]
         time = date_time[1]
-
+        u.is_paid = True
+        u.save()
         if request.method == 'GET':
             if u.is_paid:
                 return render(request, 'dining/templates/dashboard.html',
