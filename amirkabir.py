@@ -29,7 +29,7 @@ session_requests.close()
 for ids in self_ids:
     session_requests = requests.session()
     result = session_requests.get(login_url)
-    k = 0
+    tree = html.fromstring(result.text)
     authenticity_token = list(set(tree.xpath("//input[@name='_csrf']/@value")))[0]
     payload = {
         'username': '96125110',
@@ -37,10 +37,9 @@ for ids in self_ids:
         '_csrf': authenticity_token,
         'login': 'ورود'
     }
-
     result = session_requests.post(login_url, data=payload)
     result = session_requests.get(reserve_get_url)
-
+    k = 0
     while k < 54:
         tree = html.fromstring(result.text)
         authenticity_token = list(set(tree.xpath("//input[@name='_csrf']/@value")))[0]
