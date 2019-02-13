@@ -26,7 +26,7 @@ result = session_requests.get(reserve_get_url, verify=False)
 self_id = re.findall(r'<option value=\"(.+?)\"', result.text)
 self_names = re.findall(r'<option value=\".*\">(.+)</option>', result.text)
 self_ids = set(self_id)
-session_requests.delete()
+session_requests.close()
 for ids in self_ids:
     session_requests = requests.session()
     result = session_requests.get(login_url, verify=False)
