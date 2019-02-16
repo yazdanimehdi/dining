@@ -142,11 +142,18 @@ def forget_code(bot, update, user_data):
     return ConversationHandler.END
 
 
+def invalid(bot, update):
+    reply_markup = telegram.ReplyKeyboardRemove()
+    update.message.reply_text('NotStarted', reply_markup=reply_markup)
+    return ConversationHandler.END
+
+
 forget_handler = ConversationHandler(
     entry_points=[MessageHandler(Filters.regex('کد فراموشی'), callback=start_forget, pass_user_data=True)],
     states={BotStateForget.MEAL: [CallbackQueryHandler(meal_select, pass_user_data=True)],
             BotStateForget.FORGETCODE: [CallbackQueryHandler(forget_code, pass_user_data=True)]
-            }
+            },
+    fallbacks=[MessageHandler(Filters.text, callback=invalid)]
 )
 
 start_handler = CommandHandler('start', start)
