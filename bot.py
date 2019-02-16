@@ -101,8 +101,8 @@ def start_forget(bot, update, user_data):
     selfs = UserSelfs.objects.filter(user=user_data['user'], is_active=True)
     keyboard = list()
     for item in selfs:
-        keyboard.append([telegram.KeyboardButton(text=f'{item.self_name}',
-                                                 callback_data=f'{item.self_id}')])
+        keyboard.append([telegram.InlineKeyboardButton(text=f'{item.self_name}',
+                                                       callback_data=f'{item.self_id}')])
     inline_keyboard = telegram.InlineKeyboardMarkup(keyboard, resize_keyboard=True)
     bot.sendMessage(chat_id=update.message.chat_id,
                     text="*لطفا سلفی که می‌خوای کد فراموشی بگیری رو انتخاب کن:*",
