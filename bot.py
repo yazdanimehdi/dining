@@ -6,8 +6,6 @@ import django
 import telegram
 from telegram.ext import Updater, CommandHandler, Filters, MessageHandler, ConversationHandler, CallbackQueryHandler
 
-from dining.views import forget
-
 bot_token = '610448118:AAFVPBXMKPzqAiOJ9-zhusKrOloCiJuEwi8'
 updater = Updater(token=bot_token)
 dispatcher = updater.dispatcher
@@ -127,6 +125,9 @@ def meal_select(bot, update, user_data):
 
 
 def forget_code(bot, update, user_data):
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'reserve_site.settings')
+    django.setup()
+    from dining.views import forget
     query = update.callback_query
     user_data['meal'] = query['data']
     forget_code_text = \
