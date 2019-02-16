@@ -1,15 +1,23 @@
 import logging
 import os
+from enum import IntEnum
 
 import django
 import telegram
-from telegram.ext import Updater, CommandHandler, Filters, MessageHandler
+from telegram.ext import Updater, CommandHandler, Filters, MessageHandler, ConversationHandler, CallbackQueryHandler
+
+from dining.views import forget
 
 bot_token = '610448118:AAFVPBXMKPzqAiOJ9-zhusKrOloCiJuEwi8'
 updater = Updater(token=bot_token)
 dispatcher = updater.dispatcher
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
+
+
+class BotStateForget(IntEnum):
+    MEAL = 3
+    FORGETCODE = 4
 
 
 def start(bot, update):
@@ -85,10 +93,66 @@ def start_reserve(bot, update):
                     parse_mode=telegram.ParseMode.MARKDOWN)
 
 
+def start_forget(bot, update, user_data):
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'reserve_site.settings')
+    django.setup()
+    from dining.models import CustomUser, UserDiningData, UserSelfs
+    user_data['user'] = CustomUser.objects.filter(chat_id=update.message.chat_id)[0]
+    user_data['username'] = UserDiningData.objects.get(user=user_data['user']).dining_username
+    user_data['password'] = UserDiningData.objects.get(user=user_data['user']).dining_password
+    selfs = UserSelfs.objects.filter(user=user_data['user'], is_active=True)
+    keyboard = list()
+    for item in selfs:
+        keyboard.append([telegram.KeyboardButton(text=f'{item.self_name}',
+                                                 callback_data=f'{item.self_id}')])
+    inline_keyboard = telegram.InlineKeyboardMarkup(keyboard, resize_keyboard=True)
+    bot.sendMessage(chat_id=update.message.chat_id,
+                    text="*لطفا سلفی که می‌خوای کد فراموشی بگیری رو انتخاب کن:*",
+                    reply_markup=inline_keyboard,
+                    parse_mode=telegram.ParseMode.MARKDOWN)
+    return BotStateForget.MEAL
+
+
+def meal_select(bot, update, user_data):
+    query = update.callback_query
+    user_data['self'] = query['data']
+    keyboard = [[telegram.InlineKeyboardButton(text='ناهار', callback_data=1)],
+                [telegram.InlineKeyboardButton(text='شام', callback_data=2)]]
+    inline_keyboard = telegram.InlineKeyboardMarkup(keyboard, resize_keyboard=True)
+    bot.sendMessage(chat_id=user_data['user'].chat_id,
+                    text="*لطفا وعده‌ی غذایی که می‌خوای کد فراموشی بگیری رو انتخاب کن:*",
+                    reply_markup=inline_keyboard,
+                    parse_mode=telegram.ParseMode.MARKDOWN)
+    return BotStateForget.FORGETCODE
+
+
+def forget_code(bot, update, user_data):
+    query = update.callback_query
+    user_data['meal'] = query['data']
+    forget_code_text = \
+        forget(user=user_data['username'], password=user_data['password'], self=user_data['self'],
+               meal=user_data['meal'])
+    bot.sendMessage(chat_id=user_data['user'].chat_id,
+                    text=f"*:کد فراموشیت*",
+                    parse_mode=telegram.ParseMode.MARKDOWN)
+    bot.sendMessage(chat_id=user_data['user'].chat_id,
+                    text=f"*{forget_code_text}*",
+                    parse_mode=telegram.ParseMode.MARKDOWN)
+    return ConversationHandler.END
+
+
+forget_handler = ConversationHandler(
+    entry_points=[MessageHandler(Filters.regex('کد فراموشی'), callback=start_forget, pass_user_data=True)],
+    states={BotStateForget.MEAL: [CallbackQueryHandler(meal_select, pass_user_data=True)],
+            BotStateForget.FORGETCODE: [CallbackQueryHandler(forget_code, pass_user_data=True)]
+            }
+)
+
 start_handler = CommandHandler('start', start)
 contact_handler = MessageHandler(Filters.contact, get_phone)
 stop_handler = CommandHandler('stop_reserve', stop_reserve)
 start_reserve_handler = CommandHandler('start_reserve', start_reserve)
+dispatcher.add_handler(forget_handler)
 dispatcher.add_handler(start_handler)
 dispatcher.add_handler(contact_handler)
 dispatcher.add_handler(stop_handler)
