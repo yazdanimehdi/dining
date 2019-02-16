@@ -26,9 +26,12 @@ def forget(user, password, self, meal):
     }
 
     result = session_requests.post(url_forget, data=payload)
-    id_food = re.findall(r'get_forgotten_code\((\d+),', result.text)[0]
-    payload = {
-        'id': id_food
-    }
-    result = session_requests.post(get_forgotten, data=payload)
-    return result.json()['code']
+    try:
+        id_food = re.findall(r'get_forgotten_code\((\d+),', result.text)[0]
+        payload = {
+            'id': id_food
+        }
+        result = session_requests.post(get_forgotten, data=payload)
+        return result.json()['code']
+    except Exception:
+        return 'کد فراموشیی موجود نمی‌باشد'
