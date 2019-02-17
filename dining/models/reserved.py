@@ -55,3 +55,6 @@ class ReservedTable(models.Model):
     sunday_dinner_self = models.CharField(max_length=100, default='-')
 
     credit = models.FloatField(default=-30)
+
+    def __str__(self):
+        return self.user.username + self.week_start_date
