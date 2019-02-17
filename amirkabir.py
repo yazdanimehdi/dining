@@ -6,76 +6,32 @@ from lxml import html
 
 from dining.models import *
 
-login_url = 'https://samad.aut.ac.ir/j_security_check'
-reserve_get_url = 'http://samad.aut.ac.ir/nurture/user/multi/reserve/reserve.rose'
+login_url = 'https://dining.sbu.ac.ir/j_security_check'
+reserve_get_url = 'https://dining.sbu.ac.ir/nurture/user/multi/reserve/reserve.rose'
+url = 'https://dining.sbu.ac.ir/nurture/user/multi/reserve/showPanel.rose?selectedSelfDefId=5'
+first = 'https://dining.sbu.ac.ir/index.rose'
 session_requests = requests.session()
-result = session_requests.get(login_url)
+result = session_requests.get(login_url, verify=False)
 
 tree = html.fromstring(result.text)
 authenticity_token = list(set(tree.xpath("//input[@name='_csrf']/@value")))[0]
 payload = {
-    'username': '96125110',
-    'password': '1271934108',
+    'username': '96435085',
+    'password': '4480085165',
     '_csrf': authenticity_token,
     'login': 'ورود'
 }
 
-result = session_requests.post(login_url, data=payload)
-result = session_requests.get(reserve_get_url)
+result = session_requests.post(login_url, data=payload, verify=False)
+result = session_requests.get(reserve_get_url, verify=False)
 
 self_id = re.findall(r'<option value=\"(.+?)\"', result.text)
 self_names = re.findall(r'<option value=\".*\">(.+)</option>', result.text)
 self_ids = set(self_id)
-tree = html.fromstring(result.text)
-authenticity_token = list(set(tree.xpath("//input[@name='_csrf']/@value")))[0]
-weekStartDateTime = list(set(tree.xpath("//*[@id=\"resFinalform_weekStartDateTime\"]/@value")))[0]
-weekStartDateTimeAjx = list(set(tree.xpath("//*[@id=\"weekStartDateTimeAjx\"]/@value")))[0]
-remainCredit = list(set(tree.xpath("//input[@name='remainCredit']/@value")))[0]
-payload_reserve = {
-    'method:showPreviousWeek': 'Submit',
-    'weekStartDateTime': weekStartDateTime,
-    'remainCredit': remainCredit,
-    'selfChangeReserveId': '',
-    'weekStartDateTimeAjx': weekStartDateTimeAjx,
-    'selectedSelfDefId': '1',
-    '_csrf': authenticity_token,
-}
-result = session_requests.post(reserve_get_url, data=payload_reserve)
-w = 0
 for self in self_id:
-    session_requests.close()
-    session_requests = requests.session()
-    result = session_requests.get(login_url)
-    tree = html.fromstring(result.text)
-    authenticity_token = list(set(tree.xpath("//input[@name='_csrf']/@value")))[0]
-    payload = {
-        'username': '96125110',
-        'password': '1271934108',
-        '_csrf': authenticity_token,
-        'login': 'ورود'
-    }
-
-    result = session_requests.post(login_url, data=payload)
-    result = session_requests.get(reserve_get_url)
-
-    self_id = re.findall(r'<option value=\"(.+?)\"', result.text)
-    self_names = re.findall(r'<option value=\".*\">(.+)</option>', result.text)
-    self_ids = set(self_id)
-    tree = html.fromstring(result.text)
-    authenticity_token = list(set(tree.xpath("//input[@name='_csrf']/@value")))[0]
-    weekStartDateTime = list(set(tree.xpath("//*[@id=\"resFinalform_weekStartDateTime\"]/@value")))[0]
-    weekStartDateTimeAjx = list(set(tree.xpath("//*[@id=\"weekStartDateTimeAjx\"]/@value")))[0]
-    remainCredit = list(set(tree.xpath("//input[@name='remainCredit']/@value")))[0]
-    payload_reserve = {
-        'method:showPreviousWeek': 'Submit',
-        'weekStartDateTime': weekStartDateTime,
-        'remainCredit': remainCredit,
-        'selfChangeReserveId': '',
-        'weekStartDateTimeAjx': weekStartDateTimeAjx,
-        'selectedSelfDefId': self,
-        '_csrf': authenticity_token,
-    }
-    result = session_requests.post(reserve_get_url, data=payload_reserve)
+    result = session_requests.get(
+        f'https://dining.sbu.ac.ir/nurture/user/multi/reserve/showPanel.rose?selectedSelfDefId={self}', verify=False)
+    w = 0
     while w < 54:
         tree = html.fromstring(result.text)
         authenticity_token = list(set(tree.xpath("//input[@name='_csrf']/@value")))[0]
@@ -222,8 +178,8 @@ for self in self_id:
                         payload_reserve[f'userWeekReserves[{dinner_data[item][k][0]}].freeFoodSelected'] = \
                             dinner_data[item][k][7]
                         k += 1
-        result = session_requests.post('https://samad.aut.ac.ir/nurture/user/multi/reserve/reserve.rose',
-                                       data=payload_reserve)
+        result = session_requests.post('https://dining.sbu.ac.ir/nurture/user/multi/reserve/reserve.rose',
+                                       data=payload_reserve, verify=False)
         m = 0
         food_name = list()
         while tree.xpath(f"//*[@id=\"foodNameSpan{m}\"]/text()"):
@@ -233,21 +189,21 @@ for self in self_id:
             flag = False
             item = re.findall(r'\|(.+)', item)[0].split('|')[0].strip()
             print(item)
-            if Food.objects.filter(university__name='دانشگاه صنعتی امیرکبیر'):
-                for db_food in Food.objects.filter(university__name='دانشگاه صنعتی امیرکبیر'):
+            if Food.objects.filter(university__name='دانشگاه شهید بهشتی'):
+                for db_food in Food.objects.filter(university__name='دانشگاه شهید بهشتی'):
                     if set(db_food.name.split(' ')).issubset(item.split(' ')):
                         flag = True
                     elif db_food.name in item:
                         flag = True
 
                 if not flag:
-                    uni = University.objects.get(name='دانشگاه صنعتی امیرکبیر')
+                    uni = University.objects.get(name='دانشگاه شهید بهشتی')
                     newfood = Food()
                     newfood.name = item.strip()
                     newfood.university = uni
                     newfood.save()
             else:
-                uni = University.objects.get(name='دانشگاه صنعتی امیرکبیر')
+                uni = University.objects.get(name='دانشگاه شهید بهشتی')
                 newfood = Food()
                 newfood.name = item.strip()
                 newfood.university = uni
