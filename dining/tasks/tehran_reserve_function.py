@@ -437,16 +437,17 @@ def tehran_reserve_function():
                         reserved.credit = Credit - total_price
                         reserved.save()
                         if user_data.user.chat_id != 0:
-                            data = {'صبحانه': [reserved.saturday_breakfast, reserved.saturday_breakfast,
+                            data = {'صبحانه': [reserved.saturday_breakfast, reserved.sunday_breakfast,
                                                reserved.monday_breakfast,
                                                reserved.tuesday_breakfast, reserved.wednesday_breakfast,
-                                               reserved.tuesday_breakfast,
+                                               reserved.thurssday_breakfast,
                                                reserved.friday_breakfast],
-                                    'ناهار': [reserved.saturday_lunch, reserved.saturday_lunch, reserved.monday_lunch,
-                                              reserved.tuesday_lunch, reserved.wednesday_lunch, reserved.tuesday_lunch,
+                                    'ناهار': [reserved.saturday_lunch, reserved.sunday_lunch, reserved.monday_lunch,
+                                              reserved.tuesday_lunch, reserved.wednesday_lunch, reserved.thursday_lunch,
                                               reserved.friday_lunch],
-                                    'شام': [reserved.saturday_dinner, reserved.saturday_dinner, reserved.monday_dinner,
-                                            reserved.tuesday_dinner, reserved.wednesday_dinner, reserved.tuesday_dinner,
+                                    'شام': [reserved.saturday_dinner, reserved.sunday_dinner, reserved.monday_dinner,
+                                            reserved.tuesday_dinner, reserved.wednesday_dinner,
+                                            reserved.thursday_dinner,
                                             reserved.friday_dinner]}
                             df = pd.DataFrame(data,
                                               index=['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنجشنبه',
@@ -473,6 +474,7 @@ def tehran_reserve_function():
                             th {
                             background: #DFDFDF; /* Darken header a bit */
                             font-weight: bold;
+                            text-align: center;
                             }
                             td {
                             background: #FAFAFA;
@@ -503,13 +505,12 @@ def tehran_reserve_function():
                             bot_token = '610448118:AAFVPBXMKPzqAiOJ9-zhusKrOloCiJuEwi8'
 
                             try:
-                                message = "سلام\nامروز چهارشنبه‌س و غذاهاتو برات رزرو کردم\nغذاهایی که رزرو کردم ایناست\n"
+                                message = "سلام\nغذاهاتو برات رزرو کردم\nغذاهایی که رزرو کردم ایناست\n"
                                 send(message, str(user_data.user.chat_id), bot_token)
                                 send_photo(path='reserve_img.png', chat_id=str(user_data.user.chat_id), token=bot_token)
                             except Exception as e:
                                 print(e)
-                                break
-                        break
+                    break
                 except Exception as e:
                     print(e)
                     time.sleep(5)
