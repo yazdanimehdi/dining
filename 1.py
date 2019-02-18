@@ -379,7 +379,9 @@ for self in UserSelfs.objects.filter(user=user_data.user, is_active=True):
                                                                                 food__name=food[1])[
                                                   0],
                                               food[2]))
+                        print(food_list)
                         food_list.sort(key=lambda x: x[1].score, reverse=True)
+                        print(food_list)
                         prefered_data = food_list
                         if prefered_data:
                             payload_reserve[
