@@ -120,7 +120,21 @@ for self in UserSelfs.objects.filter(user=user_data.user, is_active=True):
                 selected_count = 1
             else:
                 selected_count = 0
-
+            flag = False
+            for item in food_name:
+                item = re.findall(r'\|(.+)', item)[0].split('|')[0]
+                if Food.objects.filter(university=user_data.university):
+                    for db_food in Food.objects.filter(university=user_data.university):
+                        if set(db_food.name.split(' ')).issubset(item.split(' ')):
+                            flag = True
+                        elif db_food.name in item:
+                            flag = True
+            if not flag:
+                uni = University.objects.get(name=user_data.university)
+                newfood = Food()
+                newfood.name = item.strip()
+                newfood.university = uni
+                newfood.save()
             if mealTypeId == '1':
                 foods_breakfast.append(
                     (j, food_name, price_list, programId, mealTypeId, programDateTime,
