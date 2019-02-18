@@ -440,7 +440,7 @@ def tehran_reserve_function():
                             data = {'صبحانه': [reserved.saturday_breakfast, reserved.sunday_breakfast,
                                                reserved.monday_breakfast,
                                                reserved.tuesday_breakfast, reserved.wednesday_breakfast,
-                                               reserved.thurssday_breakfast,
+                                               reserved.thursday_breakfast,
                                                reserved.friday_breakfast],
                                     'ناهار': [reserved.saturday_lunch, reserved.sunday_lunch, reserved.monday_lunch,
                                               reserved.tuesday_lunch, reserved.wednesday_lunch, reserved.thursday_lunch,
