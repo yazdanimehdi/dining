@@ -79,9 +79,13 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'dining.tasks.reservation_sharif.reserve_function',
         'schedule': crontab(hour=12, minute=00, day_of_week=3),
     },
-    'samad_reserve_task': {
-        'task': 'dining.tasks.reservation_samad.samad_reserve_function',
-        'schedule': crontab(hour=16, minute=10, day_of_week=2),
+    'tehran_reserve_task': {
+        'task': 'dining.tasks.tehran_reserve_function.tehran_reserve_function',
+        'schedule': crontab(hour=12, minute=00, day_of_week=1),
+    },
+    'samadv1_reserve_task': {
+        'task': 'dining.tasks.samadv1.samadv1_reserve_function',
+        'schedule': crontab(hour=12, minute=00, day_of_week=2),
     },
     'yas_reserve_task': {
         'task': 'dining.tasks.reservation_yas.reservation_yas',
@@ -157,8 +161,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Authentication backends
 AUTHENTICATION_BACKENDS = (
-        'django.contrib.auth.backends.ModelBackend',
-    )
+    'django.contrib.auth.backends.ModelBackend',
+)
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 

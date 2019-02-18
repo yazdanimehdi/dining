@@ -385,9 +385,13 @@ def reserve_function():
 
                         bot_token = '610448118:AAFVPBXMKPzqAiOJ9-zhusKrOloCiJuEwi8'
 
-                        message = "سلام\nامروز چهارشنبه‌س و غذاهاتو برات رزرو کردم\nغذاهایی که رزرو کردم ایناست\n"
-                        send(message, str(user_data.user.chat_id), bot_token)
-                        send_photo(path='reserve_img.png', chat_id=str(user_data.user.chat_id), token=bot_token)
+                        try:
+                            message = "سلام\nامروز چهارشنبه‌س و غذاهاتو برات رزرو کردم\nغذاهایی که رزرو کردم ایناست\n"
+                            send(message, str(user_data.user.chat_id), bot_token)
+                            send_photo(path='reserve_img.png', chat_id=str(user_data.user.chat_id), token=bot_token)
+                        except Exception as e:
+                            print(e)
+                            break
                         break
 
                 except Exception as e:

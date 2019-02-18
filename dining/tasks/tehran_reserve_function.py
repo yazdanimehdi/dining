@@ -1,8 +1,11 @@
 import re
 import time
 
+import imgkit
 import jdatetime
+import pandas as pd
 import requests
+import telegram
 from bs4 import BeautifulSoup
 from celery import task
 from django.db.models import Q
@@ -10,59 +13,39 @@ from lxml import html
 
 
 @task()
-def samad_reserve_function():
-    from dining.models import UserDiningData, ReservedTable, UserSelfs, UserPreferableFood, SamadPrefrredDays
+def tehran_reserve_function():
+    from dining.models import UserDiningData, ReservedTable, UserSelfs, UserPreferableFood, SamadPrefrredDays, Food, \
+        University
 
-    for user_data in UserDiningData.objects.filter(university__tag='samad'):
+    for user_data in UserDiningData.objects.filter(university__name='دانشگاه تهران'):
         if user_data.user.is_paid:
             r = 0
             while r < 5:
                 try:
-                    print(user_data.user.username)
-                    if user_data.university.name == 'دانشگاه تهران':
-                        login_url = 'https://auth4.ut.ac.ir:8443/cas/login?service=https://dining1.ut.ac.ir/login/cas'
-                        reserve_get_url = 'https://dining1.ut.ac.ir/nurture/user/multi/reserve/reserve.rose'
-                        session_requests = requests.session()
-                        result = session_requests.get(login_url, verify=False)
-                        tree = html.fromstring(result.text)
-                        authenticity_token_execution = list(set(tree.xpath("//input[@name='execution']/@value")))[0]
-                        authenticity_token_lt = list(set(tree.xpath("//input[@name='lt']/@value")))[0]
+                    login_url = 'https://auth4.ut.ac.ir:8443/cas/login?service=https://dining1.ut.ac.ir/login/cas'
+                    reserve_get_url = 'https://dining1.ut.ac.ir/nurture/user/multi/reserve/reserve.rose'
+                    session_requests = requests.session()
+                    result = session_requests.get(login_url, verify=False)
+                    tree = html.fromstring(result.text)
+                    authenticity_token_execution = list(set(tree.xpath("//input[@name='execution']/@value")))[0]
+                    authenticity_token_lt = list(set(tree.xpath("//input[@name='lt']/@value")))[0]
 
-                        payload = {
-                            'username': user_data.dining_username,
-                            'password': user_data.dining_password,
-                            'lt': authenticity_token_lt,
-                            'execution': authenticity_token_execution,
-                            '_eventId': 'submit'
+                    payload = {
+                        'username': user_data.dining_username,
+                        'password': user_data.dining_password,
+                        'lt': authenticity_token_lt,
+                        'execution': authenticity_token_execution,
+                        '_eventId': 'submit'
 
-                        }
-                        result = session_requests.post(login_url, data=payload, headers=dict(referer=login_url),
-                                                       verify=False)
-                        tree = html.fromstring(result.text)
-                        result = session_requests.get(reserve_get_url, verify=False)
-                        if result.status_code == 403:
-                            link = list(set(tree.xpath("//*[@id=\"cas_username\"]/option[2]/@value")))[0]
-                            result = session_requests.get('https://dining1.ut.ac.ir' + link, verify=False)
-                        result = session_requests.get(reserve_get_url, verify=False)
-                    else:
-                        login_url = user_data.university.login_url
-                        reserve_get_url = user_data.university.reserve_table
-                        csrf = user_data.university.csrf_name
-                        session_requests = requests.session()
-                        result = session_requests.get(login_url)
-
-                        tree = html.fromstring(result.text)
-                        authenticity_token = list(set(tree.xpath(f"//input[@name='{csrf}']/@value")))[0]
-                        payload = {
-                            user_data.university.form_username: user_data.dining_username,
-                            user_data.university.form_password: user_data.dining_password,
-                            csrf: authenticity_token,
-                        }
-                        if user_data.university.name == 'دانشگاه صنعتی امیرکبیر' or user_data.university.name == 'دانشگاه شهید بهشتی':
-                            payload['login'] = 'ورود'
-                        result = session_requests.post(login_url, data=payload, headers=dict(referer=login_url))
-                        result = session_requests.get(reserve_get_url)
-
+                    }
+                    result = session_requests.post(login_url, data=payload, headers=dict(referer=login_url),
+                                                   verify=False)
+                    tree = html.fromstring(result.text)
+                    result = session_requests.get(reserve_get_url, verify=False)
+                    if result.status_code == 403:
+                        link = list(set(tree.xpath("//*[@id=\"cas_username\"]/option[2]/@value")))[0]
+                        result = session_requests.get('https://dining1.ut.ac.ir' + link, verify=False)
+                    result = session_requests.get(reserve_get_url, verify=False)
                     tree = html.fromstring(result.text)
                     authenticity_token = list(set(tree.xpath("//input[@name='_csrf']/@value")))[0]
                     weekStartDateTime = list(set(tree.xpath("//input[@name='weekStartDateTime']/@value")))[0]
@@ -100,10 +83,10 @@ def samad_reserve_function():
                                 str(soup_find[i]))[0].strip()
                             date = re.findall(r'<div>(.+)</div>', str(soup_find[i]))[0]
                             weekStartDateTime = \
-                            list(set(tree.xpath("//*[@id=\"resFinalform_weekStartDateTime\"]/@value")))[
-                                0]
+                                list(set(tree.xpath("//*[@id=\"resFinalform_weekStartDateTime\"]/@value")))[
+                                    0]
                             weekStartDateTimeAjx = \
-                            list(set(tree.xpath("//input[@name='weekStartDateTimeAjx']/@value")))[0]
+                                list(set(tree.xpath("//input[@name='weekStartDateTimeAjx']/@value")))[0]
                             foods_lunch = []
                             foods_dinner = []
                             foods_breakfast = []
@@ -118,7 +101,10 @@ def samad_reserve_function():
                                 freeFoodSelected = \
                                     re.findall(r'freeFoodSelected\" type=\"hidden\" value="(.+)\"', str(soupf))[
                                         0]
-                                food_name = re.findall(r'this.offsetLeft, this.offsetTop\);\">\s+(.+)', str(soupf))[0]
+                                food_name = re.findall(r'xstooltip_hide\(\'foodPriceTooltip.+\s+(.+)', str(soupf))
+                                if food_name:
+                                    food_name = food_name[0].split('|')[1].strip()
+
                                 if tree.xpath(f"//*[@id=\"userWeekReserves.selected{j}_hidden\"]/@value"):
                                     selected = tree.xpath(f"//*[@id=\"userWeekReserves.selected{j}_hidden\"]/@value")[0]
                                 else:
@@ -130,7 +116,23 @@ def samad_reserve_function():
                                     selected_count = 1
                                 else:
                                     selected_count = 0
+                                flag = False
+                                for db_food in Food.objects.filter(university=user_data.university):
+                                    if set(db_food.name.split(' ')).issubset(food_name.split(' ')):
+                                        flag = True
+                                    elif db_food.name in food_name:
+                                        flag = True
+                                if not flag:
+                                    uni = University.objects.get(name=user_data.university)
+                                    newfood = Food()
+                                    newfood.name = food_name
+                                    newfood.university = uni
+                                    newfood.save()
+                                    u = UserPreferableFood.objects.create(user=user_data.user, food=newfood, score=5)
+                                    u.save()
+                                    flag = True
 
+                                print(flag)
                                 if mealTypeId == '1':
                                     foods_breakfast.append(
                                         (j, food_name, price_list, programId, mealTypeId, programDateTime,
@@ -238,7 +240,7 @@ def samad_reserve_function():
                                         lunch_data[item][k][4]
                                     payload_reserve[f'userWeekReserves[{lunch_data[item][k][0]}].programDateTime'] = \
                                         lunch_data[item][k][5]
-                                    payload_reserve[f'userWeekReserves[{lunch_data[item][k][0]}].selfId'] = self
+                                    payload_reserve[f'userWeekReserves[{lunch_data[item][k][0]}].selfId'] = self.self_id
                                     payload_reserve[f'userWeekReserves[{lunch_data[item][k][0]}].foodTypeId'] = \
                                         lunch_data[item][k][6]
                                     payload_reserve[f'userWeekReserves[{lunch_data[item][k][0]}].selectedCount'] = \
@@ -260,7 +262,8 @@ def samad_reserve_function():
                                         breakfast_data[item][k][4]
                                     payload_reserve[f'userWeekReserves[{breakfast_data[item][k][0]}].programDateTime'] = \
                                         breakfast_data[item][k][5]
-                                    payload_reserve[f'userWeekReserves[{breakfast_data[item][k][0]}].selfId'] = self
+                                    payload_reserve[
+                                        f'userWeekReserves[{breakfast_data[item][k][0]}].selfId'] = self.self_id
                                     payload_reserve[f'userWeekReserves[{breakfast_data[item][k][0]}].foodTypeId'] = \
                                         breakfast_data[item][k][6]
                                     payload_reserve[f'userWeekReserves[{breakfast_data[item][k][0]}].selectedCount'] = \
@@ -283,7 +286,8 @@ def samad_reserve_function():
                                         dinner_data[item][k][4]
                                     payload_reserve[f'userWeekReserves[{dinner_data[item][k][0]}].programDateTime'] = \
                                         dinner_data[item][k][5]
-                                    payload_reserve[f'userWeekReserves[{dinner_data[item][k][0]}].selfId'] = self
+                                    payload_reserve[
+                                        f'userWeekReserves[{dinner_data[item][k][0]}].selfId'] = self.self_id
                                     payload_reserve[f'userWeekReserves[{dinner_data[item][k][0]}].foodTypeId'] = \
                                         dinner_data[item][k][6]
                                     payload_reserve[f'userWeekReserves[{dinner_data[item][k][0]}].selectedCount'] = \
@@ -309,6 +313,8 @@ def samad_reserve_function():
                                             if prefered_data:
                                                 payload_reserve[
                                                     f'userWeekReserves[{prefered_data[0][0]}].selected'] = 'true'
+                                                payload_reserve[
+                                                    f'userWeekReserves[{prefered_data[0][0]}].selectedCount'] = '1'
 
                                                 a = int(prefered_data[0][2])
                                                 total_price += a
@@ -341,17 +347,23 @@ def samad_reserve_function():
                                         if (daye[0] == day) and (lunch_data[daye] != []):
                                             food_list = []
                                             for food in lunch_data[daye]:
+                                                print(food)
                                                 prefered_food = UserPreferableFood.objects.filter(~Q(score=0),
                                                                                                   user=user_data.user,
                                                                                                   food__name=food[1])
+                                                print(prefered_food)
                                                 food_list.append((food[0],
                                                                   prefered_food[0],
                                                                   food[2]))
+                                                print(food_list)
                                             food_list.sort(key=lambda x: x[1].score, reverse=True)
                                             prefered_data = food_list
                                             if prefered_data:
                                                 payload_reserve[
                                                     f'userWeekReserves[{prefered_data[0][0]}].selected'] = 'true'
+                                                payload_reserve[
+                                                    f'userWeekReserves[{prefered_data[0][0]}].selectedCount'] = '1'
+
                                                 a = int(prefered_data[0][2])
                                                 total_price += a
 
@@ -389,12 +401,16 @@ def samad_reserve_function():
                                                                                                     food__name=food[1])[
                                                                       0],
                                                                   food[2]))
+                                            print(food_list)
                                             food_list.sort(key=lambda x: x[1].score, reverse=True)
+                                            print(food_list)
                                             prefered_data = food_list
                                             if prefered_data:
                                                 payload_reserve[
                                                     f'userWeekReserves[{prefered_data[0][0]}].selected'] = 'true'
-
+                                                payload_reserve[
+                                                    f'userWeekReserves[{prefered_data[0][0]}].selectedCount'] = '1'
+                                                print(prefered_data)
                                                 a = int(prefered_data[0][2])
                                                 total_price += a
                                                 if day == 'شنبه':
@@ -423,6 +439,79 @@ def samad_reserve_function():
                             result = session_requests.post(reserve_get_url, data=payload_reserve)
                         reserved.credit = Credit - total_price
                         reserved.save()
+                        if user_data.user.chat_id != 0:
+                            data = {'صبحانه': [reserved.saturday_breakfast, reserved.saturday_breakfast,
+                                               reserved.monday_breakfast,
+                                               reserved.tuesday_breakfast, reserved.wednesday_breakfast,
+                                               reserved.tuesday_breakfast,
+                                               reserved.friday_breakfast],
+                                    'ناهار': [reserved.saturday_lunch, reserved.saturday_lunch, reserved.monday_lunch,
+                                              reserved.tuesday_lunch, reserved.wednesday_lunch, reserved.tuesday_lunch,
+                                              reserved.friday_lunch],
+                                    'شام': [reserved.saturday_dinner, reserved.saturday_dinner, reserved.monday_dinner,
+                                            reserved.tuesday_dinner, reserved.wednesday_dinner, reserved.tuesday_dinner,
+                                            reserved.friday_dinner]}
+                            df = pd.DataFrame(data,
+                                              index=['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنجشنبه',
+                                                     'جمعه'])
+
+                            css = """
+                            <!DOCTYPE html>
+                            <head>
+                                <meta charset="UTF-8">
+                            </head>
+                            <style type=\"text/css\">
+                            table {
+                            color: #333;
+                            font-family: Helvetica, Arial, sans-serif;
+                            width: 640px;
+                            border-collapse:
+                            collapse; 
+                            border-spacing: 0;
+                            }
+                            td, th {
+                            border: 1px solid transparent; /* No more visible border */
+                            height: 30px;
+                            }
+                            th {
+                            background: #DFDFDF; /* Darken header a bit */
+                            font-weight: bold;
+                            }
+                            td {
+                            background: #FAFAFA;
+                            text-align: center;
+                            }
+                            table tr:nth-child(odd) td{
+                            background-color: white;
+                            }
+                            </style>
+                            """
+                            with open('html.html', 'w') as f:
+                                f.write('')
+                            text_file = open("html.html", "a")
+                            text_file.write(css)
+                            text_file.write(df.to_html())
+                            text_file.close()
+                            imgkitoptions = {"format": "png"}
+                            imgkit.from_file("html.html", 'reserve_img.png', options=imgkitoptions)
+
+                            def send_photo(path, chat_id, token):
+                                bot = telegram.Bot(token=token)
+                                bot.send_photo(chat_id=chat_id, photo=open(path, 'rb'))
+
+                            def send(msg, chat_id, token):
+                                bot = telegram.Bot(token=token)
+                                bot.send_message(chat_id=chat_id, text=msg)
+
+                            bot_token = '610448118:AAFVPBXMKPzqAiOJ9-zhusKrOloCiJuEwi8'
+
+                            try:
+                                message = "سلام\nامروز چهارشنبه‌س و غذاهاتو برات رزرو کردم\nغذاهایی که رزرو کردم ایناست\n"
+                                send(message, str(user_data.user.chat_id), bot_token)
+                                send_photo(path='reserve_img.png', chat_id=str(user_data.user.chat_id), token=bot_token)
+                            except Exception as e:
+                                print(e)
+                                break
                         break
                 except Exception as e:
                     print(e)

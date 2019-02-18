@@ -5,6 +5,7 @@ class University(models.Model):
     name = models.CharField(max_length=100)
     tag = models.CharField(max_length=100, default='-')
     login_url = models.CharField(max_length=200)
+    simple_url = models.CharField(max_length=100, default='0')
     reserve_table = models.CharField(max_length=200, default='0')
     reserve_url = models.CharField(max_length=200, default='0')
     url_next_week = models.CharField(max_length=200, default='0')

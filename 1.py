@@ -108,7 +108,12 @@ for self in UserSelfs.objects.filter(user=user_data.user, is_active=True):
             freeFoodSelected = \
                 re.findall(r'freeFoodSelected\" type=\"hidden\" value="(.+)\"', str(soupf))[
                     0]
-            food_name = re.findall(r'this.offsetLeft, this.offsetTop\);\">\s+(.+)', str(soupf))[0]
+            food_name = re.findall(r'xstooltip_hide\(\'foodPriceTooltip.+\s+(.+)', str(soupf))
+            if food_name:
+                food_name = food_name[0].split('|')[1].strip()
+
+            print(food_name)
+
             if tree.xpath(f"//*[@id=\"userWeekReserves.selected{j}_hidden\"]/@value"):
                 selected = tree.xpath(f"//*[@id=\"userWeekReserves.selected{j}_hidden\"]/@value")[0]
             else:
@@ -121,20 +126,22 @@ for self in UserSelfs.objects.filter(user=user_data.user, is_active=True):
             else:
                 selected_count = 0
             flag = False
-            for item in food_name:
-                item = re.findall(r'\|(.+)', item)[0].split('|')[0]
-                if Food.objects.filter(university=user_data.university):
-                    for db_food in Food.objects.filter(university=user_data.university):
-                        if set(db_food.name.split(' ')).issubset(item.split(' ')):
-                            flag = True
-                        elif db_food.name in item:
-                            flag = True
+            for db_food in Food.objects.filter(university=user_data.university):
+                if set(db_food.name.split(' ')).issubset(food_name.split(' ')):
+                    flag = True
+                elif db_food.name in food_name:
+                    flag = True
             if not flag:
                 uni = University.objects.get(name=user_data.university)
                 newfood = Food()
-                newfood.name = item.strip()
+                newfood.name = food_name
                 newfood.university = uni
                 newfood.save()
+                u = UserPreferableFood.objects.create(user=user_data.user, food=newfood, score=5)
+                u.save()
+                flag = True
+
+            print(flag)
             if mealTypeId == '1':
                 foods_breakfast.append(
                     (j, food_name, price_list, programId, mealTypeId, programDateTime,
@@ -242,7 +249,7 @@ for self in UserSelfs.objects.filter(user=user_data.user, is_active=True):
                     lunch_data[item][k][4]
                 payload_reserve[f'userWeekReserves[{lunch_data[item][k][0]}].programDateTime'] = \
                     lunch_data[item][k][5]
-                payload_reserve[f'userWeekReserves[{lunch_data[item][k][0]}].selfId'] = self
+                payload_reserve[f'userWeekReserves[{lunch_data[item][k][0]}].selfId'] = self.self_id
                 payload_reserve[f'userWeekReserves[{lunch_data[item][k][0]}].foodTypeId'] = \
                     lunch_data[item][k][6]
                 payload_reserve[f'userWeekReserves[{lunch_data[item][k][0]}].selectedCount'] = \
@@ -264,7 +271,7 @@ for self in UserSelfs.objects.filter(user=user_data.user, is_active=True):
                     breakfast_data[item][k][4]
                 payload_reserve[f'userWeekReserves[{breakfast_data[item][k][0]}].programDateTime'] = \
                     breakfast_data[item][k][5]
-                payload_reserve[f'userWeekReserves[{breakfast_data[item][k][0]}].selfId'] = self
+                payload_reserve[f'userWeekReserves[{breakfast_data[item][k][0]}].selfId'] = self.self_id
                 payload_reserve[f'userWeekReserves[{breakfast_data[item][k][0]}].foodTypeId'] = \
                     breakfast_data[item][k][6]
                 payload_reserve[f'userWeekReserves[{breakfast_data[item][k][0]}].selectedCount'] = \
@@ -287,7 +294,7 @@ for self in UserSelfs.objects.filter(user=user_data.user, is_active=True):
                     dinner_data[item][k][4]
                 payload_reserve[f'userWeekReserves[{dinner_data[item][k][0]}].programDateTime'] = \
                     dinner_data[item][k][5]
-                payload_reserve[f'userWeekReserves[{dinner_data[item][k][0]}].selfId'] = self
+                payload_reserve[f'userWeekReserves[{dinner_data[item][k][0]}].selfId'] = self.self_id
                 payload_reserve[f'userWeekReserves[{dinner_data[item][k][0]}].foodTypeId'] = \
                     dinner_data[item][k][6]
                 payload_reserve[f'userWeekReserves[{dinner_data[item][k][0]}].selectedCount'] = \
@@ -313,6 +320,7 @@ for self in UserSelfs.objects.filter(user=user_data.user, is_active=True):
                         if prefered_data:
                             payload_reserve[
                                 f'userWeekReserves[{prefered_data[0][0]}].selected'] = 'true'
+                            payload_reserve[f'userWeekReserves[{prefered_data[0][0]}].selectedCount'] = '1'
 
                             a = int(prefered_data[0][2])
                             total_price += a
@@ -345,17 +353,22 @@ for self in UserSelfs.objects.filter(user=user_data.user, is_active=True):
                     if (daye[0] == day) and (lunch_data[daye] != []):
                         food_list = []
                         for food in lunch_data[daye]:
+                            print(food)
                             prefered_food = UserPreferableFood.objects.filter(~Q(score=0),
                                                                               user=user_data.user,
                                                                               food__name=food[1])
+                            print(prefered_food)
                             food_list.append((food[0],
                                               prefered_food[0],
                                               food[2]))
+                            print(food_list)
                         food_list.sort(key=lambda x: x[1].score, reverse=True)
                         prefered_data = food_list
                         if prefered_data:
                             payload_reserve[
                                 f'userWeekReserves[{prefered_data[0][0]}].selected'] = 'true'
+                            payload_reserve[f'userWeekReserves[{prefered_data[0][0]}].selectedCount'] = '1'
+
                             a = int(prefered_data[0][2])
                             total_price += a
 
@@ -400,6 +413,7 @@ for self in UserSelfs.objects.filter(user=user_data.user, is_active=True):
                         if prefered_data:
                             payload_reserve[
                                 f'userWeekReserves[{prefered_data[0][0]}].selected'] = 'true'
+                            payload_reserve[f'userWeekReserves[{prefered_data[0][0]}].selectedCount'] = '1'
                             print(prefered_data)
                             a = int(prefered_data[0][2])
                             total_price += a
