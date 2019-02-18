@@ -384,7 +384,7 @@ for self in UserSelfs.objects.filter(user=user_data.user, is_active=True):
                         if prefered_data:
                             payload_reserve[
                                 f'userWeekReserves[{prefered_data[0][0]}].selected'] = 'true'
-
+                            print(prefered_data)
                             a = int(prefered_data[0][2])
                             total_price += a
                             if day == 'شنبه':
