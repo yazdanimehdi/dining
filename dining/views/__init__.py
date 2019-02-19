@@ -1,6 +1,7 @@
 from .change_info import change_info
 from .change_info_dining import change_info_dining
 from .changeinfo_days import change_days
+from .charge import charge_account
 from .dashboard import dashboard
 from .dashboard_mobile import dashboard_mobile, dashboard_request
 from .forget_code import forget
