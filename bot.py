@@ -158,7 +158,7 @@ def request_payment(bot, update, user_data):
     django.setup()
     from dining.models import CustomUser
     user_data['user'] = CustomUser.objects.get(chat_id=update.message.chat_id)
-    keyboard = [[telegram.InlineKeyboardButton(text='۵۰۰۰ تومن', callback_data=5000)],
+    keyboard = [[telegram.InlineKeyboardButton(text='۵۰۰ تومن', callback_data=500)],
                 [telegram.InlineKeyboardButton(text='۱۰۰۰۰ تومن', callback_data=10000)],
                 [telegram.InlineKeyboardButton(text='۱۵۰۰۰ تومن', callback_data=15000)],
                 [telegram.InlineKeyboardButton(text='۲۰۰۰۰ تومن', callback_data=20000)],
