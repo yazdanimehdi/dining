@@ -183,11 +183,11 @@ def payment_result(bot, update, user_data):
     password = u.dining_password
     link = charge_account(user, password, amount)
     bot.sendMessage(chat_id=user_data['user'].chat_id,
-                    text="*برای پرداخت روی لینک زیر کلیک کنید:*",
+                    text="*برای پرداخت روی لینک زیر کلیک کنید:\n"
+                         "توجه داشته باشید بعد از پرداخت حتما وارد سامانه‌ی غذا شوید تا اعتبار به حسابتان واریز گردد*",
                     parse_mode=telegram.ParseMode.MARKDOWN)
     bot.sendMessage(chat_id=user_data['user'].chat_id,
-                    text=f"*{link}*",
-                    parse_mode=telegram.ParseMode.MARKDOWN)
+                    text=link)
     return ConversationHandler.END
 
 
