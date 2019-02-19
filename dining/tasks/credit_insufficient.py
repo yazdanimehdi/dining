@@ -25,8 +25,25 @@ def credit_insufficient():
 
     for user in users:
         try:
+            user.reserve = True
+            user.save()
+
+            def send_stop(chat_id, token):
+                bot = telegram.Bot(token=token)
+                reply_markup = telegram.ReplyKeyboardMarkup(
+                    [[telegram.KeyboardButton('/stop_reserve')]], one_time_keyboard=True)
+
+                bot.sendMessage(chat_id=chat_id,
+                                text="برای رزرو نکردن هفته‌ی آینده \"توقف رزرو\" رو ارسال کن",
+                                reply_markup=reply_markup,
+                                parse_mode=telegram.ParseMode.MARKDOWN)
+
+            try:
+                send_stop(user.chat_id, bot_token)
+            except Exception as e:
+                print(e)
             reply_markup = telegram.ReplyKeyboardMarkup(
-                [[telegram.KeyboardButton('افزایش اعتبار')]], one_time_keyboard=True)
+                [[telegram.KeyboardButton('افزایش اعتبار')]], one_time_keyboard=False)
             reserved_object = list(
                 ReservedTable.objects.filter(~Q(credit=-30), week_start_date=last_saturdays_date, user=user))
             if reserved_object:

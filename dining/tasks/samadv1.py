@@ -18,10 +18,11 @@ def samadv1_reserve_function():
         University
 
     for user_data in UserDiningData.objects.filter(university__tag='samadv1'):
-        if user_data.user.is_paid:
-            r = 0
-            while r < 5:
-                try:
+        r = 0
+        while r < 5:
+            try:
+                alert = []
+                if user_data.user.is_paid:
                     login_url = user_data.university.login_url
                     reserve_get_url = user_data.university.reserve_url
                     simple = user_data.university.simple_url
@@ -49,12 +50,10 @@ def samadv1_reserve_function():
                         result = session_requests.get(
                             f'{simple}/nurture/user/multi/reserve/showPanel.rose?selectedSelfDefId={self.self_id}',
                             verify=False)
-
                         tree = html.fromstring(result.text)
                         authenticity_token = list(set(tree.xpath("//input[@name='_csrf']/@value")))[0]
                         weekStartDateTime = list(set(tree.xpath("//input[@name='weekStartDateTime']/@value")))[0]
-                        weekStartDateTimeAjx = \
-                            list(set(tree.xpath("//input[@name='weekStartDateTimeAjx']/@value")))[0]
+                        weekStartDateTimeAjx = list(set(tree.xpath("//input[@name='weekStartDateTimeAjx']/@value")))[0]
                         remainCredit = list(set(tree.xpath("//input[@name='remainCredit']/@value")))[0]
                         payload_reserve = {
                             'method:showNextWeek': 'Submit',
@@ -62,7 +61,7 @@ def samadv1_reserve_function():
                             'remainCredit': remainCredit,
                             'selfChangeReserveId': '',
                             'weekStartDateTimeAjx': weekStartDateTimeAjx,
-                            'selectedSelfDefId': self,
+                            'selectedSelfDefId': self.self_id,
                             '_csrf': authenticity_token,
                         }
                         tree = html.fromstring(result.text)
@@ -95,8 +94,7 @@ def samadv1_reserve_function():
                             for soupf in soup_find[i].find_all('tr'):
                                 price_list = re.findall(r'class=\"xstooltip\".+\>\s+(.+)', str(soupf))[0]
                                 programId = re.findall(r'programId\" type=\"hidden\" value=\"(.+)\"', str(soupf))[0]
-                                mealTypeId = re.findall(r'mealTypeId\" type=\"hidden\" value=\"(.+)\"', str(soupf))[
-                                    0]
+                                mealTypeId = re.findall(r'mealTypeId\" type=\"hidden\" value=\"(.+)\"', str(soupf))[0]
                                 programDateTime = \
                                     re.findall(r'programDateTime\" type=\"hidden\" value=\"(.+)\"', str(soupf))[0]
                                 foodTypeId = re.findall(r'foodTypeId\"\s+.+value=\"(.+)\"',
@@ -104,11 +102,9 @@ def samadv1_reserve_function():
                                 freeFoodSelected = \
                                     re.findall(r'freeFoodSelected\" type=\"hidden\" value="(.+)\"', str(soupf))[
                                         0]
-                                food_name = re.findall(r'this.offsetLeft, this.offsetTop\);\">\s+(.+)', str(soupf))[
-                                    0]
+                                food_name = re.findall(r'this.offsetLeft, this.offsetTop\);\">\s+(.+)', str(soupf))[0]
                                 if tree.xpath(f"//*[@id=\"userWeekReserves.selected{j}_hidden\"]/@value"):
-                                    selected = \
-                                        tree.xpath(f"//*[@id=\"userWeekReserves.selected{j}_hidden\"]/@value")[0]
+                                    selected = tree.xpath(f"//*[@id=\"userWeekReserves.selected{j}_hidden\"]/@value")[0]
                                 else:
                                     if 'null' in tree.xpath(f'//*[@id=\"userWeekReserves.selected{j}\"]/@onclick')[0]:
                                         selected = 'false'
@@ -149,14 +145,13 @@ def samadv1_reserve_function():
                                             lunch_data[item][k][3]
                                         payload_reserve[f'userWeekReserves[{lunch_data[item][k][0]}].mealTypeId'] = \
                                             lunch_data[item][k][4]
-                                        payload_reserve[
-                                            f'userWeekReserves[{lunch_data[item][k][0]}].programDateTime'] = \
+                                        payload_reserve[f'userWeekReserves[{lunch_data[item][k][0]}].programDateTime'] = \
                                             lunch_data[item][k][5]
-                                        payload_reserve[f'userWeekReserves[{lunch_data[item][k][0]}].selfId'] = self
+                                        payload_reserve[
+                                            f'userWeekReserves[{lunch_data[item][k][0]}].selfId'] = self.self_id
                                         payload_reserve[f'userWeekReserves[{lunch_data[item][k][0]}].foodTypeId'] = \
                                             lunch_data[item][k][6]
-                                        payload_reserve[
-                                            f'userWeekReserves[{lunch_data[item][k][0]}].selectedCount'] = \
+                                        payload_reserve[f'userWeekReserves[{lunch_data[item][k][0]}].selectedCount'] = \
                                             lunch_data[item][k][9]
                                         payload_reserve[
                                             f'userWeekReserves[{lunch_data[item][k][0]}].freeFoodSelected'] = \
@@ -167,23 +162,19 @@ def samadv1_reserve_function():
                                 for item in breakfast_data:
                                     k = 0
                                     while k < len(breakfast_data[item]):
-                                        payload_reserve[
-                                            f'userWeekReserves[{breakfast_data[item][k][0]}].selected'] = \
+                                        payload_reserve[f'userWeekReserves[{breakfast_data[item][k][0]}].selected'] = \
                                             breakfast_data[item][k][8]
                                         payload_reserve[f'userWeekReserves[{breakfast_data[item][k][0]}].id'] = ''
-                                        payload_reserve[
-                                            f'userWeekReserves[{breakfast_data[item][k][0]}].programId'] = \
+                                        payload_reserve[f'userWeekReserves[{breakfast_data[item][k][0]}].programId'] = \
                                             breakfast_data[item][k][3]
-                                        payload_reserve[
-                                            f'userWeekReserves[{breakfast_data[item][k][0]}].mealTypeId'] = \
+                                        payload_reserve[f'userWeekReserves[{breakfast_data[item][k][0]}].mealTypeId'] = \
                                             breakfast_data[item][k][4]
                                         payload_reserve[
                                             f'userWeekReserves[{breakfast_data[item][k][0]}].programDateTime'] = \
                                             breakfast_data[item][k][5]
                                         payload_reserve[
-                                            f'userWeekReserves[{breakfast_data[item][k][0]}].selfId'] = self
-                                        payload_reserve[
-                                            f'userWeekReserves[{breakfast_data[item][k][0]}].foodTypeId'] = \
+                                            f'userWeekReserves[{breakfast_data[item][k][0]}].selfId'] = self.self_id
+                                        payload_reserve[f'userWeekReserves[{breakfast_data[item][k][0]}].foodTypeId'] = \
                                             breakfast_data[item][k][6]
                                         payload_reserve[
                                             f'userWeekReserves[{breakfast_data[item][k][0]}].selectedCount'] = \
@@ -208,11 +199,10 @@ def samadv1_reserve_function():
                                             f'userWeekReserves[{dinner_data[item][k][0]}].programDateTime'] = \
                                             dinner_data[item][k][5]
                                         payload_reserve[
-                                            f'userWeekReserves[{dinner_data[item][k][0]}].selfId'] = self
+                                            f'userWeekReserves[{dinner_data[item][k][0]}].selfId'] = self.self_id
                                         payload_reserve[f'userWeekReserves[{dinner_data[item][k][0]}].foodTypeId'] = \
                                             dinner_data[item][k][6]
-                                        payload_reserve[
-                                            f'userWeekReserves[{dinner_data[item][k][0]}].selectedCount'] = \
+                                        payload_reserve[f'userWeekReserves[{dinner_data[item][k][0]}].selectedCount'] = \
                                             dinner_data[item][k][9]
                                         payload_reserve[
                                             f'userWeekReserves[{dinner_data[item][k][0]}].freeFoodSelected'] = \
@@ -221,6 +211,7 @@ def samadv1_reserve_function():
                         result = session_requests.post(
                             reserve_get_url,
                             data=payload_reserve, verify=False)
+
                         tree = html.fromstring(result.text)
                         soup = BeautifulSoup(result.text, 'html.parser')
                         soup_find = soup.findAll('tr')[2].findAll('tr')
@@ -597,63 +588,20 @@ def samadv1_reserve_function():
 
                                 payload_reserve['remainCredit'] = Credit - total_price
                             result = session_requests.post(reserve_get_url, data=payload_reserve)
-                        reserved.credit = Credit - total_price
-                        reserved.save()
-                    if user_data.user.chat_id != 0:
-                        data = {'صبحانه': [reserved.saturday_breakfast, reserved.saturday_breakfast,
-                                           reserved.monday_breakfast,
-                                           reserved.tuesday_breakfast, reserved.wednesday_breakfast,
-                                           reserved.tuesday_breakfast,
-                                           reserved.friday_breakfast],
-                                'ناهار': [reserved.saturday_lunch, reserved.saturday_lunch, reserved.monday_lunch,
-                                          reserved.tuesday_lunch, reserved.wednesday_lunch, reserved.tuesday_lunch,
-                                          reserved.friday_lunch],
-                                'شام': [reserved.saturday_dinner, reserved.saturday_dinner, reserved.monday_dinner,
-                                        reserved.tuesday_dinner, reserved.wednesday_dinner, reserved.tuesday_dinner,
-                                        reserved.friday_dinner]}
-                        df = pd.DataFrame(data,
-                                          index=['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنجشنبه',
-                                                 'جمعه'])
+                            tree = html.fromstring(result.text)
 
-                        css = """
-                            <!DOCTYPE html>
-                            <head>
-                                <meta charset="UTF-8">
-                            </head>
-                            <style type=\"text/css\">
-                            table {
-                            color: #333;
-                            font-family: Helvetica, Arial, sans-serif;
-                            width: 640px;
-                            border-collapse:
-                            collapse; 
-                            border-spacing: 0;
-                            }
-                            td, th {
-                            border: 1px solid transparent; /* No more visible border */
-                            height: 30px;
-                            }
-                            th {
-                            background: #DFDFDF; /* Darken header a bit */
-                            font-weight: bold;
-                            }
-                            td {
-                            background: #FAFAFA;
-                            text-align: center;
-                            }
-                            table tr:nth-child(odd) td{
-                            background-color: white;
-                            }
-                            </style>
-                            """
-                        with open('html.html', 'w') as f:
-                            f.write('')
-                        text_file = open("html.html", "a")
-                        text_file.write(css)
-                        text_file.write(df.to_html())
-                        text_file.close()
-                        imgkitoptions = {"format": "png"}
-                        imgkit.from_file("html.html", 'reserve_img.png', options=imgkitoptions)
+                            try:
+                                alert = list(set(tree.xpath("//*[@id=\"errorMessages\"]/text()")))
+                                alertm = ''
+                                for item in alert:
+                                    alertm += item
+                                alert = alertm.strip()
+
+                            except:
+                                reserved.credit = Credit - total_price
+                                reserved.save()
+                    if user_data.user.chat_id != 0:
+                        bot_token = '610448118:AAFVPBXMKPzqAiOJ9-zhusKrOloCiJuEwi8'
 
                         def send_photo(path, chat_id, token):
                             bot = telegram.Bot(token=token)
@@ -663,17 +611,74 @@ def samadv1_reserve_function():
                             bot = telegram.Bot(token=token)
                             bot.send_message(chat_id=chat_id, text=msg)
 
-                        bot_token = '610448118:AAFVPBXMKPzqAiOJ9-zhusKrOloCiJuEwi8'
-
-                        try:
-                            message = "سلام\nامروز چهارشنبه‌س و غذاهاتو برات رزرو کردم\nغذاهایی که رزرو کردم ایناست\n"
+                        if alert:
+                            message = alert
                             send(message, str(user_data.user.chat_id), bot_token)
-                            send_photo(path='reserve_img.png', chat_id=str(user_data.user.chat_id), token=bot_token)
-                        except Exception as e:
-                            print(e)
-                            break
-                    break
-                except Exception as e:
-                    print(e)
-                    time.sleep(5)
-                    r += 1
+                        else:
+                            message = "سلام\nامروز چهارشنبه‌س و غذاهاتو برات رزرو کردم\nغذاهایی که رزرو کردم ایناست\n"
+                            data = {'صبحانه': [reserved.saturday_breakfast, reserved.saturday_breakfast,
+                                               reserved.monday_breakfast,
+                                               reserved.tuesday_breakfast, reserved.wednesday_breakfast,
+                                               reserved.tuesday_breakfast,
+                                               reserved.friday_breakfast],
+                                    'ناهار': [reserved.saturday_lunch, reserved.saturday_lunch, reserved.monday_lunch,
+                                              reserved.tuesday_lunch, reserved.wednesday_lunch, reserved.tuesday_lunch,
+                                              reserved.friday_lunch],
+                                    'شام': [reserved.saturday_dinner, reserved.saturday_dinner, reserved.monday_dinner,
+                                            reserved.tuesday_dinner, reserved.wednesday_dinner, reserved.tuesday_dinner,
+                                            reserved.friday_dinner]}
+                            df = pd.DataFrame(data,
+                                              index=['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنجشنبه',
+                                                     'جمعه'])
+
+                            css = """
+                                <!DOCTYPE html>
+                                <head>
+                                    <meta charset="UTF-8">
+                                </head>
+                                <style type=\"text/css\">
+                                table {
+                                color: #333;
+                                font-family: Helvetica, Arial, sans-serif;
+                                width: 640px;
+                                border-collapse:
+                                collapse;
+                                border-spacing: 0;
+                                }
+                                td, th {
+                                border: 1px solid transparent; /* No more visible border */
+                                height: 30px;
+                                }
+                                th {
+                                background: #DFDFDF; /* Darken header a bit */
+                                font-weight: bold;
+                                }
+                                td {
+                                background: #FAFAFA;
+                                text-align: center;
+                                }
+                                table tr:nth-child(odd) td{
+                                background-color: white;
+                                }
+                                </style>
+                                """
+                            with open('html.html', 'w') as f:
+                                f.write('')
+                            text_file = open("html.html", "a")
+                            text_file.write(css)
+                            text_file.write(df.to_html())
+                            text_file.close()
+                            imgkitoptions = {"format": "png"}
+                            imgkit.from_file("html.html", 'reserve_img.png', options=imgkitoptions)
+
+                            try:
+                                send(message, str(user_data.user.chat_id), bot_token)
+                                send_photo(path='reserve_img.png', chat_id=str(user_data.user.chat_id), token=bot_token)
+                            except Exception as e:
+                                print(e)
+
+                break
+            except Exception as e:
+                print(e)
+                time.sleep(5)
+                r += 1

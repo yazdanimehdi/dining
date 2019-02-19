@@ -73,7 +73,7 @@ CELERY_BEAT_SCHEDULE = {
     },
     'bot_credit_insufficient_task': {
         'task': 'dining.tasks.credit_insufficient.credit_insufficient',
-        'schedule': crontab(hour=19, minute=00, day_of_week=2),
+        'schedule': crontab(hour=19, minute=15, day_of_week=2),
     },
     'sharif_reserve_task': {
         'task': 'dining.tasks.reservation_sharif.reserve_function',
@@ -85,7 +85,7 @@ CELERY_BEAT_SCHEDULE = {
     },
     'samadv1_reserve_task': {
         'task': 'dining.tasks.samadv1.samadv1_reserve_function',
-        'schedule': crontab(hour=15, minute=00, day_of_week=2),
+        'schedule': crontab(hour=19, minute=15, day_of_week=2),
     },
     'yas_reserve_task': {
         'task': 'dining.tasks.reservation_yas.reservation_yas',
