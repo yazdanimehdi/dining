@@ -81,11 +81,11 @@ CELERY_BEAT_SCHEDULE = {
     },
     'tehran_reserve_task': {
         'task': 'dining.tasks.tehran_reserve_function.tehran_reserve_function',
-        'schedule': crontab(hour=13, minute=2, day_of_week=1),
+        'schedule': crontab(hour=12, minute=00, day_of_week=2),
     },
     'samadv1_reserve_task': {
         'task': 'dining.tasks.samadv1.samadv1_reserve_function',
-        'schedule': crontab(hour=12, minute=00, day_of_week=2),
+        'schedule': crontab(hour=15, minute=00, day_of_week=2),
     },
     'yas_reserve_task': {
         'task': 'dining.tasks.reservation_yas.reservation_yas',

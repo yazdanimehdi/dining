@@ -42,7 +42,7 @@ def credit_announcement():
                 [[telegram.KeyboardButton('/stop_reserve')]], one_time_keyboard=True)
 
             bot.sendMessage(chat_id=chat_id,
-                            text="برای رزرو نکردن هفته‌ی آینده گزینه‌ي توقف رزرو را انتخاب کن",
+                            text="برای رزرو نکردن هفته‌ی آینده \"توقف رزرو\" رو ارسال کن",
                             reply_markup=reply_markup,
                             parse_mode=telegram.ParseMode.MARKDOWN)
 

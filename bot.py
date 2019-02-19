@@ -79,7 +79,8 @@ def stop_reserve(bot, update):
     reply_markup = telegram.ReplyKeyboardMarkup(
         [[telegram.KeyboardButton('/start_reserve')]], one_time_keyboard=False)
     bot.sendMessage(chat_id=update.message.chat_id,
-                    text="خب هفته‌ي بعد رو برات رزرو نمی‌کنم اگه می‌خوای هفته‌ي بعد رو برات رزرو کنم گزینه‌ی شروع رزرو رو تا آخر امروز انتخاب کن",
+                    text="خب هفته‌ي بعد رو برات رزرو نمی‌کنم "
+                         "اگه می‌خوای هفته‌ي بعد رو برات رزرو کنم \"شروع رزرو\" رو ارسال کن",
                     reply_markup=reply_markup,
                     parse_mode=telegram.ParseMode.MARKDOWN)
 
@@ -183,8 +184,9 @@ def payment_result(bot, update, user_data):
     password = u.dining_password
     link = charge_account(user, password, amount)
     bot.sendMessage(chat_id=user_data['user'].chat_id,
-                    text="*برای پرداخت روی لینک زیر کلیک کنید:\n"
-                         "توجه داشته باشید بعد از پرداخت حتما وارد سامانه‌ی غذا شوید تا اعتبار به حسابتان واریز گردد*",
+                    text="برای پرداخت روی لینک زیر کلیک کنید:\n"
+                         "*توجه داشته باشید بعد از پرداخت روی گزینه‌ي تکمیل فرایند خرید کلیک کرده و"
+                         "حتما وارد سامانه‌ی غذا شوید تا اعتبار به حسابتان واریز گردد*",
                     parse_mode=telegram.ParseMode.MARKDOWN)
     bot.sendMessage(chat_id=user_data['user'].chat_id,
                     text=link)
@@ -200,7 +202,7 @@ forget_handler = ConversationHandler(
 )
 
 payment_handler = ConversationHandler(
-    entry_points=[MessageHandler(Filters.regex('پرداخت'), callback=request_payment, pass_user_data=True)],
+    entry_points=[MessageHandler(Filters.regex('افزایش اعتبار'), callback=request_payment, pass_user_data=True)],
     states={BotStateCharge.CHARGE: [CallbackQueryHandler(payment_result, pass_user_data=True)],
             },
     fallbacks=[MessageHandler(Filters.text, callback=invalid)]
@@ -208,8 +210,8 @@ payment_handler = ConversationHandler(
 
 start_handler = CommandHandler('start', start)
 contact_handler = MessageHandler(Filters.contact, get_phone)
-stop_handler = CommandHandler('stop_reserve', stop_reserve)
-start_reserve_handler = CommandHandler('start_reserve', start_reserve)
+stop_handler = MessageHandler(Filters.regex('توقف رزرو'), stop_reserve)
+start_reserve_handler = MessageHandler(Filters.regex('شروع رزرو'), start_reserve)
 dispatcher.add_handler(forget_handler)
 dispatcher.add_handler(start_handler)
 dispatcher.add_handler(contact_handler)

@@ -510,5 +510,8 @@ def reservation_yas():
                             send(message, str(user_data.user.chat_id), bot_token)
                             message = error[0]
                             send(message, str(user_data.user.chat_id), bot_token)
+                            message = "سلام\nامروز چهارشنبه‌س و غذاهاتو برات رزرو کردم\nغذاهایی که رزرو کردم ایناست\n"
+                            send(message, str(user_data.user.chat_id), bot_token)
+                            send_photo(path='reserve_img.png', chat_id=str(user_data.user.chat_id), token=bot_token)
             except Exception as e:
                 print(e)

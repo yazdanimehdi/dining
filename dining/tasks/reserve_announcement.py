@@ -9,9 +9,9 @@ from django.db.models import Q
 
 @task()
 def reserve_announcement():
-    def send(msg, chat_id, token):
+    def send(msg, chat_id, token, keyboard):
         bot = telegram.Bot(token=token)
-        bot.sendMessage(chat_id=chat_id, text=msg)
+        bot.sendMessage(chat_id=chat_id, text=msg, reply_markup=keyboard)
 
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'reserve_site.settings')
     from dining.models import CustomUser, ReservedTable
@@ -28,6 +28,8 @@ def reserve_announcement():
         reserved_data = ReservedTable.objects.filter(week_start_date=last_saturdays_date, user=user)
         try:
             if reserved_data:
+                reply_markup = telegram.ReplyKeyboardMarkup(
+                    [[telegram.KeyboardButton('کد فراموشی')]], one_time_keyboard=True)
                 if int(jdatetime.date.today().weekday()) == 0:
                     breakfast = reserved_data[0].sunday_breakfast
                     lunch = reserved_data[0].saturday_lunch
@@ -37,7 +39,7 @@ def reserve_announcement():
                                   "صبحانه‌ی فردا: %s \n" \
                                   "ناهار امروز: %s \n" \
                                   "شام امروز: %s \n" % (breakfast, lunch, dinner)
-                        send(message, str(user.chat_id), bot_token)
+                        send(message, str(user.chat_id), bot_token, reply_markup)
 
                 elif int(jdatetime.date.today().weekday()) == 1:
                     breakfast = reserved_data[0].monday_breakfast
@@ -48,7 +50,7 @@ def reserve_announcement():
                                   "صبحانه‌ی فردا: %s \n" \
                                   "ناهار امروز: %s \n" \
                                   "شام امروز: %s \n" % (breakfast, lunch, dinner)
-                        send(message, str(user.chat_id), bot_token)
+                        send(message, str(user.chat_id), bot_token, reply_markup)
 
                 elif int(jdatetime.date.today().weekday()) == 2:
                     breakfast = reserved_data[0].tuesday_breakfast
@@ -70,7 +72,7 @@ def reserve_announcement():
                                   "صبحانه‌ی فردا: %s \n" \
                                   "ناهار امروز: %s \n" \
                                   "شام امروز: %s \n" % (breakfast, lunch, dinner)
-                        send(message, str(user.chat_id), bot_token)
+                        send(message, str(user.chat_id), bot_token, reply_markup)
 
                 elif int(jdatetime.date.today().weekday()) == 4:
                     breakfast = reserved_data[0].thursday_breakfast
@@ -81,7 +83,7 @@ def reserve_announcement():
                                   "صبحانه‌ی فردا: %s \n" \
                                   "ناهار امروز: %s \n" \
                                   "شام امروز: %s \n" % (breakfast, lunch, dinner)
-                        send(message, str(user.chat_id), bot_token)
+                        send(message, str(user.chat_id), bot_token, reply_markup)
 
                 elif int(jdatetime.date.today().weekday()) == 5:
                     breakfast = reserved_data[0].friday_breakfast
@@ -92,7 +94,7 @@ def reserve_announcement():
                                   "صبحانه‌ی فردا: %s \n" \
                                   "ناهار امروز: %s \n" \
                                   "شام امروز: %s \n" % (breakfast, lunch, dinner)
-                        send(message, str(user.chat_id), bot_token)
+                        send(message, str(user.chat_id), bot_token, reply_markup)
 
                 elif int(jdatetime.date.today().weekday()) == 6:
                     breakfast = reserved_data[0].saturday_breakfast
@@ -103,6 +105,6 @@ def reserve_announcement():
                                   "صبحانه‌ی فردا: %s \n" \
                                   "ناهار امروز: %s \n" \
                                   "شام امروز: %s \n" % (breakfast, lunch, dinner)
-                        send(message, str(user.chat_id), bot_token)
+                        send(message, str(user.chat_id), bot_token, reply_markup)
         except:
             pass
