@@ -85,7 +85,7 @@ CELERY_BEAT_SCHEDULE = {
     },
     'samadv1_reserve_task': {
         'task': 'dining.tasks.samadv1.samadv1_reserve_function',
-        'schedule': crontab(hour=19, minute=35, day_of_week=2),
+        'schedule': crontab(hour=19, minute=40, day_of_week=2),
     },
     'yas_reserve_task': {
         'task': 'dining.tasks.reservation_yas.reservation_yas',
@@ -131,10 +131,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'diningdb',
-        # 'USER': 'admin',
-        # 'PASSWORD': '99&3M+p`gw5{v%Jv',
-        'USER': 'postgres',
-        'PASSWORD': 'salam1392',
+        'USER': 'admin',
+        'PASSWORD': '99&3M+p`gw5{v%Jv',
+        # 'USER': 'postgres',
+        # 'PASSWORD': 'salam1392',
         'HOST': 'localhost',
         'port': '5432'
     }
