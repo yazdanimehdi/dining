@@ -453,12 +453,13 @@ def samadv1_reserve_function():
                                     if daye[0] == day and (dinner_data[daye] != []):
                                         food_list = []
                                         for food in dinner_data[daye]:
-                                            food_list.append((food[0],
-                                                              UserPreferableFood.objects.filter(~Q(score=0),
-                                                                                                user=user_data.user,
-                                                                                                food__name=food[1])[
-                                                                  0],
-                                                              food[2]))
+                                            prefered_food = UserPreferableFood.objects.filter(~Q(score=0),
+                                                                                              user=user_data.user,
+                                                                                              food__name=food[1])
+                                            if prefered_food:
+                                                food_list.append((food[0],
+                                                                  prefered_food[0],
+                                                                  food[2]))
                                         food_list.sort(key=lambda x: x[1].score, reverse=True)
                                         prefered_data = food_list
                                         if prefered_data:
@@ -498,15 +499,13 @@ def samadv1_reserve_function():
                                     if (daye[0] == day) and (lunch_data[daye] != []):
                                         food_list = []
                                         for food in lunch_data[daye]:
-                                            print(food)
                                             prefered_food = UserPreferableFood.objects.filter(~Q(score=0),
                                                                                               user=user_data.user,
                                                                                               food__name=food[1])
-                                            print(prefered_food)
-                                            food_list.append((food[0],
-                                                              prefered_food[0],
-                                                              food[2]))
-                                            print(food_list)
+                                            if prefered_food:
+                                                food_list.append((food[0],
+                                                                  prefered_food[0],
+                                                                  food[2]))
                                         food_list.sort(key=lambda x: x[1].score, reverse=True)
                                         prefered_data = food_list
                                         if prefered_data:
@@ -546,22 +545,20 @@ def samadv1_reserve_function():
                                     if daye[0] == day and (breakfast_data[daye] != []):
                                         food_list = []
                                         for food in breakfast_data[daye]:
-                                            food_list.append((food[0],
-                                                              UserPreferableFood.objects.filter(~Q(score=0),
-                                                                                                user=user_data.user,
-                                                                                                food__name=food[1])[
-                                                                  0],
-                                                              food[2]))
-                                        print(food_list)
+                                            prefered_food = UserPreferableFood.objects.filter(~Q(score=0),
+                                                                                              user=user_data.user,
+                                                                                              food__name=food[1])
+                                            if prefered_food:
+                                                food_list.append((food[0],
+                                                                  prefered_food[0],
+                                                                  food[2]))
                                         food_list.sort(key=lambda x: x[1].score, reverse=True)
-                                        print(food_list)
                                         prefered_data = food_list
                                         if prefered_data:
                                             payload_reserve[
                                                 f'userWeekReserves[{prefered_data[0][0]}].selected'] = 'true'
                                             payload_reserve[
                                                 f'userWeekReserves[{prefered_data[0][0]}].selectedCount'] = '1'
-                                            print(prefered_data)
                                             a = int(prefered_data[0][2])
                                             total_price += a
                                             if day == 'شنبه':
