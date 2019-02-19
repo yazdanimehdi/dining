@@ -366,7 +366,7 @@ def samadv1_reserve_function():
                         total_price = 0
 
                         saturdays_date = list()
-                        date = str(jdatetime.date.today() + jdatetime.timedelta(3))
+                        date = str(jdatetime.date.today() + jdatetime.timedelta(4))
                         date = re.sub(r'\-', '/', date)
                         saturdays_date.append(date)
                         saturdays_date = str(saturdays_date)
@@ -447,141 +447,141 @@ def samadv1_reserve_function():
                                         dinner_data[item][k][7]
                                     k += 1
 
-                        for daye in dinner_data:
-                            if dinner_data[daye]:
-                                for day in chosen_days_lunch:
-                                    if daye[0] == day and (dinner_data[daye] != []):
-                                        food_list = []
-                                        for food in dinner_data[daye]:
-                                            prefered_food = UserPreferableFood.objects.filter(~Q(score=0),
-                                                                                              user=user_data.user,
-                                                                                              food__name=food[1])
-                                            if prefered_food:
-                                                food_list.append((food[0],
-                                                                  prefered_food[0],
-                                                                  food[2]))
-                                        food_list.sort(key=lambda x: x[1].score, reverse=True)
-                                        prefered_data = food_list
-                                        if prefered_data:
-                                            payload_reserve[
-                                                f'userWeekReserves[{prefered_data[0][0]}].selected'] = 'true'
-                                            payload_reserve[
-                                                f'userWeekReserves[{prefered_data[0][0]}].selectedCount'] = '1'
+                            for daye in dinner_data:
+                                if dinner_data[daye]:
+                                    for day in chosen_days_lunch:
+                                        if daye[0] == day and (dinner_data[daye] != []):
+                                            food_list = []
+                                            for food in dinner_data[daye]:
+                                                prefered_food = UserPreferableFood.objects.filter(~Q(score=0),
+                                                                                                  user=user_data.user,
+                                                                                                  food__name=food[1])
+                                                if prefered_food:
+                                                    food_list.append((food[0],
+                                                                      prefered_food[0],
+                                                                      food[2]))
+                                            food_list.sort(key=lambda x: x[1].score, reverse=True)
+                                            prefered_data = food_list
+                                            if prefered_data:
+                                                payload_reserve[
+                                                    f'userWeekReserves[{prefered_data[0][0]}].selected'] = 'true'
+                                                payload_reserve[
+                                                    f'userWeekReserves[{prefered_data[0][0]}].selectedCount'] = '1'
 
-                                            a = int(prefered_data[0][2])
-                                            total_price += a
+                                                a = int(prefered_data[0][2])
+                                                total_price += a
 
-                                            if day == 'شنبه':
-                                                reserved.saturday_dinner = prefered_data[0][1].food.name
-                                                reserved.saturday_dinner_self = self.self_name
-                                            if day == 'یکشنبه':
-                                                reserved.sunday_dinner = prefered_data[0][1].food.name
-                                                reserved.sunday_dinner_self = self.self_name
-                                            if day == 'دوشنبه':
-                                                reserved.monday_dinner = prefered_data[0][1].food.name
-                                                reserved.monday_dinner_self = self.self_name
-                                            if day == 'سه شنبه':
-                                                reserved.tuesday_dinner = prefered_data[0][1].food.name
-                                                reserved.tuesday_dinner_self = self.self_name
-                                            if day == 'چهارشنبه':
-                                                reserved.wednesday_dinner = prefered_data[0][1].food.name
-                                                reserved.wednesday_dinner_self = self.self_name
-                                            if day == 'پنجشنبه':
-                                                reserved.thursday_dinner = prefered_data[0][1].food.name
-                                                reserved.thursday_dinner_self = self.self_name
-                                            if day == 'جمعه':
-                                                reserved.friday_dinner = prefered_data[0][1].food.name
-                                                reserved.friday_dinner_self = self.self_name
+                                                if day == 'شنبه':
+                                                    reserved.saturday_dinner = prefered_data[0][1].food.name
+                                                    reserved.saturday_dinner_self = self.self_name
+                                                if day == 'یکشنبه':
+                                                    reserved.sunday_dinner = prefered_data[0][1].food.name
+                                                    reserved.sunday_dinner_self = self.self_name
+                                                if day == 'دوشنبه':
+                                                    reserved.monday_dinner = prefered_data[0][1].food.name
+                                                    reserved.monday_dinner_self = self.self_name
+                                                if day == 'سه شنبه':
+                                                    reserved.tuesday_dinner = prefered_data[0][1].food.name
+                                                    reserved.tuesday_dinner_self = self.self_name
+                                                if day == 'چهارشنبه':
+                                                    reserved.wednesday_dinner = prefered_data[0][1].food.name
+                                                    reserved.wednesday_dinner_self = self.self_name
+                                                if day == 'پنجشنبه':
+                                                    reserved.thursday_dinner = prefered_data[0][1].food.name
+                                                    reserved.thursday_dinner_self = self.self_name
+                                                if day == 'جمعه':
+                                                    reserved.friday_dinner = prefered_data[0][1].food.name
+                                                    reserved.friday_dinner_self = self.self_name
 
-                        for daye in lunch_data:
-                            if lunch_data[daye]:
-                                for day in chosen_days_lunch:
-                                    if (daye[0] == day) and (lunch_data[daye] != []):
-                                        food_list = []
-                                        for food in lunch_data[daye]:
-                                            prefered_food = UserPreferableFood.objects.filter(~Q(score=0),
-                                                                                              user=user_data.user,
-                                                                                              food__name=food[1])
-                                            if prefered_food:
-                                                food_list.append((food[0],
-                                                                  prefered_food[0],
-                                                                  food[2]))
-                                        food_list.sort(key=lambda x: x[1].score, reverse=True)
-                                        prefered_data = food_list
-                                        if prefered_data:
-                                            payload_reserve[
-                                                f'userWeekReserves[{prefered_data[0][0]}].selected'] = 'true'
-                                            payload_reserve[
-                                                f'userWeekReserves[{prefered_data[0][0]}].selectedCount'] = '1'
+                            for daye in lunch_data:
+                                if lunch_data[daye]:
+                                    for day in chosen_days_lunch:
+                                        if (daye[0] == day) and (lunch_data[daye] != []):
+                                            food_list = []
+                                            for food in lunch_data[daye]:
+                                                prefered_food = UserPreferableFood.objects.filter(~Q(score=0),
+                                                                                                  user=user_data.user,
+                                                                                                  food__name=food[1])
+                                                if prefered_food:
+                                                    food_list.append((food[0],
+                                                                      prefered_food[0],
+                                                                      food[2]))
+                                            food_list.sort(key=lambda x: x[1].score, reverse=True)
+                                            prefered_data = food_list
+                                            if prefered_data:
+                                                payload_reserve[
+                                                    f'userWeekReserves[{prefered_data[0][0]}].selected'] = 'true'
+                                                payload_reserve[
+                                                    f'userWeekReserves[{prefered_data[0][0]}].selectedCount'] = '1'
 
-                                            a = int(prefered_data[0][2])
-                                            total_price += a
+                                                a = int(prefered_data[0][2])
+                                                total_price += a
 
-                                            if day == 'شنبه':
-                                                reserved.saturday_lunch = prefered_data[0][1].food.name
-                                                reserved.saturday_lunch_self = self.self_name
-                                            if day == 'یکشنبه':
-                                                reserved.sunday_lunch = prefered_data[0][1].food.name
-                                                reserved.sunday_lunch_self = self.self_name
-                                            if day == 'دوشنبه':
-                                                reserved.monday_lunch = prefered_data[0][1].food.name
-                                                reserved.monday_lunch_self = self.self_name
-                                            if day == 'سه شنبه':
-                                                reserved.tuesday_lunch = prefered_data[0][1].food.name
-                                                reserved.tuesday_lunch_self = self.self_name
-                                            if day == 'چهارشنبه':
-                                                reserved.wednesday_lunch = prefered_data[0][1].food.name
-                                                reserved.wednesday_lunch_self = self.self_name
-                                            if day == 'پنجشنبه':
-                                                reserved.thursday_lunch = prefered_data[0][1].food.name
-                                                reserved.thursday_lunch_self = self.self_name
-                                            if day == 'جمعه':
-                                                reserved.friday_lunch = prefered_data[0][1].food.name
-                                                reserved.friday_lunch_self = self.self_name
+                                                if day == 'شنبه':
+                                                    reserved.saturday_lunch = prefered_data[0][1].food.name
+                                                    reserved.saturday_lunch_self = self.self_name
+                                                if day == 'یکشنبه':
+                                                    reserved.sunday_lunch = prefered_data[0][1].food.name
+                                                    reserved.sunday_lunch_self = self.self_name
+                                                if day == 'دوشنبه':
+                                                    reserved.monday_lunch = prefered_data[0][1].food.name
+                                                    reserved.monday_lunch_self = self.self_name
+                                                if day == 'سه شنبه':
+                                                    reserved.tuesday_lunch = prefered_data[0][1].food.name
+                                                    reserved.tuesday_lunch_self = self.self_name
+                                                if day == 'چهارشنبه':
+                                                    reserved.wednesday_lunch = prefered_data[0][1].food.name
+                                                    reserved.wednesday_lunch_self = self.self_name
+                                                if day == 'پنجشنبه':
+                                                    reserved.thursday_lunch = prefered_data[0][1].food.name
+                                                    reserved.thursday_lunch_self = self.self_name
+                                                if day == 'جمعه':
+                                                    reserved.friday_lunch = prefered_data[0][1].food.name
+                                                    reserved.friday_lunch_self = self.self_name
 
-                        for daye in breakfast_data:
-                            if breakfast_data[daye]:
-                                for day in chosen_days_breakfast:
-                                    if daye[0] == day and (breakfast_data[daye] != []):
-                                        food_list = []
-                                        for food in breakfast_data[daye]:
-                                            prefered_food = UserPreferableFood.objects.filter(~Q(score=0),
-                                                                                              user=user_data.user,
-                                                                                              food__name=food[1])
-                                            if prefered_food:
-                                                food_list.append((food[0],
-                                                                  prefered_food[0],
-                                                                  food[2]))
-                                        food_list.sort(key=lambda x: x[1].score, reverse=True)
-                                        prefered_data = food_list
-                                        if prefered_data:
-                                            payload_reserve[
-                                                f'userWeekReserves[{prefered_data[0][0]}].selected'] = 'true'
-                                            payload_reserve[
-                                                f'userWeekReserves[{prefered_data[0][0]}].selectedCount'] = '1'
-                                            a = int(prefered_data[0][2])
-                                            total_price += a
-                                            if day == 'شنبه':
-                                                reserved.saturday_lunch = prefered_data[0][1].food.name
-                                                reserved.saturday_breakfast_self = self.self_name
-                                            if day == 'یکشنبه':
-                                                reserved.sunday_lunch = prefered_data[0][1].food.name
-                                                reserved.sunday_breakfast_self = self.self_name
-                                            if day == 'دوشنبه':
-                                                reserved.monday_lunch = prefered_data[0][1].food.name
-                                                reserved.monday_breakfast_self = self.self_name
-                                            if day == 'سه شنبه':
-                                                reserved.tuesday_lunch = prefered_data[0][1].food.name
-                                                reserved.tuesday_breakfast_self = self.self_name
-                                            if day == 'چهارشنبه':
-                                                reserved.wednesday_lunch = prefered_data[0][1].food.name
-                                                reserved.wednesday_breakfast_self = self.self_name
-                                            if day == 'پنجشنبه':
-                                                reserved.thursday_lunch = prefered_data[0][1].food.name
-                                                reserved.thursday_breakfast_self = self.self_name
-                                            if day == 'جمعه':
-                                                reserved.friday_lunch = prefered_data[0][1].food.name
-                                                reserved.friday_breakfast_self = self.self_name
+                            for daye in breakfast_data:
+                                if breakfast_data[daye]:
+                                    for day in chosen_days_breakfast:
+                                        if daye[0] == day and (breakfast_data[daye] != []):
+                                            food_list = []
+                                            for food in breakfast_data[daye]:
+                                                prefered_food = UserPreferableFood.objects.filter(~Q(score=0),
+                                                                                                  user=user_data.user,
+                                                                                                  food__name=food[1])
+                                                if prefered_food:
+                                                    food_list.append((food[0],
+                                                                      prefered_food[0],
+                                                                      food[2]))
+                                            food_list.sort(key=lambda x: x[1].score, reverse=True)
+                                            prefered_data = food_list
+                                            if prefered_data:
+                                                payload_reserve[
+                                                    f'userWeekReserves[{prefered_data[0][0]}].selected'] = 'true'
+                                                payload_reserve[
+                                                    f'userWeekReserves[{prefered_data[0][0]}].selectedCount'] = '1'
+                                                a = int(prefered_data[0][2])
+                                                total_price += a
+                                                if day == 'شنبه':
+                                                    reserved.saturday_lunch = prefered_data[0][1].food.name
+                                                    reserved.saturday_breakfast_self = self.self_name
+                                                if day == 'یکشنبه':
+                                                    reserved.sunday_lunch = prefered_data[0][1].food.name
+                                                    reserved.sunday_breakfast_self = self.self_name
+                                                if day == 'دوشنبه':
+                                                    reserved.monday_lunch = prefered_data[0][1].food.name
+                                                    reserved.monday_breakfast_self = self.self_name
+                                                if day == 'سه شنبه':
+                                                    reserved.tuesday_lunch = prefered_data[0][1].food.name
+                                                    reserved.tuesday_breakfast_self = self.self_name
+                                                if day == 'چهارشنبه':
+                                                    reserved.wednesday_lunch = prefered_data[0][1].food.name
+                                                    reserved.wednesday_breakfast_self = self.self_name
+                                                if day == 'پنجشنبه':
+                                                    reserved.thursday_lunch = prefered_data[0][1].food.name
+                                                    reserved.thursday_breakfast_self = self.self_name
+                                                if day == 'جمعه':
+                                                    reserved.friday_lunch = prefered_data[0][1].food.name
+                                                    reserved.friday_breakfast_self = self.self_name
 
                                 payload_reserve['remainCredit'] = Credit - total_price
                             result = session_requests.post(reserve_get_url, data=payload_reserve)
@@ -612,53 +612,54 @@ def samadv1_reserve_function():
                             message = alert
                             send(message, str(user_data.user.chat_id), bot_token)
                         else:
-                            message = "سلام\nامروز چهارشنبه‌س و غذاهاتو برات رزرو کردم\nغذاهایی که رزرو کردم ایناست\n"
-                            data = {'صبحانه': [reserved.saturday_breakfast, reserved.saturday_breakfast,
+                            data = {'صبحانه': [reserved.saturday_breakfast, reserved.sunday_breakfast,
                                                reserved.monday_breakfast,
                                                reserved.tuesday_breakfast, reserved.wednesday_breakfast,
-                                               reserved.tuesday_breakfast,
+                                               reserved.thursday_breakfast,
                                                reserved.friday_breakfast],
-                                    'ناهار': [reserved.saturday_lunch, reserved.saturday_lunch, reserved.monday_lunch,
-                                              reserved.tuesday_lunch, reserved.wednesday_lunch, reserved.tuesday_lunch,
+                                    'ناهار': [reserved.saturday_lunch, reserved.sunday_lunch, reserved.monday_lunch,
+                                              reserved.tuesday_lunch, reserved.wednesday_lunch, reserved.thursday_lunch,
                                               reserved.friday_lunch],
-                                    'شام': [reserved.saturday_dinner, reserved.saturday_dinner, reserved.monday_dinner,
-                                            reserved.tuesday_dinner, reserved.wednesday_dinner, reserved.tuesday_dinner,
+                                    'شام': [reserved.saturday_dinner, reserved.sunday_dinner, reserved.monday_dinner,
+                                            reserved.tuesday_dinner, reserved.wednesday_dinner,
+                                            reserved.thursday_dinner,
                                             reserved.friday_dinner]}
                             df = pd.DataFrame(data,
                                               index=['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنجشنبه',
                                                      'جمعه'])
 
                             css = """
-                                <!DOCTYPE html>
-                                <head>
-                                    <meta charset="UTF-8">
-                                </head>
-                                <style type=\"text/css\">
-                                table {
-                                color: #333;
-                                font-family: Helvetica, Arial, sans-serif;
-                                width: 640px;
-                                border-collapse:
-                                collapse;
-                                border-spacing: 0;
-                                }
-                                td, th {
-                                border: 1px solid transparent; /* No more visible border */
-                                height: 30px;
-                                }
-                                th {
-                                background: #DFDFDF; /* Darken header a bit */
-                                font-weight: bold;
-                                }
-                                td {
-                                background: #FAFAFA;
-                                text-align: center;
-                                }
-                                table tr:nth-child(odd) td{
-                                background-color: white;
-                                }
-                                </style>
-                                """
+                                                       <!DOCTYPE html>
+                                                       <head>
+                                                           <meta charset="UTF-8">
+                                                       </head>
+                                                       <style type=\"text/css\">
+                                                       table {
+                                                       color: #333;
+                                                       font-family: Helvetica, Arial, sans-serif;
+                                                       width: 640px;
+                                                       border-collapse:
+                                                       collapse; 
+                                                       border-spacing: 0;
+                                                       }
+                                                       td, th {
+                                                       border: 1px solid transparent; /* No more visible border */
+                                                       height: 30px;
+                                                       }
+                                                       th {
+                                                       background: #DFDFDF; /* Darken header a bit */
+                                                       font-weight: bold;
+                                                       text-align: center;
+                                                       }
+                                                       td {
+                                                       background: #FAFAFA;
+                                                       text-align: center;
+                                                       }
+                                                       table tr:nth-child(odd) td{
+                                                       background-color: white;
+                                                       }
+                                                       </style>
+                                                       """
                             with open('html.html', 'w') as f:
                                 f.write('')
                             text_file = open("html.html", "a")
@@ -667,7 +668,6 @@ def samadv1_reserve_function():
                             text_file.close()
                             imgkitoptions = {"format": "png"}
                             imgkit.from_file("html.html", 'reserve_img.png', options=imgkitoptions)
-
                             try:
                                 send(message, str(user_data.user.chat_id), bot_token)
                                 send_photo(path='reserve_img.png', chat_id=str(user_data.user.chat_id), token=bot_token)
