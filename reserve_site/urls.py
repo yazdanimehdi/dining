@@ -19,7 +19,7 @@ from django.urls import path
 from dining.views import signup, login, home, userdiningdata_wizard, logout_view, contact_us, prefer_food, dashboard, \
     payment, prefer_food_dashboard, change_info, change_info_dining, change_days, CustomReset, CustomResetDone, \
     CustomResetConfirm, CustomResetComplete, self_id, send_request, verify, dashboard_mobile, login_mobile, \
-    dashboard_request, userdiningdata_wizard_samad, samad_day_select, charge_account_samadv1, test_view
+    dashboard_request, userdiningdata_wizard_samad, samad_day_select
 from order.views import verify_order
 
 urlpatterns = [
@@ -50,8 +50,7 @@ urlpatterns = [
     path('request_username/', dashboard_request),
     path('samad_days/', samad_day_select),
     path('samad_wizard/', userdiningdata_wizard_samad),
-    path('redirect_payment/', charge_account_samadv1),
-    path('test/', test_view)
+
 ]
 
 # , {'template_name': 'dining/templates/reset_password.html'
