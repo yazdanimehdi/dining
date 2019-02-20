@@ -6,16 +6,16 @@ from lxml import html
 
 from dining.models import *
 
-login_url = 'https://samad.aut.ac.ir/j_security_check'
-reserve_get_url = 'http://samad.aut.ac.ir/nurture/user/multi/reserve/reserve.rose'
+login_url = 'https://dining.iut.ac.ir/j_security_check'
+reserve_get_url = 'https://dining.iut.ac.ir/nurture/user/multi/reserve/reserve.rose'
 session_requests = requests.session()
 result = session_requests.get(login_url, verify=False)
 
 tree = html.fromstring(result.text)
 authenticity_token = list(set(tree.xpath("//input[@name='_csrf']/@value")))[0]
 payload = {
-    'username': '96125110',
-    'password': '1271934108',
+    'username': '9620844',
+    'password': '13711374',
     '_csrf': authenticity_token,
     'login': 'ورود'
 }
@@ -28,7 +28,7 @@ self_names = re.findall(r'<option value=\".*\">(.+)</option>', result.text)
 self_ids = set(self_id)
 for self in self_id:
     result = session_requests.get(
-        f'http://samad.aut.ac.ir/nurture/user/multi/reserve/showPanel.rose?selectedSelfDefId={self}', verify=False)
+        f'https://dining.iut.ac.ir/nurture/user/multi/reserve/showPanel.rose?selectedSelfDefId={self}', verify=False)
     w = 0
     while w < 54:
         tree = html.fromstring(result.text)
@@ -176,7 +176,7 @@ for self in self_id:
                         payload_reserve[f'userWeekReserves[{dinner_data[item][k][0]}].freeFoodSelected'] = \
                             dinner_data[item][k][7]
                         k += 1
-        result = session_requests.post('https://samad.aut.ac.ir/nurture/user/multi/reserve/reserve.rose',
+        result = session_requests.post('https://dining.iut.ac.ir/nurture/user/multi/reserve/reserve.rose',
                                        data=payload_reserve, verify=False)
         m = 0
         food_name = list()
@@ -187,21 +187,21 @@ for self in self_id:
             flag = False
             item = re.findall(r'\|(.+)', item)[0].split('|')[0].strip()
             print(item)
-            if Food.objects.filter(university__name='دانشگاه صنعتی امیرکبیر'):
-                for db_food in Food.objects.filter(university__name='دانشگاه صنعتی امیرکبیر'):
+            if Food.objects.filter(university__name='دانشگاه صنعتی اصفهان'):
+                for db_food in Food.objects.filter(university__name='دانشگاه صنعتی اصفهان'):
                     if set(db_food.name.split(' ')).issubset(item.split(' ')):
                         flag = True
                     elif db_food.name in item:
                         flag = True
 
                 if not flag:
-                    uni = University.objects.get(name='دانشگاه صنعتی امیرکبیر')
+                    uni = University.objects.get(name='دانشگاه صنعتی اصفهان')
                     newfood = Food()
                     newfood.name = item.strip()
                     newfood.university = uni
                     newfood.save()
             else:
-                uni = University.objects.get(name='دانشگاه صنعتی امیرکبیر')
+                uni = University.objects.get(name='دانشگاه صنعتی اصفهان')
                 newfood = Food()
                 newfood.name = item.strip()
                 newfood.university = uni
