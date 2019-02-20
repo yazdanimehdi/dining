@@ -391,8 +391,8 @@ def reserve_function():
                             send_photo(path='reserve_img.png', chat_id=str(user_data.user.chat_id), token=bot_token)
                         except Exception as e:
                             print(e)
-                            break
-                        break
+
+                    break
 
                 except Exception as e:
                     print(e)
