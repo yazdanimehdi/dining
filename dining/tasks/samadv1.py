@@ -584,6 +584,7 @@ def samadv1_reserve_function():
                                                     reserved.friday_breakfast_self = self.self_name
 
                                 payload_reserve['remainCredit'] = Credit - total_price
+                                reserved.save()
                             result = session_requests.post(reserve_get_url, data=payload_reserve)
                             tree = html.fromstring(result.text)
 

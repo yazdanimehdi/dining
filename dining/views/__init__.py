@@ -19,3 +19,4 @@ from .samad_wizard import userdiningdata_wizard_samad
 from .selfid import self_id
 from .signup import signup
 from .zarinpal_online_payment import send_request, verify
+
