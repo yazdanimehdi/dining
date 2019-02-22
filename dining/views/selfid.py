@@ -25,6 +25,8 @@ def self_id(request):
                                   {'self_names': self_list, 'msg': 'خطا!'})
             u = UserDiningData.objects.get(user=request.user)
             if u.university.tag == 'sharif':
-                return redirect('/payment')
+                request.user.is_paid = True
+                request.user.save()
+                return redirect('/dashboard')
             else:
                 return redirect('/samad_days')

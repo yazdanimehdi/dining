@@ -225,6 +225,9 @@ class UserSelfs(models.Model):
     self_id = models.CharField(max_length=100)
     is_active = models.BooleanField(default=False)
 
+    def __str__(self):
+        return str(self.self_name)
+
 
 class SamadPrefrredDays(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

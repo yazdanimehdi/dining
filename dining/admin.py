@@ -22,13 +22,17 @@ class UserDiningDataAdmin(admin.ModelAdmin):
         return instance.user.is_paid
 
 
+class UserSelfsAdmin(admin.ModelAdmin):
+    list_display = ['user', 'self_name', 'self_id']
+
+
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(University)
 admin.site.register(UserDiningData, UserDiningDataAdmin)
 admin.site.register(Food)
 admin.site.register(UserPreferableFood)
 admin.site.register(Coins)
-admin.site.register(UserSelfs)
+admin.site.register(UserSelfs, UserSelfsAdmin)
 admin.site.register(ZorroCode)
 admin.site.register(Merchants)
 admin.site.register(MerchantUser)

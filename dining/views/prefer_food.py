@@ -32,7 +32,9 @@ def prefer_food(request):
                     if u[0].university.tag == 'sharif':
                         return redirect('/self_select')
                     else:
-                        return redirect('/payment')
+                        request.user.is_paid = True
+                        request.user.save()
+                        return redirect('/dashboard')
                 except Exception as e:
                     print(e)
                     return render(request, 'dining/templates/prefered_food.html',
