@@ -21,7 +21,7 @@ class University(models.Model):
 
 class Food(models.Model):
     university = models.ForeignKey(to='dining.University', on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=200)
 
     def __str__(self):
         return self.university.name + '-----' + self.name
