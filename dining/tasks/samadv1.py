@@ -23,22 +23,21 @@ def samadv1_reserve_function():
                 login_url = user_data.university.login_url
                 reserve_get_url = user_data.university.reserve_url
                 simple = user_data.university.simple_url
-                session_requests = requests.session()
-                result = session_requests.get(login_url, verify=False)
-
-                tree = html.fromstring(result.text)
-                authenticity_token = list(set(tree.xpath("//input[@name='_csrf']/@value")))[0]
-                payload = {
-                    'username': user_data.dining_username,
-                    'password': user_data.dining_password,
-                    '_csrf': authenticity_token,
-                    'login': 'ورود'
-                }
-
-                result = session_requests.post(login_url, data=payload, verify=False)
-                result = session_requests.get(reserve_get_url, verify=False)
-                tree = html.fromstring(result.text)
                 for self in UserSelfs.objects.filter(user=user_data.user, is_active=True):
+                    session_requests = requests.session()
+                    result = session_requests.get(login_url, verify=False)
+                    tree = html.fromstring(result.text)
+                    authenticity_token = list(set(tree.xpath("//input[@name='_csrf']/@value")))[0]
+                    payload = {
+                        'username': user_data.dining_username,
+                        'password': user_data.dining_password,
+                        '_csrf': authenticity_token,
+                        'login': 'ورود'
+                    }
+
+                    result = session_requests.post(login_url, data=payload, verify=False)
+                    result = session_requests.get(reserve_get_url, verify=False)
+                    tree = html.fromstring(result.text)
                     result = session_requests.get(
                         f'{simple}/nurture/user/multi/reserve/showPanel.rose?selectedSelfDefId={self.self_id}',
                         verify=False)
@@ -579,6 +578,8 @@ def samadv1_reserve_function():
                             reserved.save()
                         result = session_requests.post(reserve_get_url, data=payload_reserve)
                         tree = html.fromstring(result.text)
+                        reserved.credit = Credit - total_price
+                        reserved.save()
 
                         try:
                             alert = list(set(tree.xpath("//*[@id=\"errorMessages\"]/text()")))
@@ -588,8 +589,8 @@ def samadv1_reserve_function():
                             alert = alertm.strip()
 
                         except:
-                            reserved.credit = Credit - total_price
-                            reserved.save()
+                            pass
+
                 if user_data.user.chat_id != 0:
                     bot_token = '610448118:AAFVPBXMKPzqAiOJ9-zhusKrOloCiJuEwi8'
 
