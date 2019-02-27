@@ -454,6 +454,9 @@ def samadv1_reserve_function():
                                         food_list.sort(key=lambda x: x[1].score, reverse=True)
                                         prefered_data = food_list
                                         if prefered_data:
+                                            tree = html.fromstring(result.text)
+                                            Credit = int(
+                                                list(set(tree.xpath("//input[@name='remainCredit']/@value")))[0])
                                             payload_reserve[
                                                 f'userWeekReserves[{prefered_data[0][0]}].selected'] = 'true'
                                             payload_reserve[
@@ -510,6 +513,9 @@ def samadv1_reserve_function():
                                         food_list.sort(key=lambda x: x[1].score, reverse=True)
                                         prefered_data = food_list
                                         if prefered_data:
+                                            tree = html.fromstring(result.text)
+                                            Credit = int(
+                                                list(set(tree.xpath("//input[@name='remainCredit']/@value")))[0])
                                             payload_reserve[
                                                 f'userWeekReserves[{prefered_data[0][0]}].selected'] = 'true'
                                             payload_reserve[
@@ -566,6 +572,9 @@ def samadv1_reserve_function():
                                         food_list.sort(key=lambda x: x[1].score, reverse=True)
                                         prefered_data = food_list
                                         if prefered_data:
+                                            tree = html.fromstring(result.text)
+                                            Credit = int(
+                                                list(set(tree.xpath("//input[@name='remainCredit']/@value")))[0])
                                             payload_reserve[
                                                 f'userWeekReserves[{prefered_data[0][0]}].selected'] = 'true'
                                             payload_reserve[
