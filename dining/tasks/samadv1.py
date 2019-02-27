@@ -16,9 +16,9 @@ def samadv1_reserve_function():
     from dining.models import UserDiningData, ReservedTable, UserSelfs, UserPreferableFood, SamadPrefrredDays, Food, \
         University
     for user_data in UserDiningData.objects.filter(university__tag='samadv1'):
-        try:
-            alert = []
-            if user_data.user.is_paid:
+        if user_data.user.is_paid:
+            try:
+                alert = []
                 print(user_data.university, user_data.user)
                 login_url = user_data.university.login_url
                 reserve_get_url = user_data.university.reserve_url
@@ -667,6 +667,5 @@ def samadv1_reserve_function():
                         except Exception as e:
                             print(e)
 
-            break
-        except Exception as e:
-            print(e)
+            except Exception as e:
+                print(e)
