@@ -1,4 +1,6 @@
+import os
 import re
+import sys
 
 import imgkit
 import jdatetime
@@ -13,6 +15,7 @@ from lxml import html
 @task()
 def samadv1_get_reserved_function():
     from dining.models import UserDiningData, ReservedTable, UserSelfs
+
     for user_data in UserDiningData.objects.filter(university__tag='samadv1'):
         login_url = user_data.university.login_url
         reserve_get_url = user_data.university.reserve_url
@@ -284,73 +287,79 @@ def samadv1_get_reserved_function():
                         breakfast_data[(day, date)] = foods_breakfast
 
                     for day, date in lunch_data:
-                        if day == 'شنبه':
-                            reserved.saturday_lunch = lunch_data[(day, date)][8]
-                            reserved.saturday_lunch_self = self.self_name
-                        if day == 'یکشنبه':
-                            reserved.sunday_lunch = lunch_data[(day, date)][8]
-                            reserved.sunday_lunch_self = self.self_name
-                        if day == 'دوشنبه':
-                            reserved.monday_lunch = lunch_data[(day, date)][8]
-                            reserved.monday_lunch_self = self.self_name
-                        if day == 'سه شنبه':
-                            reserved.tuesday_lunch = lunch_data[(day, date)][8]
-                            reserved.tuesday_lunch_self = self.self_name
-                        if day == 'چهارشنبه':
-                            reserved.wednesday_lunch = lunch_data[(day, date)][8]
-                            reserved.wednesday_lunch_self = self.self_name
-                        if day == 'پنجشنبه':
-                            reserved.thursday_lunch = lunch_data[(day, date)][8]
-                            reserved.thursday_lunch_self = self.self_name
-                        if day == 'جمعه':
-                            reserved.friday_lunch = lunch_data[(day, date)][8]
-                            reserved.friday_lunch_self = self.self_name
+                        for item in lunch_data[(day, date)]:
+                            if item[8] == 'true':
+                                if day == 'شنبه':
+                                    reserved.saturday_lunch = item[1]
+                                    reserved.saturday_lunch_self = self.self_name
+                                if day == 'یکشنبه':
+                                    reserved.sunday_lunch = item[1]
+                                    reserved.sunday_lunch_self = self.self_name
+                                if day == 'دوشنبه':
+                                    reserved.monday_lunch = item[1]
+                                    reserved.monday_lunch_self = self.self_name
+                                if day == 'سه شنبه':
+                                    reserved.tuesday_lunch = item[1]
+                                    reserved.tuesday_lunch_self = self.self_name
+                                if day == 'چهارشنبه':
+                                    reserved.wednesday_lunch = item[1]
+                                    reserved.wednesday_lunch_self = self.self_name
+                                if day == 'پنجشنبه':
+                                    reserved.thursday_lunch = item[1]
+                                    reserved.thursday_lunch_self = self.self_name
+                                if day == 'جمعه':
+                                    reserved.friday_lunch = item[1]
+                                    reserved.friday_lunch_self = self.self_name
 
                     for day, date in dinner_data:
-                        if day == 'شنبه':
-                            reserved.saturday_dinner = dinner_data[(day, date)][8]
-                            reserved.saturday_dinner_self = self.self_name
-                        if day == 'یکشنبه':
-                            reserved.sunday_dinner = dinner_data[(day, date)][8]
-                            reserved.sunday_dinner_self = self.self_name
-                        if day == 'دوشنبه':
-                            reserved.monday_dinner = dinner_data[(day, date)][8]
-                            reserved.monday_dinner_self = self.self_name
-                        if day == 'سه شنبه':
-                            reserved.tuesday_dinner = dinner_data[(day, date)][8]
-                            reserved.tuesday_dinner_self = self.self_name
-                        if day == 'چهارشنبه':
-                            reserved.wednesday_dinner = dinner_data[(day, date)][8]
-                            reserved.wednesday_dinner_self = self.self_name
-                        if day == 'پنجشنبه':
-                            reserved.thursday_dinner = dinner_data[(day, date)][8]
-                            reserved.thursday_dinner_self = self.self_name
-                        if day == 'جمعه':
-                            reserved.friday_dinner = dinner_data[(day, date)][8]
-                            reserved.friday_dinner_self = self.self_name
+                        for item in dinner_data[(day, date)]:
+                            if item[8] == 'true':
+                                if day == 'شنبه':
+                                    reserved.saturday_dinner = item[1]
+                                    reserved.saturday_dinner_self = self.self_name
+                                if day == 'یکشنبه':
+                                    reserved.sunday_dinner = item[1]
+                                    reserved.sunday_dinner_self = self.self_name
+                                if day == 'دوشنبه':
+                                    reserved.monday_dinner = item[1]
+                                    reserved.monday_dinner_self = self.self_name
+                                if day == 'سه شنبه':
+                                    reserved.tuesday_dinner = item[1]
+                                    reserved.tuesday_dinner_self = self.self_name
+                                if day == 'چهارشنبه':
+                                    reserved.wednesday_dinner = item[1]
+                                    reserved.wednesday_dinner_self = self.self_name
+                                if day == 'پنجشنبه':
+                                    reserved.thursday_dinner = item[1]
+                                    reserved.thursday_dinner_self = self.self_name
+                                if day == 'جمعه':
+                                    reserved.friday_dinner = item[1]
+                                    reserved.friday_dinner_self = self.self_name
 
                     for day, date in breakfast_data:
-                        if day == 'شنبه':
-                            reserved.saturday_breakfast = breakfast_data[(day, date)][8]
-                            reserved.saturday_breakfast_self = self.self_name
-                        if day == 'یکشنبه':
-                            reserved.sunday_breakfast = breakfast_data[(day, date)][8]
-                            reserved.sunday_breakfast_self = self.self_name
-                        if day == 'دوشنبه':
-                            reserved.monday_breakfast = breakfast_data[(day, date)][8]
-                            reserved.monday_breakfast_self = self.self_name
-                        if day == 'سه شنبه':
-                            reserved.tuesday_breakfast = breakfast_data[(day, date)][8]
-                            reserved.tuesday_breakfast_self = self.self_name
-                        if day == 'چهارشنبه':
-                            reserved.wednesday_breakfast = breakfast_data[(day, date)][8]
-                            reserved.wednesday_breakfast_self = self.self_name
-                        if day == 'پنجشنبه':
-                            reserved.thursday_breakfast = breakfast_data[(day, date)][8]
-                            reserved.thursday_breakfast_self = self.self_name
-                        if day == 'جمعه':
-                            reserved.friday_breakfast = breakfast_data[(day, date)][8]
-                            reserved.friday_breakfast_self = self.self_name
+                        for item in breakfast_data[(day, date)]:
+                            if item[8] == 'true':
+                                if day == 'شنبه':
+                                    reserved.saturday_breakfast = item[1]
+                                    reserved.saturday_breakfast_self = self.self_name
+                                if day == 'یکشنبه':
+                                    reserved.sunday_breakfast = item[1]
+                                    reserved.sunday_breakfast_self = self.self_name
+                                if day == 'دوشنبه':
+                                    reserved.monday_breakfast = item[1]
+                                    reserved.monday_breakfast_self = self.self_name
+                                if day == 'سه شنبه':
+                                    reserved.tuesday_breakfast = item[1]
+                                    reserved.tuesday_breakfast_self = self.self_name
+                                if day == 'چهارشنبه':
+                                    reserved.wednesday_breakfast = item[1]
+                                    reserved.wednesday_breakfast_self = self.self_name
+                                if day == 'پنجشنبه':
+                                    reserved.thursday_breakfast = item[1]
+                                    reserved.thursday_breakfast_self = self.self_name
+                                if day == 'جمعه':
+                                    reserved.friday_breakfast = item[1]
+                                    reserved.friday_breakfast_self = self.self_name
                     reserved.credit = Credit
                     reserved.save()
                 if user_data.user.chat_id != 0:
@@ -427,4 +436,6 @@ def samadv1_get_reserved_function():
                     except Exception as e:
                         print(e)
             except Exception as e:
-                print(e)
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                print(exc_type, fname, exc_tb.tb_lineno)
