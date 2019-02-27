@@ -89,7 +89,7 @@ CELERY_BEAT_SCHEDULE = {
     },
     'samadv1_get_reserved_task': {
         'task': 'dining.tasks.get_reserved_samad.samadv1_get_reserved_function',
-        'schedule': crontab(hour=21, minute=45, day_of_week=3),
+        'schedule': crontab(hour=21, minute=47, day_of_week=3),
     },
     'yas_reserve_task': {
         'task': 'dining.tasks.reservation_yas.reservation_yas',
