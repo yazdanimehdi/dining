@@ -1,10 +1,6 @@
 import re
 
-import imgkit
-import jdatetime
-import pandas as pd
 import requests
-import telegram
 from bs4 import BeautifulSoup
 from celery import task
 from django.db.models import Q
@@ -13,7 +9,7 @@ from lxml import html
 
 @task()
 def samadv1_reserve_function():
-    from dining.models import UserDiningData, ReservedTable, UserSelfs, UserPreferableFood, SamadPrefrredDays, Food, \
+    from dining.models import UserDiningData, UserSelfs, UserPreferableFood, SamadPrefrredDays, Food, \
         University
     for user_data in UserDiningData.objects.filter(university__tag='samadv1'):
         if user_data.user.is_paid:
@@ -356,19 +352,6 @@ def samadv1_reserve_function():
 
                     total_price = 0
 
-                    saturdays_date = list()
-                    date = str(jdatetime.date.today() + jdatetime.timedelta(3))
-                    date = re.sub(r'\-', '/', date)
-                    saturdays_date.append(date)
-                    saturdays_date = str(saturdays_date)
-
-                    filter = ReservedTable.objects.filter(user=user_data.user, week_start_date=saturdays_date)
-                    if not filter:
-                        reserved = ReservedTable()
-                        reserved.user = user_data.user
-                        reserved.week_start_date = saturdays_date
-                    else:
-                        reserved = filter[0]
                     if lunch_data:
                         for item in lunch_data:
                             k = 0
@@ -454,48 +437,21 @@ def samadv1_reserve_function():
                                         food_list.sort(key=lambda x: x[1].score, reverse=True)
                                         prefered_data = food_list
                                         if prefered_data:
-                                            tree = html.fromstring(result.text)
-                                            Credit = int(
-                                                list(set(tree.xpath("//input[@name='remainCredit']/@value")))[0])
-                                            payload_reserve[
-                                                f'userWeekReserves[{prefered_data[0][0]}].selected'] = 'true'
-                                            payload_reserve[
-                                                f'userWeekReserves[{prefered_data[0][0]}].selectedCount'] = '1'
-
-                                            a = int(prefered_data[0][2])
-                                            total_price += a
-                                            payload_reserve['remainCredit'] = Credit - total_price
-                                            result = session_requests.post(reserve_get_url, data=payload_reserve)
-
                                             try:
-                                                alert = list(set(tree.xpath("//*[@id=\"errorMessages\"]/text()")))
-                                                alertm = ''
-                                                for item in alert:
-                                                    alertm += item
-                                                alert = alertm.strip()
+                                                tree = html.fromstring(result.text)
+                                                Credit = int(
+                                                    list(set(tree.xpath("//input[@name='remainCredit']/@value")))[0])
+                                                payload_reserve[
+                                                    f'userWeekReserves[{prefered_data[0][0]}].selected'] = 'true'
+                                                payload_reserve[
+                                                    f'userWeekReserves[{prefered_data[0][0]}].selectedCount'] = '1'
 
+                                                a = int(prefered_data[0][2])
+                                                total_price += a
+                                                payload_reserve['remainCredit'] = Credit - total_price
+                                                result = session_requests.post(reserve_get_url, data=payload_reserve)
                                             except:
-                                                if day == 'شنبه':
-                                                    reserved.saturday_dinner = prefered_data[0][1].food.name
-                                                    reserved.saturday_dinner_self = self.self_name
-                                                if day == 'یکشنبه':
-                                                    reserved.sunday_dinner = prefered_data[0][1].food.name
-                                                    reserved.sunday_dinner_self = self.self_name
-                                                if day == 'دوشنبه':
-                                                    reserved.monday_dinner = prefered_data[0][1].food.name
-                                                    reserved.monday_dinner_self = self.self_name
-                                                if day == 'سه شنبه':
-                                                    reserved.tuesday_dinner = prefered_data[0][1].food.name
-                                                    reserved.tuesday_dinner_self = self.self_name
-                                                if day == 'چهارشنبه':
-                                                    reserved.wednesday_dinner = prefered_data[0][1].food.name
-                                                    reserved.wednesday_dinner_self = self.self_name
-                                                if day == 'پنجشنبه':
-                                                    reserved.thursday_dinner = prefered_data[0][1].food.name
-                                                    reserved.thursday_dinner_self = self.self_name
-                                                if day == 'جمعه':
-                                                    reserved.friday_dinner = prefered_data[0][1].food.name
-                                                    reserved.friday_dinner_self = self.self_name
+                                                pass
 
                         for daye in lunch_data:
                             if lunch_data[daye]:
@@ -513,48 +469,21 @@ def samadv1_reserve_function():
                                         food_list.sort(key=lambda x: x[1].score, reverse=True)
                                         prefered_data = food_list
                                         if prefered_data:
-                                            tree = html.fromstring(result.text)
-                                            Credit = int(
-                                                list(set(tree.xpath("//input[@name='remainCredit']/@value")))[0])
-                                            payload_reserve[
-                                                f'userWeekReserves[{prefered_data[0][0]}].selected'] = 'true'
-                                            payload_reserve[
-                                                f'userWeekReserves[{prefered_data[0][0]}].selectedCount'] = '1'
-
-                                            a = int(prefered_data[0][2])
-                                            total_price += a
-                                            payload_reserve['remainCredit'] = Credit - total_price
-                                            result = session_requests.post(reserve_get_url, data=payload_reserve)
-
                                             try:
-                                                alert = list(set(tree.xpath("//*[@id=\"errorMessages\"]/text()")))
-                                                alertm = ''
-                                                for item in alert:
-                                                    alertm += item
-                                                alert = alertm.strip()
+                                                tree = html.fromstring(result.text)
+                                                Credit = int(
+                                                    list(set(tree.xpath("//input[@name='remainCredit']/@value")))[0])
+                                                payload_reserve[
+                                                    f'userWeekReserves[{prefered_data[0][0]}].selected'] = 'true'
+                                                payload_reserve[
+                                                    f'userWeekReserves[{prefered_data[0][0]}].selectedCount'] = '1'
 
+                                                a = int(prefered_data[0][2])
+                                                total_price += a
+                                                payload_reserve['remainCredit'] = Credit - total_price
+                                                result = session_requests.post(reserve_get_url, data=payload_reserve)
                                             except:
-                                                if day == 'شنبه':
-                                                    reserved.saturday_dinner = prefered_data[0][1].food.name
-                                                    reserved.saturday_dinner_self = self.self_name
-                                                if day == 'یکشنبه':
-                                                    reserved.sunday_dinner = prefered_data[0][1].food.name
-                                                    reserved.sunday_dinner_self = self.self_name
-                                                if day == 'دوشنبه':
-                                                    reserved.monday_dinner = prefered_data[0][1].food.name
-                                                    reserved.monday_dinner_self = self.self_name
-                                                if day == 'سه شنبه':
-                                                    reserved.tuesday_dinner = prefered_data[0][1].food.name
-                                                    reserved.tuesday_dinner_self = self.self_name
-                                                if day == 'چهارشنبه':
-                                                    reserved.wednesday_dinner = prefered_data[0][1].food.name
-                                                    reserved.wednesday_dinner_self = self.self_name
-                                                if day == 'پنجشنبه':
-                                                    reserved.thursday_dinner = prefered_data[0][1].food.name
-                                                    reserved.thursday_dinner_self = self.self_name
-                                                if day == 'جمعه':
-                                                    reserved.friday_dinner = prefered_data[0][1].food.name
-                                                    reserved.friday_dinner_self = self.self_name
+                                                pass
 
                         for daye in breakfast_data:
                             if breakfast_data[daye]:
@@ -572,128 +501,20 @@ def samadv1_reserve_function():
                                         food_list.sort(key=lambda x: x[1].score, reverse=True)
                                         prefered_data = food_list
                                         if prefered_data:
-                                            tree = html.fromstring(result.text)
-                                            Credit = int(
-                                                list(set(tree.xpath("//input[@name='remainCredit']/@value")))[0])
-                                            payload_reserve[
-                                                f'userWeekReserves[{prefered_data[0][0]}].selected'] = 'true'
-                                            payload_reserve[
-                                                f'userWeekReserves[{prefered_data[0][0]}].selectedCount'] = '1'
-                                            a = int(prefered_data[0][2])
-                                            total_price += a
-                                            payload_reserve['remainCredit'] = Credit - total_price
-                                            result = session_requests.post(reserve_get_url, data=payload_reserve)
-
                                             try:
-                                                alert = list(set(tree.xpath("//*[@id=\"errorMessages\"]/text()")))
-                                                alertm = ''
-                                                for item in alert:
-                                                    alertm += item
-                                                alert = alertm.strip()
-
+                                                tree = html.fromstring(result.text)
+                                                Credit = int(
+                                                    list(set(tree.xpath("//input[@name='remainCredit']/@value")))[0])
+                                                payload_reserve[
+                                                    f'userWeekReserves[{prefered_data[0][0]}].selected'] = 'true'
+                                                payload_reserve[
+                                                    f'userWeekReserves[{prefered_data[0][0]}].selectedCount'] = '1'
+                                                a = int(prefered_data[0][2])
+                                                total_price += a
+                                                payload_reserve['remainCredit'] = Credit - total_price
+                                                result = session_requests.post(reserve_get_url, data=payload_reserve)
                                             except:
-                                                if day == 'شنبه':
-                                                    reserved.saturday_dinner = prefered_data[0][1].food.name
-                                                    reserved.saturday_dinner_self = self.self_name
-                                                if day == 'یکشنبه':
-                                                    reserved.sunday_dinner = prefered_data[0][1].food.name
-                                                    reserved.sunday_dinner_self = self.self_name
-                                                if day == 'دوشنبه':
-                                                    reserved.monday_dinner = prefered_data[0][1].food.name
-                                                    reserved.monday_dinner_self = self.self_name
-                                                if day == 'سه شنبه':
-                                                    reserved.tuesday_dinner = prefered_data[0][1].food.name
-                                                    reserved.tuesday_dinner_self = self.self_name
-                                                if day == 'چهارشنبه':
-                                                    reserved.wednesday_dinner = prefered_data[0][1].food.name
-                                                    reserved.wednesday_dinner_self = self.self_name
-                                                if day == 'پنجشنبه':
-                                                    reserved.thursday_dinner = prefered_data[0][1].food.name
-                                                    reserved.thursday_dinner_self = self.self_name
-                                                if day == 'جمعه':
-                                                    reserved.friday_dinner = prefered_data[0][1].food.name
-                                                    reserved.friday_dinner_self = self.self_name
-
-                        tree = html.fromstring(result.text)
-                        reserved.credit = int(list(set(tree.xpath("//input[@name='remainCredit']/@value")))[0])
-                        reserved.save()
-
-                if user_data.user.chat_id != 0:
-                    bot_token = '610448118:AAFVPBXMKPzqAiOJ9-zhusKrOloCiJuEwi8'
-
-                    def send_photo(path, chat_id, token):
-                        bot = telegram.Bot(token=token)
-                        bot.send_photo(chat_id=chat_id, photo=open(path, 'rb'))
-
-                    def send(msg, chat_id, token):
-                        bot = telegram.Bot(token=token)
-                        bot.send_message(chat_id=chat_id, text=msg)
-
-                    if alert:
-                        message = alert
-                        send(message, str(user_data.user.chat_id), bot_token)
-                    else:
-                        data = {'صبحانه': [reserved.saturday_breakfast, reserved.sunday_breakfast,
-                                           reserved.monday_breakfast,
-                                           reserved.tuesday_breakfast, reserved.wednesday_breakfast,
-                                           reserved.thursday_breakfast,
-                                           reserved.friday_breakfast],
-                                'ناهار': [reserved.saturday_lunch, reserved.sunday_lunch, reserved.monday_lunch,
-                                          reserved.tuesday_lunch, reserved.wednesday_lunch, reserved.thursday_lunch,
-                                          reserved.friday_lunch],
-                                'شام': [reserved.saturday_dinner, reserved.sunday_dinner, reserved.monday_dinner,
-                                        reserved.tuesday_dinner, reserved.wednesday_dinner,
-                                        reserved.thursday_dinner,
-                                        reserved.friday_dinner]}
-                        df = pd.DataFrame(data,
-                                          index=['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنجشنبه',
-                                                 'جمعه'])
-
-                        css = """
-                                                   <!DOCTYPE html>
-                                                   <head>
-                                                       <meta charset="UTF-8">
-                                                   </head>
-                                                   <style type=\"text/css\">
-                                                   table {
-                                                   color: #333;
-                                                   font-family: Helvetica, Arial, sans-serif;
-                                                   width: 640px;
-                                                   border-collapse:
-                                                   collapse; 
-                                                   border-spacing: 0;
-                                                   }
-                                                   td, th {
-                                                   border: 1px solid transparent; /* No more visible border */
-                                                   height: 30px;
-                                                   }
-                                                   th {
-                                                   background: #DFDFDF; /* Darken header a bit */
-                                                   font-weight: bold;
-                                                   text-align: center;
-                                                   }
-                                                   td {
-                                                   background: #FAFAFA;
-                                                   text-align: center;
-                                                   }
-                                                   table tr:nth-child(odd) td{
-                                                   background-color: white;
-                                                   }
-                                                   </style>
-                                                   """
-                        with open('html.html', 'w') as f:
-                            f.write('')
-                        text_file = open("html.html", "a")
-                        text_file.write(css)
-                        text_file.write(df.to_html())
-                        text_file.close()
-                        imgkitoptions = {"format": "png"}
-                        imgkit.from_file("html.html", 'reserve_img.png', options=imgkitoptions)
-                        try:
-                            send(message, str(user_data.user.chat_id), bot_token)
-                            send_photo(path='reserve_img.png', chat_id=str(user_data.user.chat_id), token=bot_token)
-                        except Exception as e:
-                            print(e)
+                                                pass
 
             except Exception as e:
                 print(e)
