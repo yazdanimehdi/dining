@@ -357,7 +357,7 @@ def samadv1_reserve_function():
                     total_price = 0
 
                     saturdays_date = list()
-                    date = str(jdatetime.date.today() + jdatetime.timedelta(4))
+                    date = str(jdatetime.date.today() + jdatetime.timedelta(3))
                     date = re.sub(r'\-', '/', date)
                     saturdays_date.append(date)
                     saturdays_date = str(saturdays_date)
@@ -461,28 +461,38 @@ def samadv1_reserve_function():
 
                                             a = int(prefered_data[0][2])
                                             total_price += a
+                                            payload_reserve['remainCredit'] = Credit - total_price
+                                            result = session_requests.post(reserve_get_url, data=payload_reserve)
 
-                                            if day == 'شنبه':
-                                                reserved.saturday_dinner = prefered_data[0][1].food.name
-                                                reserved.saturday_dinner_self = self.self_name
-                                            if day == 'یکشنبه':
-                                                reserved.sunday_dinner = prefered_data[0][1].food.name
-                                                reserved.sunday_dinner_self = self.self_name
-                                            if day == 'دوشنبه':
-                                                reserved.monday_dinner = prefered_data[0][1].food.name
-                                                reserved.monday_dinner_self = self.self_name
-                                            if day == 'سه شنبه':
-                                                reserved.tuesday_dinner = prefered_data[0][1].food.name
-                                                reserved.tuesday_dinner_self = self.self_name
-                                            if day == 'چهارشنبه':
-                                                reserved.wednesday_dinner = prefered_data[0][1].food.name
-                                                reserved.wednesday_dinner_self = self.self_name
-                                            if day == 'پنجشنبه':
-                                                reserved.thursday_dinner = prefered_data[0][1].food.name
-                                                reserved.thursday_dinner_self = self.self_name
-                                            if day == 'جمعه':
-                                                reserved.friday_dinner = prefered_data[0][1].food.name
-                                                reserved.friday_dinner_self = self.self_name
+                                            try:
+                                                alert = list(set(tree.xpath("//*[@id=\"errorMessages\"]/text()")))
+                                                alertm = ''
+                                                for item in alert:
+                                                    alertm += item
+                                                alert = alertm.strip()
+
+                                            except:
+                                                if day == 'شنبه':
+                                                    reserved.saturday_dinner = prefered_data[0][1].food.name
+                                                    reserved.saturday_dinner_self = self.self_name
+                                                if day == 'یکشنبه':
+                                                    reserved.sunday_dinner = prefered_data[0][1].food.name
+                                                    reserved.sunday_dinner_self = self.self_name
+                                                if day == 'دوشنبه':
+                                                    reserved.monday_dinner = prefered_data[0][1].food.name
+                                                    reserved.monday_dinner_self = self.self_name
+                                                if day == 'سه شنبه':
+                                                    reserved.tuesday_dinner = prefered_data[0][1].food.name
+                                                    reserved.tuesday_dinner_self = self.self_name
+                                                if day == 'چهارشنبه':
+                                                    reserved.wednesday_dinner = prefered_data[0][1].food.name
+                                                    reserved.wednesday_dinner_self = self.self_name
+                                                if day == 'پنجشنبه':
+                                                    reserved.thursday_dinner = prefered_data[0][1].food.name
+                                                    reserved.thursday_dinner_self = self.self_name
+                                                if day == 'جمعه':
+                                                    reserved.friday_dinner = prefered_data[0][1].food.name
+                                                    reserved.friday_dinner_self = self.self_name
 
                         for daye in lunch_data:
                             if lunch_data[daye]:
@@ -507,28 +517,38 @@ def samadv1_reserve_function():
 
                                             a = int(prefered_data[0][2])
                                             total_price += a
+                                            payload_reserve['remainCredit'] = Credit - total_price
+                                            result = session_requests.post(reserve_get_url, data=payload_reserve)
 
-                                            if day == 'شنبه':
-                                                reserved.saturday_lunch = prefered_data[0][1].food.name
-                                                reserved.saturday_lunch_self = self.self_name
-                                            if day == 'یکشنبه':
-                                                reserved.sunday_lunch = prefered_data[0][1].food.name
-                                                reserved.sunday_lunch_self = self.self_name
-                                            if day == 'دوشنبه':
-                                                reserved.monday_lunch = prefered_data[0][1].food.name
-                                                reserved.monday_lunch_self = self.self_name
-                                            if day == 'سه شنبه':
-                                                reserved.tuesday_lunch = prefered_data[0][1].food.name
-                                                reserved.tuesday_lunch_self = self.self_name
-                                            if day == 'چهارشنبه':
-                                                reserved.wednesday_lunch = prefered_data[0][1].food.name
-                                                reserved.wednesday_lunch_self = self.self_name
-                                            if day == 'پنجشنبه':
-                                                reserved.thursday_lunch = prefered_data[0][1].food.name
-                                                reserved.thursday_lunch_self = self.self_name
-                                            if day == 'جمعه':
-                                                reserved.friday_lunch = prefered_data[0][1].food.name
-                                                reserved.friday_lunch_self = self.self_name
+                                            try:
+                                                alert = list(set(tree.xpath("//*[@id=\"errorMessages\"]/text()")))
+                                                alertm = ''
+                                                for item in alert:
+                                                    alertm += item
+                                                alert = alertm.strip()
+
+                                            except:
+                                                if day == 'شنبه':
+                                                    reserved.saturday_dinner = prefered_data[0][1].food.name
+                                                    reserved.saturday_dinner_self = self.self_name
+                                                if day == 'یکشنبه':
+                                                    reserved.sunday_dinner = prefered_data[0][1].food.name
+                                                    reserved.sunday_dinner_self = self.self_name
+                                                if day == 'دوشنبه':
+                                                    reserved.monday_dinner = prefered_data[0][1].food.name
+                                                    reserved.monday_dinner_self = self.self_name
+                                                if day == 'سه شنبه':
+                                                    reserved.tuesday_dinner = prefered_data[0][1].food.name
+                                                    reserved.tuesday_dinner_self = self.self_name
+                                                if day == 'چهارشنبه':
+                                                    reserved.wednesday_dinner = prefered_data[0][1].food.name
+                                                    reserved.wednesday_dinner_self = self.self_name
+                                                if day == 'پنجشنبه':
+                                                    reserved.thursday_dinner = prefered_data[0][1].food.name
+                                                    reserved.thursday_dinner_self = self.self_name
+                                                if day == 'جمعه':
+                                                    reserved.friday_dinner = prefered_data[0][1].food.name
+                                                    reserved.friday_dinner_self = self.self_name
 
                         for daye in breakfast_data:
                             if breakfast_data[daye]:
@@ -552,44 +572,42 @@ def samadv1_reserve_function():
                                                 f'userWeekReserves[{prefered_data[0][0]}].selectedCount'] = '1'
                                             a = int(prefered_data[0][2])
                                             total_price += a
-                                            if day == 'شنبه':
-                                                reserved.saturday_lunch = prefered_data[0][1].food.name
-                                                reserved.saturday_breakfast_self = self.self_name
-                                            if day == 'یکشنبه':
-                                                reserved.sunday_lunch = prefered_data[0][1].food.name
-                                                reserved.sunday_breakfast_self = self.self_name
-                                            if day == 'دوشنبه':
-                                                reserved.monday_lunch = prefered_data[0][1].food.name
-                                                reserved.monday_breakfast_self = self.self_name
-                                            if day == 'سه شنبه':
-                                                reserved.tuesday_lunch = prefered_data[0][1].food.name
-                                                reserved.tuesday_breakfast_self = self.self_name
-                                            if day == 'چهارشنبه':
-                                                reserved.wednesday_lunch = prefered_data[0][1].food.name
-                                                reserved.wednesday_breakfast_self = self.self_name
-                                            if day == 'پنجشنبه':
-                                                reserved.thursday_lunch = prefered_data[0][1].food.name
-                                                reserved.thursday_breakfast_self = self.self_name
-                                            if day == 'جمعه':
-                                                reserved.friday_lunch = prefered_data[0][1].food.name
-                                                reserved.friday_breakfast_self = self.self_name
+                                            payload_reserve['remainCredit'] = Credit - total_price
+                                            result = session_requests.post(reserve_get_url, data=payload_reserve)
 
-                            payload_reserve['remainCredit'] = Credit - total_price
-                            reserved.save()
-                        result = session_requests.post(reserve_get_url, data=payload_reserve)
+                                            try:
+                                                alert = list(set(tree.xpath("//*[@id=\"errorMessages\"]/text()")))
+                                                alertm = ''
+                                                for item in alert:
+                                                    alertm += item
+                                                alert = alertm.strip()
+
+                                            except:
+                                                if day == 'شنبه':
+                                                    reserved.saturday_dinner = prefered_data[0][1].food.name
+                                                    reserved.saturday_dinner_self = self.self_name
+                                                if day == 'یکشنبه':
+                                                    reserved.sunday_dinner = prefered_data[0][1].food.name
+                                                    reserved.sunday_dinner_self = self.self_name
+                                                if day == 'دوشنبه':
+                                                    reserved.monday_dinner = prefered_data[0][1].food.name
+                                                    reserved.monday_dinner_self = self.self_name
+                                                if day == 'سه شنبه':
+                                                    reserved.tuesday_dinner = prefered_data[0][1].food.name
+                                                    reserved.tuesday_dinner_self = self.self_name
+                                                if day == 'چهارشنبه':
+                                                    reserved.wednesday_dinner = prefered_data[0][1].food.name
+                                                    reserved.wednesday_dinner_self = self.self_name
+                                                if day == 'پنجشنبه':
+                                                    reserved.thursday_dinner = prefered_data[0][1].food.name
+                                                    reserved.thursday_dinner_self = self.self_name
+                                                if day == 'جمعه':
+                                                    reserved.friday_dinner = prefered_data[0][1].food.name
+                                                    reserved.friday_dinner_self = self.self_name
+
                         tree = html.fromstring(result.text)
-                        reserved.credit = Credit - total_price
+                        reserved.credit = int(list(set(tree.xpath("//input[@name='remainCredit']/@value")))[0])
                         reserved.save()
-
-                        try:
-                            alert = list(set(tree.xpath("//*[@id=\"errorMessages\"]/text()")))
-                            alertm = ''
-                            for item in alert:
-                                alertm += item
-                            alert = alertm.strip()
-
-                        except:
-                            pass
 
                 if user_data.user.chat_id != 0:
                     bot_token = '610448118:AAFVPBXMKPzqAiOJ9-zhusKrOloCiJuEwi8'
