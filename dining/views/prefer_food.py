@@ -10,10 +10,33 @@ def prefer_food(request):
             food_list = list()
             if request.method == 'GET':
                 if u:
-                    for foods in Food.objects.filter(university=u[0].university):
-                        food_list.append(foods.name)
+                    if u[0].university.tag == 'sharif':
+                        msg = 'ما با توجه به سابقه‌ی رزروت این نمرات رو برای غذاها بهت پیشنهاد دادیم ' \
+                              'اگر بخوای می‌تونی' \
+                              ' به راحتی عوضشون کنی'
+                        scores = request.session['scores']
+                        for foods in Food.objects.filter(university=u[0].university):
+                            food_list.append(foods.name)
+                        if scores is not None:
+                            for food in food_list:
+                                flag = True
+                                for item in scores:
+                                    if item[0] == food:
+                                        flag = False
+                                if flag:
+                                    scores.append((food, 0))
+                        else:
+                            for foods in Food.objects.filter(university=u[0].university):
+                                scores.append((foods.name, 5))
+                    else:
+                        scores = []
+                        msg = ''
+                        for foods in Food.objects.filter(university=u[0].university):
+                            scores.append((foods.name, 5))
+
                     return render(request, 'dining/templates/prefered_food.html',
-                                  {'food_list': food_list, 'count': len(food_list)})
+                                  {'food_list': scores, 'count': len(food_list),
+                                   'msg': msg})
                 else:
                     return redirect('/wizard')
             elif request.method == 'POST':

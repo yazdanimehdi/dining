@@ -92,10 +92,10 @@
                 <h2 style="text-align: center;">به غذاها از ۰ تا ۱۰ نمره بده</h2>
                 <p class="desc" style="text-align: center;">اگه به غذایی صفر بدی برات رزروش نمیکنم</p>
 
-                {% for food_name in food_list %}
+                {% for food_name, score in food_list %}
                     <h3 style="text-align: center;font-family:bnazanin;">{{ food_name }}</h3>
-                    <div class="value" id="{{ food_name }}">5</div>
-                    <input type="range" name="{{ food_name }}" min="0" max="10" step="1" >
+                    <div class="value" id="{{ food_name }}">{{ score }}</div>
+                    <input type="range" name="{{ food_name }}" value="{{ score }}" min="0" max="10" step="1">
                     <br>
                 {% endfor %}
 

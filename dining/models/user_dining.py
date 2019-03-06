@@ -204,7 +204,8 @@ class UserDiningData(models.Model):
             for item in self_names:
                 self_dict[item] = self_id[i]
                 i += 1
-            return self_dict
+            cookies = session_requests.cookies
+            return self_dict, cookies
 
     def __str__(self):
         return str(self.user)

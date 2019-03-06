@@ -14,7 +14,7 @@ def userdiningdata_wizard_samad(request):
                     if hasattr(u, x):
                         u.__setattr__(x, request.POST.get(x))
                 if not UserDiningData.objects.filter(dining_username=u.dining_username):
-                    a = u.test_account()
+                    a, cookie = u.test_account()
                     if a != {}:
                         for item in a:
                             self = UserSelfs()
