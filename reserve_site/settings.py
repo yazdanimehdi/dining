@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'dining',
     'order',
-    'dining.bot',
 ]
 
 MIDDLEWARE = [
