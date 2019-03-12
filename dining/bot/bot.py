@@ -3,6 +3,8 @@ import logging
 import telegram
 from telegram.ext import Updater, CommandHandler, Filters, MessageHandler, ConversationHandler, CallbackQueryHandler
 
+from . import *
+
 bot_token = '610448118:AAFVPBXMKPzqAiOJ9-zhusKrOloCiJuEwi8'
 updater = Updater(token=bot_token)
 dispatcher = updater.dispatcher
