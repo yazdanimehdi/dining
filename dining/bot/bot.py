@@ -1,7 +1,12 @@
 import logging
+import os
 
+import django
 import telegram
 from telegram.ext import Updater, CommandHandler, Filters, MessageHandler, ConversationHandler, CallbackQueryHandler
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'reserve_site.settings')
+django.setup()
 
 from dining.bot.forgetting_code import meal_select, forget_code, start_forget, BotStateForget
 from dining.bot.modify import modify, modify_reserve, cancel_reserve, reserve, modify_reserve_end, select_day, \
