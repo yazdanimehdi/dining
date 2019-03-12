@@ -1,5 +1,6 @@
 from .change_info import change_info
 from .change_info_dining import change_info_dining
+from .change_remove_food import do_reserve, modify_reserve, cancel_reserve
 from .changeinfo_days import change_days
 from .charge import charge_account
 from .dashboard import dashboard
@@ -19,4 +20,3 @@ from .samad_wizard import userdiningdata_wizard_samad
 from .selfid import self_id
 from .signup import signup
 from .zarinpal_online_payment import send_request, verify
-

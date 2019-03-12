@@ -4,3 +4,4 @@ from .reserved import ReservedTable
 from .university_dining import Food, University
 from .user import CustomUser, PendingPayment
 from .user_dining import UserDiningData, UserPreferableFood, UserSelfs, SamadPrefrredDays
+from .week_food import Dicty, Key, Val

@@ -33,12 +33,9 @@ def credit_insufficient():
 
             def send_stop(chat_id, token):
                 bot = telegram.Bot(token=token)
-                reply_markup = telegram.ReplyKeyboardMarkup(
-                    [[telegram.KeyboardButton('/stop_reserve')]], one_time_keyboard=True)
 
                 bot.sendMessage(chat_id=chat_id,
-                                text="برای رزرو نکردن هفته‌ی آینده \"توقف رزرو\" رو ارسال کن",
-                                reply_markup=reply_markup,
+                                text="*برای رزرو نکردن هفته‌ی آینده \"توقف رزرو\" رو ارسال کن*",
                                 parse_mode=telegram.ParseMode.MARKDOWN)
 
             try:

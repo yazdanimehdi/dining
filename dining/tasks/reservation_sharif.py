@@ -12,7 +12,7 @@ from lxml import html
 
 @task()
 def reserve_function():
-    from dining.models import UserDiningData, ReservedTable, UserSelfs, UserPreferableFood, Food
+    from dining.models import UserDiningData, ReservedTable, UserSelfs, UserPreferableFood, Food, Dicty, Key, Val
 
     for user_data in UserDiningData.objects.filter(university__tag='sharif'):
         if user_data.user.is_paid == True and user_data.user.reserve == True:
@@ -128,6 +128,40 @@ def reserve_function():
 
                             i += 1
                         data_lunch[(day[0], date[0])] = foods
+
+                    dictionary_model = Dicty.objects.get_or_create(name=user_data.user.name + 'data_dinner')
+
+                    dictionary_model.save()
+
+                    Key.objects.filter(container=dictionary_model).delete()
+                    for item in data_dinner:
+                        key = Key()
+                        key.container = dictionary_model
+                        key.key = item[0]
+                        key.save()
+                        for food in data_dinner[item]:
+                            value = Val()
+                            value.key = key
+                            value.container = dictionary_model
+                            value.name = food[1]
+                            value.food_id = food[0]
+
+                    dictionary_model = Dicty.objects.get_or_create(name=user_data.user.name + 'data_dinner')
+
+                    dictionary_model.save()
+
+                    Key.objects.filter(container=dictionary_model).delete()
+                    for item in data_lunch:
+                        key = Key()
+                        key.container = dictionary_model
+                        key.key = item[0]
+                        key.save()
+                        for food in data_lunch[item]:
+                            value = Val()
+                            value.key = key
+                            value.container = dictionary_model
+                            value.name = food[1]
+                            value.food_id = food[0]
 
                     chosen_days_lunch = []
 
