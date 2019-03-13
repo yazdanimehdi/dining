@@ -128,12 +128,12 @@ for user_data in UserDiningData.objects.filter(university__tag='sharif', user__u
                 dictionary_model = Dicty.objects.get_or_create(name=user_data.user.username + 'data_lunch')
 
                 Key.objects.filter(container__name=user_data.user.username + 'data_lunch').delete()
-                for item in data_dinner:
+                for item in data_lunch:
                     key = Key()
                     key.container = dictionary_model[0]
                     key.key = item[0]
                     key.save()
-                    for food in data_dinner[item]:
+                    for food in data_lunch[item]:
                         value = Val()
                         value.key = key
                         value.container = dictionary_model[0]
@@ -144,12 +144,12 @@ for user_data in UserDiningData.objects.filter(university__tag='sharif', user__u
                 dictionary_model = Dicty.objects.get_or_create(name=user_data.user.username + 'data_dinner')
 
                 Key.objects.filter(container__name=user_data.user.username + 'data_dinner').delete()
-                for item in data_lunch:
+                for item in data_dinner:
                     key = Key()
                     key.container = dictionary_model[0]
                     key.key = item[0]
                     key.save()
-                    for food in data_lunch[item]:
+                    for food in data_dinner[item]:
                         value = Val()
                         value.key = key
                         value.container = dictionary_model[0]
