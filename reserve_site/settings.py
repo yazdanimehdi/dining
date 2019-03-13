@@ -77,7 +77,7 @@ CELERY_BEAT_SCHEDULE = {
     },
     'sharif_reserve_task': {
         'task': 'dining.tasks.reservation_sharif.reserve_function',
-        'schedule': crontab(hour=00, minute=5, day_of_week=4),
+        'schedule': crontab(hour=00, minute=20, day_of_week=4),
     },
     'tehran_reserve_task': {
         'task': 'dining.tasks.tehran_reserve_function.tehran_reserve_function',
@@ -135,10 +135,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'diningdb',
-        'USER': 'admin',
-        'PASSWORD': '99&3M+p`gw5{v%Jv',
-        # 'USER': 'postgres',
-        # 'PASSWORD': 'salam1392',
+        # 'USER': 'admin',
+        # 'PASSWORD': '99&3M+p`gw5{v%Jv',
+        'USER': 'postgres',
+        'PASSWORD': 'salam1392',
         'HOST': 'localhost',
         'port': '5432'
     }
