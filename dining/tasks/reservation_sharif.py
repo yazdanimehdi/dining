@@ -129,7 +129,7 @@ def reserve_function():
                             i += 1
                         data_lunch[(day[0], date[0])] = foods
 
-                    dictionary_model = Dicty.objects.get_or_create(name=user_data.user.name + 'data_dinner')
+                    dictionary_model = Dicty.objects.get_or_create(name=user_data.user.username + 'data_dinner')
 
                     dictionary_model.save()
 
@@ -146,7 +146,7 @@ def reserve_function():
                             value.name = food[1]
                             value.food_id = food[0]
 
-                    dictionary_model = Dicty.objects.get_or_create(name=user_data.user.name + 'data_dinner')
+                    dictionary_model = Dicty.objects.get_or_create(name=user_data.user.username + 'data_dinner')
 
                     dictionary_model.save()
 
