@@ -75,9 +75,9 @@ def select_modify(bot, update, user_data):
     user_data['day'] = query['data']
     user_data['data'] = Key.objects.get(container__name=user_data['user'].username + user_data['meal'],
                                         key=user_data['day'])
-    keyboard = [[telegram.InlineKeyboardButton(text='تغییر', callback_data=1)],
-                [telegram.InlineKeyboardButton(text='رزرو', callback_data=2)],
-                [telegram.InlineKeyboardButton(text='لفو رزرو', callback_data=3)]]
+    keyboard = [[telegram.InlineKeyboardButton(text='تغییر', callback_data='1')],
+                [telegram.InlineKeyboardButton(text='رزرو', callback_data='2')],
+                [telegram.InlineKeyboardButton(text='لفو رزرو', callback_data='3')]]
     inline_keyboard = telegram.InlineKeyboardMarkup(keyboard, resize_keyboard=True)
     bot.sendMessage(chat_id=user_data['user'].chat_id,
                     text="*لطفا عملیات مورد نظر رو انتخاب کن:*",
@@ -92,9 +92,8 @@ def modify(bot, update, user_data):
     from dining.models import Val
     data = Val.objects.filter(container__name=user_data['user'].username + user_data['meal'],
                               key=user_data['data'])
-    print(data)
     query = update.callback_query
-    if query['data'] == 1:
+    if query['data'] == '1':
 
         keyboard = list()
         for item in data:
@@ -108,7 +107,7 @@ def modify(bot, update, user_data):
 
         return BotStateModify.MODIFY
 
-    if query['data'] == 3:
+    if query['data'] == '3':
 
         keyboard = list()
         for item in data:
@@ -122,7 +121,7 @@ def modify(bot, update, user_data):
 
         return BotStateModify.CANCEL
 
-    if query['data'] == 2:
+    if query['data'] == '2':
         keyboard = list()
         for item in data:
             keyboard.append([telegram.InlineKeyboardButton(text=f'{item.name}',
