@@ -74,8 +74,7 @@ def select_modify(bot, update, user_data):
     query = update.callback_query
     user_data['day'] = query['data']
     user_data['data'] = Key.objects.get(container__name=user_data['user'].username + user_data['meal'],
-                                        key=user_data['day'],
-                                        parse_mode=telegram.ParseMode.MARKDOWN)
+                                        key=user_data['day'])
     keyboard = [[telegram.InlineKeyboardButton(text='تغییر', callback_data=1)],
                 [telegram.InlineKeyboardButton(text='رزرو', callback_data=2)],
                 [telegram.InlineKeyboardButton(text='لفو رزرو', callback_data=3)]]
