@@ -211,7 +211,7 @@ for user_data in UserDiningData.objects.filter(university__tag='sharif'):
                                     }
 
                                     session_requests.post(user_data.university.reserve_url + user_id,
-                                                          data=food_reserve_request)
+                                                          data=food_reserve_request, verify=False)
 
                 for item in data_dinner:
                     if data_dinner[item]:
@@ -236,7 +236,7 @@ for user_data in UserDiningData.objects.filter(university__tag='sharif'):
                                         }
 
                                         session_requests.post(user_data.university.reserve_url + user_id,
-                                                              data=food_reserve_request)
+                                                              data=food_reserve_request, verify=False)
 
             date = str(jdatetime.date.today() + jdatetime.timedelta(2))
             date = re.sub(r'\-', '/', date)
