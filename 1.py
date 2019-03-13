@@ -9,8 +9,12 @@ for user in CustomUser.objects.filter(is_paid=True):
             bot.send_message(chat_id=chat_id, text=msg)
 
 
-        bot_token = '610448118:AAFVPBXMKPzqAiOJ9-zhusKrOloCiJuEwi8'
-        message = "*سلام\n" \
-                  "با عرض پوزش دیروز به دلایل فنی ربات در دسترس نبود \n" \
-                  "برای رزرو نکردن هفته‌ی آینده \"توقف رزرو\" رو ارسال کن*"
-        send(message, str(user.chat_id), bot_token)
+        try:
+            bot_token = '610448118:AAFVPBXMKPzqAiOJ9-zhusKrOloCiJuEwi8'
+            message = "*سلام\n" \
+                      "با عرض پوزش دیروز به دلایل فنی ربات در دسترس نبود \n" \
+                      "برای رزرو نکردن هفته‌ی آینده \"توقف رزرو\" رو ارسال کن*"
+            send(message, str(user.chat_id), bot_token)
+
+        except:
+            pass
