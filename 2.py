@@ -10,7 +10,7 @@ from lxml import html
 
 from dining.models import *
 
-for user_data in UserDiningData.objects.filter(university__tag='sharif', user_username='myjahromi'):
+for user_data in UserDiningData.objects.filter(university__tag='sharif', user__username='myjahromi'):
     if user_data.user.is_paid == True and user_data.user.reserve == True:
         try:
             login_url = user_data.university.login_url
