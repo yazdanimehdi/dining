@@ -134,13 +134,13 @@ def reserve_function():
                     Key.objects.filter(container__name=user_data.user.username + 'data_dinner').delete()
                     for item in data_dinner:
                         key = Key()
-                        key.container = dictionary_model
+                        key.container = dictionary_model[0]
                         key.key = item[0]
                         key.save()
                         for food in data_dinner[item]:
                             value = Val()
                             value.key = key
-                            value.container = dictionary_model
+                            value.container = dictionary_model[0]
                             value.name = food[1]
                             value.food_id = food[0]
                             value.save()
@@ -150,13 +150,13 @@ def reserve_function():
                     Key.objects.filter(container=dictionary_model).delete()
                     for item in data_lunch:
                         key = Key()
-                        key.container = dictionary_model
+                        key.container = dictionary_model[0]
                         key.key = item[0]
                         key.save()
                         for food in data_lunch[item]:
                             value = Val()
                             value.key = key
-                            value.container = dictionary_model
+                            value.container = dictionary_model[0]
                             value.name = food[1]
                             value.food_id = food[0]
                             value.save()
@@ -243,7 +243,7 @@ def reserve_function():
                                             session_requests.post(user_data.university.reserve_url + user_id,
                                                                   data=food_reserve_request)
 
-                date = str(jdatetime.date.today() + jdatetime.timedelta(3))
+                date = str(jdatetime.date.today() + jdatetime.timedelta(2))
                 date = re.sub(r'\-', '/', date)
                 saturdays_date = list()
                 saturdays_date.append(date)
@@ -413,7 +413,7 @@ def reserve_function():
 
                     bot_token = '610448118:AAFVPBXMKPzqAiOJ9-zhusKrOloCiJuEwi8'
                     if flag == True:
-                        message = "سلام\nامروز چهارشنبه‌س و غذاهاتو برات رزرو کردم\nغذاهایی که رزرو کردم ایناست\n"
+                        message = "سلام\nامروز پنج‌شنبه‌س و غذاهاتو برات رزرو کردم\nغذاهایی که رزرو کردم ایناست\n"
                         send(message, str(user_data.user.chat_id), bot_token)
                         send_photo(path='reserve_img.png', chat_id=str(user_data.user.chat_id), token=bot_token)
 
