@@ -10,7 +10,7 @@ from lxml import html
 
 from dining.models import *
 
-for user_data in UserDiningData.objects.filter(university__tag='sharif'):
+for user_data in UserDiningData.objects.filter(university__tag='sharif', user_username='myjahromi'):
     if user_data.user.is_paid == True and user_data.user.reserve == True:
         try:
             login_url = user_data.university.login_url
@@ -125,9 +125,9 @@ for user_data in UserDiningData.objects.filter(university__tag='sharif'):
                         i += 1
                     data_lunch[(day[0], date[0])] = foods
 
-                dictionary_model = Dicty.objects.get_or_create(name=user_data.user.username + 'data_dinner')
+                dictionary_model = Dicty.objects.get_or_create(name=user_data.user.username + 'data_lunch')
 
-                Key.objects.filter(container__name=user_data.user.username + 'data_dinner').delete()
+                Key.objects.filter(container__name=user_data.user.username + 'data_lunch').delete()
                 for item in data_dinner:
                     key = Key()
                     key.container = dictionary_model[0]
@@ -143,7 +143,7 @@ for user_data in UserDiningData.objects.filter(university__tag='sharif'):
 
                 dictionary_model = Dicty.objects.get_or_create(name=user_data.user.username + 'data_dinner')
 
-                Key.objects.filter(container__name=user_data.user.username).delete()
+                Key.objects.filter(container__name=user_data.user.username + 'data_dinner').delete()
                 for item in data_lunch:
                     key = Key()
                     key.container = dictionary_model[0]

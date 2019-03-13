@@ -129,9 +129,9 @@ def reserve_function():
                             i += 1
                         data_lunch[(day[0], date[0])] = foods
 
-                    dictionary_model = Dicty.objects.get_or_create(name=user_data.user.username + 'data_dinner')
+                    dictionary_model = Dicty.objects.get_or_create(name=user_data.user.username + 'data_lunch')
 
-                    Key.objects.filter(container__name=user_data.user.username + 'data_dinner').delete()
+                    Key.objects.filter(container__name=user_data.user.username + 'data_lunch').delete()
                     for item in data_dinner:
                         key = Key()
                         key.container = dictionary_model[0]
@@ -147,7 +147,7 @@ def reserve_function():
 
                     dictionary_model = Dicty.objects.get_or_create(name=user_data.user.username + 'data_dinner')
 
-                    Key.objects.filter(container__name=user_data.user.username).delete()
+                    Key.objects.filter(container__name=user_data.user.username + 'data_dinner').delete()
                     for item in data_lunch:
                         key = Key()
                         key.container = dictionary_model[0]
@@ -216,7 +216,7 @@ def reserve_function():
                                         }
 
                                         session_requests.post(user_data.university.reserve_url + user_id,
-                                                              data=food_reserve_request)
+                                                              data=food_reserve_request, verify=False)
 
                     for item in data_dinner:
                         if data_dinner[item]:
@@ -241,7 +241,7 @@ def reserve_function():
                                             }
 
                                             session_requests.post(user_data.university.reserve_url + user_id,
-                                                                  data=food_reserve_request)
+                                                                  data=food_reserve_request, verify=False)
 
                 date = str(jdatetime.date.today() + jdatetime.timedelta(2))
                 date = re.sub(r'\-', '/', date)
