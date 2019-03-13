@@ -99,10 +99,10 @@ def modify(bot, update, user_data):
         for item in data:
             keyboard.append([telegram.InlineKeyboardButton(text=f'{item.name}',
                                                            callback_data=f'{item.food_id}')])
-
+        inline_keyboard = telegram.InlineKeyboardMarkup(keyboard, resize_keyboard=True)
         bot.sendMessage(chat_id=user_data['user'].chat_id,
                         text="*لطفا غذای رزرو شده‌ي کنونی رو انتخاب کن:*",
-                        reply_markup=keyboard,
+                        reply_markup=inline_keyboard,
                         parse_mode=telegram.ParseMode.MARKDOWN)
 
         return BotStateModify.MODIFY
@@ -113,10 +113,10 @@ def modify(bot, update, user_data):
         for item in data:
             keyboard.append([telegram.InlineKeyboardButton(text=f'{item.name}',
                                                            callback_data=f'{item.food_id}')])
-
+        inline_keyboard = telegram.InlineKeyboardMarkup(keyboard, resize_keyboard=True)
         bot.sendMessage(chat_id=user_data['user'].chat_id,
                         text="*لطفا غذایی رو که  میخوای رزروشو کنسل کنی رو انتخاب کن:*",
-                        reply_markup=keyboard,
+                        reply_markup=inline_keyboard,
                         parse_mode=telegram.ParseMode.MARKDOWN)
 
         return BotStateModify.CANCEL
@@ -126,10 +126,10 @@ def modify(bot, update, user_data):
         for item in data:
             keyboard.append([telegram.InlineKeyboardButton(text=f'{item.name}',
                                                            callback_data=f'{item.food_id}')])
-
+        inline_keyboard = telegram.InlineKeyboardMarkup(keyboard, resize_keyboard=True)
         bot.sendMessage(chat_id=user_data['user'].chat_id,
                         text="*لطفا غذایی رو که  میخوای رزرو کنی رو انتخاب کن:*",
-                        reply_markup=keyboard,
+                        reply_markup=inline_keyboard,
                         parse_mode=telegram.ParseMode.MARKDOWN)
 
         return BotStateModify.RESERVE
@@ -171,10 +171,10 @@ def modify_reserve(bot, update, user_data):
     for item in data:
         keyboard.append([telegram.InlineKeyboardButton(text=f'{item.name}',
                                                        callback_data=f'{item.food_id}')])
-
+    inline_keyboard = telegram.InlineKeyboardMarkup(keyboard, resize_keyboard=True)
     bot.sendMessage(chat_id=user_data['user'].chat_id,
                     text="*لطفا غذایی که میخوای رزرو شه رو انتخاب کن:*",
-                    reply_markup=keyboard,
+                    reply_markup=inline_keyboard,
                     parse_mode=telegram.ParseMode.MARKDOWN)
 
     return BotStateModify.MODIFYEND
