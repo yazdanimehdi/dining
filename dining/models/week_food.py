@@ -6,12 +6,12 @@ class Dicty(models.Model):
 
 
 class Key(models.Model):
-    container = models.ForeignKey(Dicty, on_delete=models.CASCADE)
+    container = models.ForeignKey(to='dining.Dicty', on_delete=models.CASCADE)
     key = models.CharField(max_length=240)
 
 
 class Val(models.Model):
-    container = models.ForeignKey(Dicty, on_delete=models.CASCADE)
+    container = models.ForeignKey(to='dining.Dicty', on_delete=models.CASCADE)
     key = models.ForeignKey(to='dining.Key', on_delete=models.CASCADE)
     name = models.CharField(max_length=240)
     food_id = models.CharField(max_length=240)

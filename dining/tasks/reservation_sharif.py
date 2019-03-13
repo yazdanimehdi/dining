@@ -131,7 +131,7 @@ def reserve_function():
 
                     dictionary_model = Dicty.objects.get_or_create(name=user_data.user.username + 'data_dinner')
 
-                    Key.objects.filter(container=dictionary_model).delete()
+                    Key.objects.filter(container__name=user_data.user.username + 'data_dinner').delete()
                     for item in data_dinner:
                         key = Key()
                         key.container = dictionary_model
