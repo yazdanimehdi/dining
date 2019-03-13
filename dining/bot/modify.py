@@ -92,6 +92,7 @@ def modify(bot, update, user_data):
     from dining.models import Val
     data = Val.objects.filter(container__name=user_data['user'].username + user_data['meal'],
                               key=user_data['data'])
+    print(data)
     query = update.callback_query
     if query['data'] == 1:
 
