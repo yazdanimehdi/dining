@@ -2,6 +2,7 @@ import re
 
 import imgkit
 import jdatetime
+import pandas as pd
 import requests
 import telegram
 from bs4 import BeautifulSoup
