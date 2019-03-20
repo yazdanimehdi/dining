@@ -11,9 +11,8 @@ for user in CustomUser.objects.filter(is_paid=True):
 
         try:
             bot_token = '610448118:AAFVPBXMKPzqAiOJ9-zhusKrOloCiJuEwi8'
-            message = "*سلام\n" \
-                      "با عرض پوزش دیروز به دلایل فنی ربات در دسترس نبود \n" \
-                      "برای رزرو نکردن هفته‌ی آینده \"توقف رزرو\" رو ارسال کن*"
+            message = "*مسترزرو سال خوبی رو برای شما و خانواده محترمتون آرزو میکنه 🖤♥️\n" \
+                      "سال ۹۸ با ۱۰۰ درصد انرژی، همراه با هم به سوی پیشرفت قدم برمیداریم*"
             send(message, str(user.chat_id), bot_token)
 
         except:
