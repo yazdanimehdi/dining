@@ -139,7 +139,7 @@ def save_values(user_data, data_lunch, data_dinner, self_id):
     for item in data_dinner:
         key = Key()
         key.container = dictionary_model
-        key.key = item[0]
+        key.key = item
         key.save()
         for food in data_dinner[item]:
             value = Val()
@@ -160,7 +160,7 @@ def save_values(user_data, data_lunch, data_dinner, self_id):
     for item in data_lunch:
         key = Key()
         key.container = dictionary_model
-        key.key = item[0]
+        key.key = item
         key.save()
         for food in data_lunch[item]:
             value = Val()
@@ -300,7 +300,7 @@ def telegram_table_message(user_data, data_lunch, data_dinner):
                    token=bot_token)
 
 
-for user_data in UserDiningData.objects.filter(university__tag='sharif'):
+for user_data in UserDiningData.objects.filter(university__tag='sharif', user__username='myjahromi'):
     if user_data.user.is_paid is True and user_data.user.reserve is True:
 
         active_selfs = UserSelfs.objects.filter(user=user_data.user, is_active=True)
@@ -355,9 +355,11 @@ for user_data in UserDiningData.objects.filter(university__tag='sharif'):
             for day in chosen_days_lunch:
                 preferred_foods = []
                 for dish in data_lunch[day]:
+                    print(dish)
                     preferred_foods.append((dish[1], UserPreferableFood.objects.filter(
                         food__name=dish[0])[0].score))
                 preferred_foods.sort(key=lambda x: x[1], reverse=True)
+                print(preferred_foods)
                 if preferred_foods:
                     do_reserve(preferred_foods[0][0], user_id, self.self_id, cookie)
 

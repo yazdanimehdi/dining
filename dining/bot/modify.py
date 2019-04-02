@@ -91,7 +91,7 @@ def modify(bot, update, user_data):
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'reserve_site.settings')
     django.setup()
     from dining.models import Val
-    data = Val.objects.filter(container__name=user_data['user'].username + user_data['meal'],
+    data = Val.objects.filter(container__name=user_data['user'].username + user_data['meal'] + user_data['self'],
                               key=user_data['data'])
     query = update.callback_query
     if query['data'] == '1':
