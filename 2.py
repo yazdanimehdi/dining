@@ -308,7 +308,10 @@ for user_data in UserDiningData.objects.filter(university__tag='sharif'):
             cookie = login(user_data)
         except ValueError:
             continue
-        user_id = get_user_id(cookie)
+        try:
+            user_id = get_user_id(cookie)
+        except ValueError:
+            continue
 
         for self in active_selfs:
 
