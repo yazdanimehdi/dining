@@ -133,7 +133,7 @@ def save_values(user_data, data_lunch, data_dinner, self_id):
 
     except:
         dictionary_model = Dicty()
-        dictionary_model.name = user_data.user.username + 'data_lunch' + f'{self_id}'
+        dictionary_model.name = user_data.user.username + 'data_dinner' + f'{self_id}'
         dictionary_model.save()
 
     for item in data_dinner:
@@ -154,7 +154,7 @@ def save_values(user_data, data_lunch, data_dinner, self_id):
 
     except:
         dictionary_model = Dicty()
-        dictionary_model.name = user_data.user.username + 'data_dinner' + f'{self_id}'
+        dictionary_model.name = user_data.user.username + 'data_lunch' + f'{self_id}'
         dictionary_model.save()
 
     for item in data_lunch:
