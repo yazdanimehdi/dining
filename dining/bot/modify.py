@@ -73,7 +73,8 @@ def select_modify(bot, update, user_data):
     from dining.models import Key
     query = update.callback_query
     user_data['day'] = query['data']
-    user_data['data'] = Key.objects.get(container__name=user_data['user'].username + user_data['meal'],
+    user_data['data'] = Key.objects.get(container__name=user_data['user'].username +
+                                                        user_data['meal'] + user_data['self'],
                                         key=user_data['day'])
     keyboard = [[telegram.InlineKeyboardButton(text='تغییر', callback_data='1')],
                 [telegram.InlineKeyboardButton(text='رزرو', callback_data='2')],
