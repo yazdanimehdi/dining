@@ -73,11 +73,8 @@ def select_modify(bot, update, user_data):
     from dining.models import Key
     query = update.callback_query
     user_data['day'] = query['data']
-    print(user_data['day'])
-    print(user_data['user'].username + user_data['meal'] + user_data['self'])
-    user_data['data'] = Key.objects.get(container__name=user_data['user'].username +
-                                                        user_data['meal'] + user_data['self'],
-                                        key=user_data['day'])
+    user_data['data'] = Key.objects.get(
+        container__name=user_data['user'].username + user_data['meal'] + user_data['self'], key=user_data['day'])
     keyboard = [[telegram.InlineKeyboardButton(text='تغییر', callback_data='1')],
                 [telegram.InlineKeyboardButton(text='رزرو', callback_data='2')],
                 [telegram.InlineKeyboardButton(text='لفو رزرو', callback_data='3')]]
@@ -175,7 +172,7 @@ def modify_reserve(bot, update, user_data):
     from dining.models import Val
     query = update.callback_query
     user_data['cancel_id'] = query['data']
-    data = Val.objects.filter(container__name=user_data['user'].username + user_data['meal'],
+    data = Val.objects.filter(container__name=user_data['user'].username + user_data['meal'] + user_data['self'],
                               key=user_data['data'])
     keyboard = list()
     for item in data:
