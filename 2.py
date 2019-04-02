@@ -202,24 +202,22 @@ def get_reserved_table(user_data, user_id, cookie):
     data_dinner = dict()
     for row in table_rows:
         day = re.findall(r'<th>\s+(.*?)\s\s', str(row))[0]
-        lunch = row.find_all('td')[0].find_all('div')
+        lunch = row.find_all('td')[0]
         dishes = list()
-        for dish in lunch:
-            try:
-                food_name = dish.text.split('(')[0].strip()
-                dishes.append(food_name)
-            except:
-                dishes.append('-')
+        try:
+            food_name = lunch.text.split('(')[0].strip()
+            dishes.append(food_name)
+        except:
+            dishes.append('-')
         data_lunch[day] = dishes
 
-        dinner = row.find_all('td')[1].find_all('div')
+        dinner = row.find_all('td')[1]
         dishes = list()
-        for dish in dinner:
-            try:
-                food_name = dish.text.split('(')[0].strip()
-                dishes.append(food_name)
-            except:
-                dishes.append('-')
+        try:
+            food_name = dinner.find_all('span')[0].text.strip()
+            dishes.append(food_name)
+        except:
+            dishes.append('-')
 
         data_dinner[day] = dishes
 
