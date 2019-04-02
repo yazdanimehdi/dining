@@ -128,7 +128,7 @@ def save_values(user_data, data_lunch, data_dinner, self_id):
 
     try:
         dictionary_model = Dicty.objects.get(name=user_data.user.username + 'data_lunch' + f'{self_id}')
-        Key.objects.filter(container__name=user_data.user.username + 'data_lunch').delete()
+        Key.objects.filter(container__name=user_data.user.username + 'data_lunch' + f'{self_id}').delete()
 
 
     except:
@@ -150,7 +150,7 @@ def save_values(user_data, data_lunch, data_dinner, self_id):
             value.save()
     try:
         dictionary_model = Dicty.objects.get(name=user_data.user.username + 'data_dinner' + f'{self_id}')
-        Key.objects.filter(container__name=user_data.user.username + 'data_dinner').delete()
+        Key.objects.filter(container__name=user_data.user.username + 'data_dinner' + f'{self_id}').delete()
 
     except:
         dictionary_model = Dicty()
