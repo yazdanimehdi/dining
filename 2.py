@@ -306,7 +306,7 @@ def telegram_table_message(user_data, data_lunch, data_dinner):
                    token=bot_token)
 
 
-for user_data in UserDiningData.objects.filter(university__tag='sharif', user__username='myjahromi'):
+for user_data in UserDiningData.objects.filter(university__tag='sharif'):
     if user_data.user.is_paid is True and user_data.user.reserve is True:
 
         active_selfs = UserSelfs.objects.filter(user=user_data.user, is_active=True)

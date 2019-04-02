@@ -90,9 +90,7 @@ def modify(bot, update, user_data):
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'reserve_site.settings')
     django.setup()
     from dining.models import Val
-    print(user_data['user'].username + user_data['meal'] + user_data['self'])
-    data = Val.objects.filter(container__name=user_data['user'].username + user_data['meal'] + user_data['self'],
-                              key=user_data['data'])
+    data = Val.objects.filter(key=user_data['data'])
     query = update.callback_query
     if query['data'] == '1':
 
@@ -172,8 +170,7 @@ def modify_reserve(bot, update, user_data):
     from dining.models import Val
     query = update.callback_query
     user_data['cancel_id'] = query['data']
-    data = Val.objects.filter(container__name=user_data['user'].username + user_data['meal'] + user_data['self'],
-                              key=user_data['data'])
+    data = Val.objects.filter(key=user_data['data'])
     keyboard = list()
     for item in data:
         keyboard.append([telegram.InlineKeyboardButton(text=f'{item.name}',
