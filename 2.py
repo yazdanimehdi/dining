@@ -158,11 +158,14 @@ def save_values(user_data, data_lunch, data_dinner, self_id):
         dictionary_model.save()
 
     for item in data_lunch:
+        print(item)
+        print(data_lunch)
         key = Key()
         key.container = dictionary_model
         key.key = item
         key.save()
         for food in data_lunch[item]:
+            print(food)
             value = Val()
             value.key = key
             value.container = dictionary_model
