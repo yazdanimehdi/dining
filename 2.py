@@ -292,8 +292,9 @@ def telegram_table_message(user_data, data_lunch, data_dinner):
             bot.send_message(chat_id=chat_id, text=msg, reply_markup=keyboard)
 
         bot_token = '610448118:AAFVPBXMKPzqAiOJ9-zhusKrOloCiJuEwi8'
-        message = "سلام\nامروز چهارشنبه‌ئ و غذاهاتو برات رزرو کردم\nغذاهایی که رزرو کردم ایناست\
-        nبرای تغییر در رزرو گزینه‌ي زیر رو لمس کن"
+        message = "سلام\n" \
+                  "امروز چهارشنبه‌س و غذاهاتو برات رزرو کردم \n" \
+                  "اگر از هر کدومشون خوشت نیمد یا خواستی روز جدیدی رو رزرو کنی دکمه‌ی تغییر رزرو رو فشار بده"
         reply_markup = telegram.ReplyKeyboardMarkup(
             [[telegram.KeyboardButton('تغییر رزرو')]], one_time_keyboard=False)
         send(message, str(user_data.user.chat_id), bot_token, reply_markup)
@@ -357,13 +358,11 @@ for user_data in UserDiningData.objects.filter(university__tag='sharif', user__u
             for day in chosen_days_lunch:
                 preferred_foods = []
                 for dish in data_lunch[day]:
-                    print(dish)
                     preferred_foods.append((dish[1], UserPreferableFood.objects.filter(
                         food__name=dish[0])[0].score))
                 preferred_foods.sort(key=lambda x: x[1], reverse=True)
-                print(preferred_foods)
                 if preferred_foods:
-                    do_reserve(preferred_foods[0][0], user_id, self.self_id, cookie)
+                    do_reserve(preferred_foods[0][0], self.self_id, user_id, cookie)
 
             for day in chosen_days_dinner:
                 preferred_foods = []
@@ -372,7 +371,7 @@ for user_data in UserDiningData.objects.filter(university__tag='sharif', user__u
                         food__name=dish[0])[0].score))
                 preferred_foods.sort(key=lambda x: x[1], reverse=True)
                 if preferred_foods:
-                    do_reserve(preferred_foods[0][0], user_id, self.self_id, cookie)
+                    do_reserve(preferred_foods[0][0], self.self_id, user_id, cookie)
 
         data_lunch, data_dinner, credit = get_reserved_table(user_data, user_id, cookie)
 
