@@ -149,7 +149,7 @@ def save_values(user_data, data_lunch, data_dinner, self_id):
             value.food_id = food[1]
             value.save()
     try:
-        dictionary_model = Dicty.objects.get_or_create(name=user_data.user.username + 'data_dinner' + f'{self_id}')
+        dictionary_model = Dicty.objects.get(name=user_data.user.username + 'data_dinner' + f'{self_id}')
         Key.objects.filter(container__name=user_data.user.username + 'data_dinner').delete()
 
     except:
