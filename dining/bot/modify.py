@@ -70,20 +70,21 @@ def select_day(bot, update, user_data):
 def select_modify(bot, update, user_data):
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'reserve_site.settings')
     django.setup()
-    from dining.models import Key
     query = update.callback_query
+    print(query['data'])
     user_data['day'] = query['data']
-    user_data['data'] = Key.objects.get(
-        container__name=user_data['user'].username + user_data['meal'] + user_data['self'], key=user_data['day'])
-    keyboard = [[telegram.InlineKeyboardButton(text='تغییر', callback_data='1')],
-                [telegram.InlineKeyboardButton(text='رزرو', callback_data='2')],
-                [telegram.InlineKeyboardButton(text='لفو رزرو', callback_data='3')]]
-    inline_keyboard = telegram.InlineKeyboardMarkup(keyboard, resize_keyboard=True)
-    bot.sendMessage(chat_id=user_data['user'].chat_id,
-                    text="*لطفا عملیات مورد نظر رو انتخاب کن:*",
-                    reply_markup=inline_keyboard,
-                    parse_mode=telegram.ParseMode.MARKDOWN)
-    return BotStateModify.SELECTFOOD
+    print(user_data['user'].username + user_data['meal'] + user_data['self'], key=user_data['day'])
+    # user_data['data'] = Key.objects.get(
+    #     container__name=user_data['user'].username + user_data['meal'] + user_data['self'], key=user_data['day'])
+    # keyboard = [[telegram.InlineKeyboardButton(text='تغییر', callback_data='1')],
+    #             [telegram.InlineKeyboardButton(text='رزرو', callback_data='2')],
+    #             [telegram.InlineKeyboardButton(text='لفو رزرو', callback_data='3')]]
+    # inline_keyboard = telegram.InlineKeyboardMarkup(keyboard, resize_keyboard=True)
+    # bot.sendMessage(chat_id=user_data['user'].chat_id,
+    #                 text="*لطفا عملیات مورد نظر رو انتخاب کن:*",
+    #                 reply_markup=inline_keyboard,
+    #                 parse_mode=telegram.ParseMode.MARKDOWN)
+    # return BotStateModify.SELECTFOOD
 
 
 def modify(bot, update, user_data):
