@@ -78,5 +78,5 @@ def do_reserve(user, id_reserve, self_id):
     result = session_requests.post(
         'http://dining.sharif.ir/admin/food/food-reserve/do-reserve-from-diet?user_id=' + user_id,
         data=food_reserve_request)
-    if result.json()['success'] == 'true':
+    if result.json()['success'] is True:
         return True
