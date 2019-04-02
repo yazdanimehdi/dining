@@ -182,10 +182,10 @@ def do_reserve(food_id, self_id, user_id, cookie):
     session_requests = requests.session()
     session_requests.cookies = cookie
     result = session_requests.post(
-        'https://dining.sharif.ir/admin/food/food-reserve/do-reserve-from-diet?user_id=' + user_id,
-        data=food_reserve_request, verify=False)
+        'http://dining.sharif.ir/admin/food/food-reserve/do-reserve-from-diet?user_id=' + user_id,
+        data=food_reserve_request)
     soup = BeautifulSoup(result.content, 'html.parser')
-    print(soup)
+
 
 def get_reserved_table(user_data, user_id, cookie):
     session_requests = requests.session()

@@ -141,10 +141,16 @@ def reserve(bot, update, user_data):
     django.setup()
     from dining.views import do_reserve
     query = update.callback_query
-    do_reserve(user_data['user'], query['data'], user_data['self'])
-    bot.sendMessage(chat_id=user_data['user'].chat_id,
-                    text="*رزرو با موفقیت انجام شد(در صورتی که اعتبار نداشته باشی این رزرو صورت نگرفته*",
-                    parse_mode=telegram.ParseMode.MARKDOWN)
+    flag = False
+    flag = do_reserve(user_data['user'], query['data'], user_data['self'])
+    if flag is True:
+        bot.sendMessage(chat_id=user_data['user'].chat_id,
+                        text="*رزرو با موفقیت انجام شد*",
+                        parse_mode=telegram.ParseMode.MARKDOWN)
+    else:
+        bot.sendMessage(chat_id=user_data['user'].chat_id,
+                        text="*اعتبارت کافی نیست*",
+                        parse_mode=telegram.ParseMode.MARKDOWN)
     return ConversationHandler.END
 
 

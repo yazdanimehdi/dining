@@ -28,7 +28,7 @@ def cancel_reserve(id_cancel, user):
     else:
         raise ValueError
     session_requests.post('http://dining.sharif.ir/admin/food/food-reserve/cancel-reserve?user_id=' + user_id,
-                          data={'id': id_cancel}, verify=False)
+                          data={'id': id_cancel})
 
     return cookies, user_id
 
@@ -44,8 +44,8 @@ def modify_reserve(user, id_cancel, id_reserve, self_id):
         'self_id': self_id,
         'user_id': user_id
     }
-    session_requests.post('https://dining.sharif.ir/admin/food/food-reserve/do-reserve-from-diet?user_id=' + user_id,
-                          data=food_reserve_request, verify=False)
+    session_requests.post('http://dining.sharif.ir/admin/food/food-reserve/do-reserve-from-diet?user_id=' + user_id,
+                          data=food_reserve_request)
 
 
 def do_reserve(user, id_reserve, self_id):
@@ -75,5 +75,8 @@ def do_reserve(user, id_reserve, self_id):
         'self_id': self_id,
         'user_id': user_id
     }
-    session_requests.post('https://dining.sharif.ir/admin/food/food-reserve/do-reserve-from-diet?user_id=' + user_id,
-                          data=food_reserve_request, verify=False)
+    result = session_requests.post(
+        'http://dining.sharif.ir/admin/food/food-reserve/do-reserve-from-diet?user_id=' + user_id,
+        data=food_reserve_request)
+    if result.json()['success'] == 'true':
+        return True
