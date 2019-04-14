@@ -4,7 +4,7 @@ from enum import IntEnum
 
 import django
 import telegram
-from telegram.ext import Updater, Filters, MessageHandler, CallbackQueryHandler, ConversationHandler
+from telegram.ext import Updater, Filters, MessageHandler, CallbackQueryHandler, ConversationHandler, CommandHandler
 
 bot_token = '884113858:AAG05koed7NLj6o3n8y5l7YegKa3OOfd36M'
 updater = Updater(token=bot_token)
@@ -404,7 +404,8 @@ def empty_basket(bot, update, user_data):
 
 
 conv_handler = ConversationHandler(
-    entry_points=[MessageHandler(Filters.regex('سفارش'), callback=start_order, pass_user_data=True)],
+    entry_points=[CommandHandler('start', callback=start_order, pass_user_data=True),
+                  MessageHandler(Filters.regex('سفارش'), callback=start_order, pass_user_data=True)],
     states={
         BotState.INITIALIZE: [MessageHandler(Filters.regex('سفارش'), callback=menu, pass_user_data=True)],
         BotState.SIGNUP: [MessageHandler(Filters.regex('ثبت نام'), callback=sign_up)],
@@ -436,7 +437,7 @@ conv_handler = ConversationHandler(
                                    MessageHandler(Filters.regex('مشاهده‌ی سبد خرید'), shop_basket,
                                                   pass_user_data=True)
                                    ]
-        },
+    },
     fallbacks=[MessageHandler(Filters.text, callback=invalid)]
 )
 
