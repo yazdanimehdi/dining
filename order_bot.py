@@ -4,9 +4,9 @@ from enum import IntEnum
 
 import django
 import telegram
-from telegram.ext import Updater, CommandHandler, Filters, MessageHandler, CallbackQueryHandler, ConversationHandler
+from telegram.ext import Updater, Filters, MessageHandler, CallbackQueryHandler, ConversationHandler
 
-bot_token = '770631582:AAGq9DClTavgxz9af79CLZLMIdIM8HEENRc'
+bot_token = '884113858:AAG05koed7NLj6o3n8y5l7YegKa3OOfd36M'
 updater = Updater(token=bot_token)
 dispatcher = updater.dispatcher
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -27,58 +27,9 @@ class BotState(IntEnum):
     PAYMENT_CONFIRM = 11
 
 
-def start(bot, update):
-    reply_markup = telegram.ReplyKeyboardMarkup(
-        [[telegram.KeyboardButton('شمارتو به اشتراک بذار', request_contact=True)],
-         [telegram.KeyboardButton('سفارش')]], one_time_keyboard=True)
-    bot.sendMessage(chat_id=update.message.chat_id,
-                    text="*سلام٬مسترزرو هستم \n"
-                         "اگر کاربر ما هستی: \n"
-                         "برای این که بتونم به حساب کاربریت متصل شم باید اجازه بدی به شمارت دسترسی داشته باشم\n"
-                         "اگر می‌خوای از ما غذا بگیری گزینه‌ی \"سفارش\" رو انتخاب کن*",
-                    reply_markup=reply_markup, parse_mode=telegram.ParseMode.MARKDOWN)
-
-
-def get_phone(bot, update):
-    if update.message.contact.phone_number[0] == '+':
-        phone = '0' + update.message.contact.phone_number[3:]
-    else:
-        phone = '0' + update.message.contact.phone_number[2:]
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'reserve_site.settings')
-    django.setup()
-    from dining.models import CustomUser
-    u = list(CustomUser.objects.filter(phone=phone))
-    if u:
-        chat_id = update.message.chat_id
-        u[0].chat_id = int(chat_id)
-        u[0].save()
-        bot.sendMessage(chat_id=update.message.chat_id,
-                        text="*خب به حساب کاربریت وصل شدم\n"
-                             "از این به بعد هر روزی که غذا رزرو کنم واست بهت اطلاعاتش رو میدم\n"
-                             "و هر هفته اطلاعات حساب سلف رو واست میفرستم که در صورت نیاز اعتبارت رو شارژ کنی\n"
-                             "اگر حواست نبود من در ۳ مرحله بهت هشدار میدم\n"
-                             "اولین مرحله وقتی حسابت به صفر برسه\n"
-                             "دومین هشدار وقتی که به منفی ۱۵ برسی\n"
-                             "و هشدار آخر وقتی که منفی ۲۰ شدی\n"
-                             "من از اون لحظه به بعد قادر به رزرو غذا نیستم. تا وقتی دوباره اعتبارت رو افزایش بدی\n"
-                             "فقط یادت باشه که منو متوقف نکنی چون اونطوری دیگه نمی‌تونم بهت خدمت بدم\n"
-                             "دوستدار شما\n"
-                             "*mrzoro",
-                        parse_mode=telegram.ParseMode.MARKDOWN)
-
-    else:
-        reply_markup = telegram.ReplyKeyboardMarkup(
-            [[telegram.KeyboardButton('شمارتو به اشتراک بذار', request_contact=True)]], one_time_keyboard=True)
-        bot.sendMessage(chat_id=update.message.chat_id,
-                        text="*شماره‌ی حساب کاربریت با شماره‌ی تلگرامت فرق می‌کنه"
-                             "\nبرای استفاده از امکان تلگرامی ما شماره‌ی حساب کاربریتو به شماره‌ی تلگرامت تغییر بده "
-                             "و دوباره تلاش کن*",
-                        reply_markup=reply_markup, parse_mode=telegram.ParseMode.MARKDOWN)
-
-
 def start_order(bot, update, user_data):
     reply_markup = telegram.ReplyKeyboardMarkup(
-        [[telegram.KeyboardButton(text='سفارش از مسترزرو')],
+        [[telegram.KeyboardButton(text='سفارش')],
          [telegram.KeyboardButton(text='مشاهده‌ی سبد خرید'),
           telegram.KeyboardButton(text='خالی کردن سبد خرید')]], resize_keyboard=True)
     bot.sendMessage(chat_id=update.message.chat_id,
@@ -211,7 +162,7 @@ def add_or_remove_item(bot, update, user_data):
     elif query['data'] == 'cancel':
         user = user_data['user']
         reply_markup = telegram.ReplyKeyboardMarkup(
-            [[telegram.KeyboardButton(text='سفارش از مسترزرو')],
+            [[telegram.KeyboardButton(text='سفارش')],
              [telegram.KeyboardButton(text='مشاهده‌ی سبد خرید'),
               telegram.KeyboardButton(text='خالی کردن سبد خرید')]], resize_keyboard=True)
         bot.sendMessage(chat_id=update.message.chat_id,
@@ -259,12 +210,14 @@ def payment(bot, update, user_data):
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'reserve_site.settings')
     django.setup()
     from order.views.payment import generate_payment_link
+    from order.send_order import send_function
     user = user_data['user']
     invoice = user_data['invoice']
     query = update.callback_query
     if query['data'] == 'پرداخت نقدی':
         invoice.is_active = True
         invoice.save()
+        send_function()
         reply_markup = telegram.InlineKeyboardMarkup(
             [[telegram.InlineKeyboardButton(text='تایید نهایی', callback_data='تایید نهایی')],
              [telegram.InlineKeyboardButton(text='انصراف', callback_data='انصراف')]])
@@ -297,16 +250,20 @@ def payment(bot, update, user_data):
 
 
 def payment_confirm(bot, update, user_data):
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'reserve_site.settings')
+    django.setup()
+    from order.send_order import send_function
     user = user_data['user']
     invoice = user_data['invoice']
     query = update.callback_query
     if query['data'] == 'پرداخت کردم':
         if invoice.is_paid:
+            send_function()
             bot.sendMessage(chat_id=user.chat_id,
                             text=f"*سفارشت برات ارسال می‌شه :) منتظر تماس ما باش*",
                             parse_mode=telegram.ParseMode.MARKDOWN)
             reply_markup = telegram.ReplyKeyboardMarkup(
-                [[telegram.KeyboardButton('سفارش از مسترزرو')]])
+                [[telegram.KeyboardButton('سفارش')]])
             bot.sendMessage(chat_id=user.chat_id,
                             text="*برای سفارش گزینه‌اش رو انتخاب کن*", reply_markup=reply_markup,
                             parse_mode=telegram.ParseMode.MARKDOWN)
@@ -319,13 +276,14 @@ def payment_confirm(bot, update, user_data):
         invoice.delete()
         user = user_data['user']
         reply_markup = telegram.ReplyKeyboardMarkup(
-            [[telegram.KeyboardButton('سفارش از مسترزرو')]])
+            [[telegram.KeyboardButton('سفارش')]])
         bot.sendMessage(chat_id=user.chat_id,
                         text="*برای سفارش گزینه‌اش رو انتخاب کن*", reply_markup=reply_markup,
                         parse_mode=telegram.ParseMode.MARKDOWN)
         return ConversationHandler.END
 
     if query['data'] == 'انصراف' and invoice.is_paid is True:
+        send_function()
         user = user_data['user']
         bot.sendMessage(chat_id=user.chat_id,
                         text="*مبلغ سفارشت پرداخت شده دیگه نمی‌تونی انصراف بدی*",
@@ -334,7 +292,7 @@ def payment_confirm(bot, update, user_data):
                         text=f"*سفارشت برات ارسال می‌شه :) منتظر تماس ما باش*",
                         parse_mode=telegram.ParseMode.MARKDOWN)
         reply_markup = telegram.ReplyKeyboardMarkup(
-            [[telegram.KeyboardButton(text='سفارش از مسترزرو')],
+            [[telegram.KeyboardButton(text='سفارش')],
              [telegram.KeyboardButton(text='مشاهده‌ی سبد خرید'),
               telegram.KeyboardButton(text='خالی کردن سبد خرید')]], resize_keyboard=True)
         bot.sendMessage(chat_id=user.chat_id,
@@ -344,11 +302,12 @@ def payment_confirm(bot, update, user_data):
 
     if query['data'] == 'تایید نهایی':
         if invoice.is_active is True and invoice.is_paid is False:
+            send_function()
             bot.sendMessage(chat_id=user.chat_id,
                             text=f"*سفارشت برات ارسال می‌شه و هزینش{invoice.amount}  تومنه :) منتظر تماس ما باش*",
                             parse_mode=telegram.ParseMode.MARKDOWN)
             reply_markup = telegram.ReplyKeyboardMarkup(
-                [[telegram.KeyboardButton('سفارش از مسترزرو')]])
+                [[telegram.KeyboardButton('سفارش')]])
             bot.sendMessage(chat_id=user.chat_id,
                             text="*برای سفارش گزینه‌اش رو انتخاب کن*", reply_markup=reply_markup,
                             parse_mode=telegram.ParseMode.MARKDOWN)
@@ -389,41 +348,13 @@ def phone(bot, update):
     user.phone = update.message.text
     user.save()
     reply_markup = telegram.ReplyKeyboardMarkup(
-        [[telegram.KeyboardButton(text='سفارش از مسترزرو')],
+        [[telegram.KeyboardButton(text='سفارش')],
          [telegram.KeyboardButton(text='مشاهده‌ی سبد خرید'),
           telegram.KeyboardButton(text='خالی کردن سبد خرید')]], resize_keyboard=True)
     bot.sendMessage(chat_id=update.message.chat_id,
                     text="*برای سفارش گزینه‌اش رو انتخاب کن*", reply_markup=reply_markup,
                     parse_mode=telegram.ParseMode.MARKDOWN)
     return BotState.ORDER
-
-
-def stop_reserve(bot, update):
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'reserve_site.settings')
-    django.setup()
-    from dining.models import CustomUser
-    u = CustomUser.objects.filter(chat_id=update.message.chat_id)
-    u[0].reserve = False
-    u[0].save()
-    reply_markup = telegram.ReplyKeyboardMarkup(
-        [[telegram.KeyboardButton('/start_reserve')]], one_time_keyboard=False)
-    bot.sendMessage(chat_id=update.message.chat_id,
-                    text="خب هفته‌ي بعد رو برات رزرو نمی‌کنم اگه می‌خوای هفته‌ي بعد رو"
-                         " برات رزرو کنم گزینه‌ی شروع رزرو رو تا آخر امروز انتخاب کن",
-                    reply_markup=reply_markup,
-                    parse_mode=telegram.ParseMode.MARKDOWN)
-
-
-def start_reserve(bot, update):
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'reserve_site.settings')
-    django.setup()
-    from dining.models import CustomUser
-    u = CustomUser.objects.filter(chat_id=update.message.chat_id)
-    u[0].reserve = True
-    u[0].save()
-    bot.sendMessage(chat_id=update.message.chat_id,
-                    text="خب ازاین به بعد دوباره برات غذا رزرو میکنم",
-                    parse_mode=telegram.ParseMode.MARKDOWN)
 
 
 def invalid(bot, update):
@@ -475,11 +406,11 @@ def empty_basket(bot, update, user_data):
 conv_handler = ConversationHandler(
     entry_points=[MessageHandler(Filters.regex('سفارش'), callback=start_order, pass_user_data=True)],
     states={
-        BotState.INITIALIZE: [MessageHandler(Filters.regex('سفارش از مسترزرو'), callback=menu, pass_user_data=True)],
+        BotState.INITIALIZE: [MessageHandler(Filters.regex('سفارش'), callback=menu, pass_user_data=True)],
         BotState.SIGNUP: [MessageHandler(Filters.regex('ثبت نام'), callback=sign_up)],
         BotState.SIGNUP_NAME: [MessageHandler(Filters.text, callback=getinfo)],
         BotState.SIGNUP_PHONE: [MessageHandler(Filters.text, callback=phone)],
-        BotState.ORDER: [MessageHandler(Filters.regex('سفارش از مسترزرو'), callback=menu, pass_user_data=True),
+        BotState.ORDER: [MessageHandler(Filters.regex('سفارش'), callback=menu, pass_user_data=True),
                          MessageHandler(Filters.regex('خالی کردن سبد خرید'), empty_basket, pass_user_data=True),
                          MessageHandler(Filters.regex('مشاهده‌ی سبد خرید'), shop_basket, pass_user_data=True)],
         BotState.MENU_TYPE: [CallbackQueryHandler(callback=select_food_type, pass_user_data=True),
@@ -508,14 +439,7 @@ conv_handler = ConversationHandler(
         },
     fallbacks=[MessageHandler(Filters.text, callback=invalid)]
 )
-start_handler = CommandHandler('start', start)
-contact_handler = MessageHandler(Filters.contact, get_phone)
-stop_handler = CommandHandler('stop_reserve', stop_reserve)
-start_reserve_handler = CommandHandler('start_reserve', start_reserve)
-dispatcher.add_handler(start_handler)
-dispatcher.add_handler(contact_handler)
-dispatcher.add_handler(stop_handler)
-dispatcher.add_handler(start_reserve_handler)
+
 dispatcher.add_handler(conv_handler)
 
 updater.start_polling()
