@@ -359,6 +359,7 @@ for user_data in UserDiningData.objects.filter(university__tag='sharif', user__u
             for day in chosen_days_lunch:
                 preferred_foods = []
                 for dish in data_lunch[day]:
+                    print(dish[0])
                     if UserPreferableFood.objects.filter(~Q(score=0), food__name=dish[0]):
                         preferred_foods.append((dish[1], UserPreferableFood.objects.filter(
                             food__name=dish[0])[0].score))
