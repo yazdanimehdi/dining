@@ -306,7 +306,7 @@ def telegram_table_message(user_data, data_lunch, data_dinner):
                    token=bot_token)
 
 
-for user_data in UserDiningData.objects.filter(university__tag='sharif'):
+for user_data in UserDiningData.objects.filter(university__tag='sharif', user__username='myjahromi'):
     if user_data.user.is_paid is True and user_data.user.reserve is True:
 
         active_selfs = UserSelfs.objects.filter(user=user_data.user, is_active=True)
@@ -361,8 +361,9 @@ for user_data in UserDiningData.objects.filter(university__tag='sharif'):
             for day in chosen_days_lunch:
                 preferred_foods = []
                 for dish in data_lunch[day]:
-                    preferred_foods.append((dish[1], UserPreferableFood.objects.filter(
-                        food__name=dish[0])[0].score))
+                    if UserPreferableFood.objects.filter(~Q(score=0), food__name=dish[0]):
+                        preferred_foods.append((dish[1], UserPreferableFood.objects.filter(
+                            food__name=dish[0])[0].score))
                 preferred_foods.sort(key=lambda x: x[1], reverse=True)
                 if preferred_foods:
                     do_reserve(preferred_foods[0][0], self.self_id, user_id, cookie)
@@ -370,8 +371,9 @@ for user_data in UserDiningData.objects.filter(university__tag='sharif'):
             for day in chosen_days_dinner:
                 preferred_foods = []
                 for dish in data_dinner[day]:
-                    preferred_foods.append((dish[1], UserPreferableFood.objects.filter(
-                        food__name=dish[0])[0].score))
+                    if UserPreferableFood.objects.filter(~Q(score=0), food__name=dish[0]):
+                        preferred_foods.append((dish[1], UserPreferableFood.objects.filter(
+                            food__name=dish[0])[0].score))
                 preferred_foods.sort(key=lambda x: x[1], reverse=True)
                 if preferred_foods:
                     do_reserve(preferred_foods[0][0], self.self_id, user_id, cookie)

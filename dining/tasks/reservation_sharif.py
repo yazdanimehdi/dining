@@ -7,6 +7,7 @@ import requests
 import telegram
 from bs4 import BeautifulSoup
 from celery import task
+from django.db.models import Q
 from lxml import html
 
 
@@ -83,7 +84,7 @@ def get_next_week_dishes(user_data, cookie, self_id, user_id):
                     new_food.id = food_id
                     new_food.save()
                     dishes.append((food_name, food_id))
-                    preferred_food_object = UserPreferableFood
+                    preferred_food_object = UserPreferableFood()
                     preferred_food_object.user = user_data.user
                     preferred_food_object.food = new_food
                     preferred_food_object.score = 5
@@ -157,14 +158,11 @@ def save_values(user_data, data_lunch, data_dinner, self_id):
         dictionary_model.save()
 
     for item in data_lunch:
-        print(item)
-        print(data_lunch)
         key = Key()
         key.container = dictionary_model
         key.key = item
         key.save()
         for food in data_lunch[item]:
-            print(food)
             value = Val()
             value.key = key
             value.container = dictionary_model
@@ -363,8 +361,9 @@ def reserve_function():
                 for day in chosen_days_lunch:
                     preferred_foods = []
                     for dish in data_lunch[day]:
-                        preferred_foods.append((dish[1], UserPreferableFood.objects.filter(
-                            food__name=dish[0])[0].score))
+                        if UserPreferableFood.objects.filter(~Q(score=0), food__name=dish[0]):
+                            preferred_foods.append((dish[1], UserPreferableFood.objects.filter(
+                                food__name=dish[0])[0].score))
                     preferred_foods.sort(key=lambda x: x[1], reverse=True)
                     if preferred_foods:
                         do_reserve(preferred_foods[0][0], self.self_id, user_id, cookie)
@@ -372,8 +371,9 @@ def reserve_function():
                 for day in chosen_days_dinner:
                     preferred_foods = []
                     for dish in data_dinner[day]:
-                        preferred_foods.append((dish[1], UserPreferableFood.objects.filter(
-                            food__name=dish[0])[0].score))
+                        if UserPreferableFood.objects.filter(~Q(score=0), food__name=dish[0]):
+                            preferred_foods.append((dish[1], UserPreferableFood.objects.filter(
+                                food__name=dish[0])[0].score))
                     preferred_foods.sort(key=lambda x: x[1], reverse=True)
                     if preferred_foods:
                         do_reserve(preferred_foods[0][0], self.self_id, user_id, cookie)
