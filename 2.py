@@ -159,14 +159,11 @@ def save_values(user_data, data_lunch, data_dinner, self_id):
         dictionary_model.save()
 
     for item in data_lunch:
-        print(item)
-        print(data_lunch)
         key = Key()
         key.container = dictionary_model
         key.key = item
         key.save()
         for food in data_lunch[item]:
-            print(food)
             value = Val()
             value.key = key
             value.container = dictionary_model
@@ -367,6 +364,8 @@ for user_data in UserDiningData.objects.filter(university__tag='sharif', user__u
                             food__name=dish[0])[0].score))
                 preferred_foods.sort(key=lambda x: x[1], reverse=True)
                 if preferred_foods:
+                    print(preferred_foods)
+                    print(preferred_foods[0])
                     do_reserve(preferred_foods[0][0], self.self_id, user_id, cookie)
 
             for day in chosen_days_dinner:
