@@ -6,6 +6,7 @@ import pandas as pd
 import requests
 import telegram
 from bs4 import BeautifulSoup
+from django.db.models import Q
 from lxml import html
 
 from dining.models import UserDiningData, UserSelfs, UserPreferableFood, ReservedTable
