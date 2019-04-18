@@ -69,7 +69,7 @@
 .form-appointment input[type=email],
 .form-appointment input[type=tel],
 .form-appointment textarea {
-    border: 1px solid #39b54a;
+    border: 1px solid red;
     border-radius: .2em;
     font-family: 'iransans';
     font-size: 1.1em;
@@ -106,7 +106,7 @@
 }
 
 .form-appointment input[type=submit] {
-    background-color: #39b54a;
+    background-color: red;
     border: 1px solid rgb(134, 189, 134);
     border-radius: 4px;
     color: rgb(255, 255, 255);

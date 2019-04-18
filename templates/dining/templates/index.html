@@ -6,7 +6,7 @@
 <!--<![endif]-->
 
 <head>
-{% load static %}
+    {% load static %}
 
 
     <!--- basic page needs
@@ -40,258 +40,246 @@
 
 <body id="top">
 
-    <!-- header
-    ================================================== -->
-    <header class="s-header">
+<!-- header
+================================================== -->
+<header class="s-header">
 
-        <div class="header-logo">
-            <a class="site-logo" href="">
-                <img src="{% static 'images/logo1.PNG' %}" alt="Homepage">
+    {#        <div class="header-logo">#}
+    {#            <a class="site-logo" href="">#}
+    {#                <img src="{% static 'images/logo1.PNG' %}" alt="Homepage">#}
+    {#            </a>#}
+    {#        </div>#}
+
+    <nav class="header-nav">
+
+        <a href="#0" class="header-nav__close" title="close"><span>Close</span></a>
+
+        <div class="header-nav__content">
+            <h3>نقشه</h3>
+
+            <ul class="header-nav__list">
+                <li class="current"><a class="smoothscroll" href="#home" title="home">خانه‌ی ما</a></li>
+                <li><a class="smoothscroll" href="#about" title="about">درباره‌ی ما</a></li>
+                <li><a class="smoothscroll" href="#services" title="services">خدمت ما</a></li>
+                <li><a class="smoothscroll" href="#contact" title="contact">ارتباط با ما</a></li>
+            </ul>
+
+
+            <ul class="header-nav__social">
+                <li>
+                    <a href="https://twitter.com/MrZorro75493880"><i class="fa fa-twitter"></i></a>
+                </li>
+                <li>
+                    <a href="https://www.instagram.com/mr.zorrooo/"><i class="fa fa-instagram"></i></a>
+                </li>
+
+            </ul>
+
+        </div> <!-- end header-nav__content -->
+
+    </nav>  <!-- end header-nav -->
+
+    <a class="header-menu-toggle" href="#0" style="background-color: red;">
+        <span class="header-menu-text" style="background-color: black;">منو</span>
+        <span class="header-menu-icon"></span>
+    </a>
+
+</header> <!-- end s-header -->
+
+
+<!-- home
+================================================== -->
+<section id="home" class="s-home target-section" data-parallax="scroll" style="background-color: white;"
+{#             data-image-src="{% static 'images/big.jpg' %}" data-natural-width=3000 data-natural-height=2000#}
+{#             data-position-y=center>#}
+<div class="overlay"></div>
+<div class="shadow-overlay"></div>
+
+<div class="home-content">
+
+    <div class="row home-content__main">
+
+        <img src="{% static 'images/logo1.png' %}" style="max-width: 38%;"
+        <div/>
+        <div class="home-content__buttons">
+            <a href="/signup" class=" btn btn--stroke" style="color: black; border-color: #CE272D;">
+                ثبت نام
+            </a>
+            <a href="/login" class=" btn btn--stroke" style="color: black; border-color: #CE272D;">
+                ورود
             </a>
         </div>
 
-        <nav class="header-nav">
+    </div>
 
-            <a href="#0" class="header-nav__close" title="close"><span>Close</span></a>
-
-            <div class="header-nav__content">
-                <h3>نقشه</h3>
-                
-                <ul class="header-nav__list">
-                    <li class="current"><a class="smoothscroll"  href="#home" title="home">خانه‌ی ما</a></li>
-                    <li><a class="smoothscroll"  href="#about" title="about">درباره‌ی ما</a></li>
-                    <li><a class="smoothscroll"  href="#services" title="services">خدمت ما</a></li>
-                    <li><a class="smoothscroll"  href="#contact" title="contact">ارتباط با ما</a></li>
-                </ul>
-    
-
-    
-                <ul class="header-nav__social">
-                    <li>
-                        <a href="https://twitter.com/MrZorro75493880"><i class="fa fa-twitter"></i></a>
-                    </li>
-                    <li>
-                        <a href="https://www.instagram.com/mr.zorrooo/"><i class="fa fa-instagram"></i></a>
-                    </li>
-
-                </ul>
-
-            </div> <!-- end header-nav__content -->
-
-        </nav>  <!-- end header-nav -->
-
-        <a class="header-menu-toggle" href="#0">
-            <span class="header-menu-text">منو</span>
-            <span class="header-menu-icon"></span>
+    <div class="home-content__scroll">
+        <a href="#about" class="scroll-link smoothscroll">
+            <span style="font-family: bnazanin; font-size: 18px">برو پایین</span>
         </a>
+    </div>
 
-    </header> <!-- end s-header -->
+    <div class="home-content__line"></div>
+
+</div> <!-- end home-content -->
 
 
-    <!-- home
-    ================================================== -->
-    <section id="home" class="s-home target-section" data-parallax="scroll"
-             data-image-src="{% static 'images/big.jpg' %}" data-natural-width=3000 data-natural-height=2000
-             data-position-y=center>
+<ul class="home-social">
+    <li>
+        <a href="https://twitter.com/MrZorro75493880"><i class="fa fa-twitter"
+                                                         aria-hidden="true"></i><span>Twiiter</span></a>
+    </li>
+    <li>
+        <a href="https://www.instagram.com/mr.zorrooo/"><i class="fa fa-instagram" aria-hidden="true"></i><span>Instagram</span></a>
+    </li>
+</ul>
+<!-- end home-social -->
 
-        <div class="overlay"></div>
-        <div class="shadow-overlay"></div>
+</section> <!-- end s-home -->
 
-        <div class="home-content">
 
-            <div class="row home-content__main">
+<!-- about
+================================================== -->
+<section id='about' class="s-about">
 
-                <h3></h3>
+    <div class="row section-header has-bottom-sep" data-aos="fade-up">
+        <div class="col-full">
+            <h3 class="subhead subhead--dark">سلام</h3>
+            <h1 class="display-1 display-1--light"> هستم MR ZORO</h1>
+        </div>
+    </div> <!-- end section-header -->
 
-                <h1>
-                    مسترزرو <br>
-                    سامانه رزرو خودکار غذا دانشجویان
-                </h1>
+    <div class="row about-desc" data-aos="fade-up">
+        <div class="col-full">
+            <p>
+                اعتقاد دارم که دانشجو مستحق یه زندگی آروم و بی دغدغه است و برای بهتر کردن شرایط تلاش میکنم<br>
+                دانشجو تنها مخاطب منه ولی مشتری من نیست<br>
+                هدف سادس، هوشمند باشیم و هوشمندانه عمل کنم
+            </p>
+        </div>
+    </div> <!-- end about-desc -->
 
-                <div class="home-content__buttons">
-                    <a href="/signup" class=" btn btn--stroke">
-                        ثبت نام
-                    </a>
-                    <a href="/login" class=" btn btn--stroke">
-                        ورود
-                    </a>
-                </div>
+    <div class="row about-stats stats block-1-3 block-m-1-2 block-mob-full" data-aos="fade-up">
 
+        <div class="col-block stats__col ">
+            <div class="stats__count">{{ uni }}</div>
+            <h5 style="font-family: iransans; font: bolder;">دانشگاه‌های تحت پوشش</h5>
+        </div>
+        <div class="col-block stats__col">
+            <div class="stats__count">{{ saved }}</div>
+            <h5 style="font-family: iransans; font: bolder;">(حداقل صرفه‌جویی دانشجویان در هفته(تومن</h5>
+        </div>
+        <div class="col-block stats__col">
+            <div class="stats__count">{{ r_count }}</div>
+            <h5 style="font-family: iransans; font: bolder;">تعداد رزرو در هفته</h5>
+        </div>
+
+    </div> <!-- end about-stats -->
+
+    <div class="about__line"></div>
+
+</section> <!-- end s-about -->
+
+
+<!-- services
+================================================== -->
+<section id='services' class="s-services">
+
+    <div class="row section-header has-bottom-sep" data-aos="fade-up">
+        <div class="col-full">
+            <h3 class="subhead">چیکار می کنیم؟ چطوری ؟</h3>
+            <h1 class="display-2">دیگه نیازی نیست نگران رزرو کردن غذای سلف باشی</h1>
+        </div>
+    </div> <!-- end section-header -->
+
+    <div class="row services-list block-1-2 block-tab-full">
+
+        <div class="col-block service-item" data-aos="fade-up">
+            <div class="service-icon">
+                <img src="{% static 'images/foods.PNG' %}">
             </div>
-
-            <div class="home-content__scroll">
-                <a href="#about" class="scroll-link smoothscroll">
-                    <span style="font-family: bnazanin; font-size: 18px">برو پایین</span>
-                </a>
-            </div>
-
-            <div class="home-content__line"></div>
-
-        </div> <!-- end home-content -->
-
-
-        <ul class="home-social">
-            <li>
-                <a href="https://twitter.com/MrZorro75493880"><i class="fa fa-twitter" aria-hidden="true"></i><span>Twiiter</span></a>
-            </li>
-            <li>
-                <a href="https://www.instagram.com/mr.zorrooo/"><i class="fa fa-instagram" aria-hidden="true"></i><span>Instagram</span></a>
-            </li>
-        </ul> 
-        <!-- end home-social -->
-
-    </section> <!-- end s-home -->
-
-
-    <!-- about
-    ================================================== -->
-    <section id='about' class="s-about">
-
-        <div class="row section-header has-bottom-sep" data-aos="fade-up">
-            <div class="col-full">
-                <h3 class="subhead subhead--dark">سلام</h3>
-                <h1 class="display-1 display-1--light"> هستم MR ZORRO</h1>
-            </div>
-        </div> <!-- end section-header -->
-
-        <div class="row about-desc" data-aos="fade-up">
-            <div class="col-full">
-                <p>
-               قبل اینکه نقاب بزنم و شمشیر بازی کنم، منم دانشجو بودم و همیشه به دلایل مختلف یادم می رفت
-               غذای سلف رو رزرو کنم و
-                مجبور می شدم بودجه کم دانشجوییم رو برای غذا بدم.
-                 نمی خوام این اتفاق برای شما بیوفته
-                    و تمام تلاشم اینه که راحت ترین راه رو براتون فراهم کنم. تا حالا هیچ کس حواسش به ما نبوده پس موقشعشه
-                    که یکی این کارو انجام بده<br>
-                    خدمت رزرو غذا مجانیه و همیشه مجانی می‌مونه پس خیالت راحت باشه
+            <div class="service-text">
+                <h3 class="h2" style="direction: rtl;">ترجیحات</h3>
+                <p style="direction: rtl;"> پیش خودت میگی چطوری میخوام بفهمم چی دوست داری که
+                    برات رزرو کنم.. راه حلش ساده اس، ازت میپرسم. فقط کافیه موقع ثبت نام
+                    با دقت بهم بگی هر غذا رو چنتا دوست داری. اونی که
+                    بیشتر دوست داری رو واست رزرو می کنم
                 </p>
-            </div>
-        </div> <!-- end about-desc -->
-
-        <div class="row about-stats stats block-1-3 block-m-1-2 block-mob-full" data-aos="fade-up">
-                
-            <div class="col-block stats__col ">
-                <div class="stats__count">{{ uni }}</div>
-                <h5 style="font-family: iransans; font: bolder;">دانشگاه‌های تحت پوشش</h5>
-            </div>
-            <div class="col-block stats__col">
-                <div class="stats__count">{{ saved }}</div>
-                <h5 style="font-family: iransans; font: bolder;">(حداقل صرفه‌جویی دانشجویان در هفته(تومن</h5>
-            </div>
-            <div class="col-block stats__col">
-                <div class="stats__count">{{ r_count }}</div>
-                <h5 style="font-family: iransans; font: bolder;">تعداد رزرو در هفته</h5>
-            </div>
-
-        </div> <!-- end about-stats -->
-
-        <div class="about__line"></div>
-
-    </section> <!-- end s-about -->
-
-
-    <!-- services
-    ================================================== -->
-    <section id='services' class="s-services">
-
-        <div class="row section-header has-bottom-sep" data-aos="fade-up">
-            <div class="col-full">
-                <h3 class="subhead">چیکار می کنیم؟ چطوری ؟</h3>
-                <h1 class="display-2">دیگه نیازی نیست نگران رزرو کردن غذای سلف باشی</h1>
-            </div>
-        </div> <!-- end section-header -->
-
-        <div class="row services-list block-1-2 block-tab-full">
-
-            <div class="col-block service-item" data-aos="fade-up">
-                <div class="service-icon">
-                    <img src="{% static 'images/foods.PNG' %}">
-                </div>
-                <div class="service-text">
-                    <h3 class="h2" style="direction: rtl;">ترجیحات</h3>
-                    <p style="direction: rtl;"> پیش خودت میگی چطوری میخوام بفهمم چی دوست داری که
-                        برات رزرو کنم.. راه حلش ساده اس، ازت میپرسم. فقط کافیه موقع ثبت نام
-                        با دقت بهم بگی هر غذا رو چنتا دوست داری. اونی که
-                         بیشتر دوست داری رو واست رزرو می کنم 
-                    </p>
-                </div>
-            </div>
-
-            <div class="col-block service-item" data-aos="fade-up">
-                <div class="service-icon">
-                    <img src="{% static 'images/forgetting.PNG' %}">
-                </div>
-                <div class="service-text">
-                    <h3 class="h2" style="direction: rtl;">فراموشی</h3>
-                    <p style="direction: rtl;">حتما واست پیش اومده که درگیر آخر هفته شده باشی و به خودت بیای ببینی
-                         هفته بعد از غذای سلف خبری نیس.
-                          حالا مجبوری دردسر تهیه غذا از جای دیگه با قیمت چندین برابر
-                           رو تحمل کنی.. دیگه قرار نیست اینجوری باشه   
-                    </p>
-                </div>
-            </div>
-
-            <div class="col-block service-item" data-aos="fade-up">
-                <div class="service-icon">
-
-                    <img src="{% static 'images/telegram.PNG' %}">
-                </div>
-                <div class="service-text">
-                    <h3 class="h2" style="direction: rtl;">اطلاع رسانی</h3>
-                    <p style="direction: rtl;"> من میدونم کی باید واست کدوم غذا رو رزرو کنم. ولی
-                        تو که نمی دونی من چی رزرو کردم. میخوای تو کدوم صف وایسی؟ ربات
-                         تگرامم هر روزی که واست رزرو کرده باشه بهت خبر میده کدوم غذا رو گرفته.. فقط همین؟؟
-                         البته که نه، متاسفانه بعضی وقتا خبرای بدی واست داره چون موجودی سلفت داره تموم میشه
-                        و دیگه نمیتونیم واست رزرو کنیم. اینجور وقتا باید زحمت شارژ حسابت رو بکشی
-                    </p>
-                </div>
-            </div>
-
-            <div class="col-block service-item" data-aos="fade-up">
-                <div class="service-icon">
-
-                    <img src="{% static 'images/days.PNG' %}">
-                </div>  
-                <div class="service-text">
-                    <h3 class="h2" style="direction: rtl;">چه روزی؟</h3>
-                    <p style="direction: rtl;">آره میدونم قرار نیست هر روز دانشگاه باشی، ولی برنامه ات برای هر ترم
-                        مشخص شده و میتونی بگی کدوم روز ها باید واست رزرو کنم. هر وقت هم خواستی
-                         میتونی روزهاتو عوض کنی. خوابگاهی ؟ صبحونه و شام چی؟ نگران نباش اونارو هم واست رزرو می کنم 
-                    </p>
-                </div>
-            </div>
-
-        </div> <!-- end services-list -->
-
-    </section> <!-- end s-services -->
-
-
-  
-
-    <!-- contact
-    ================================================== -->
-    <section id="contact" class="s-contact">
-
-        <div class="overlay"></div>
-        <div class="contact__line"></div>
-
-        <div class="row section-header" data-aos="fade-up">
-            <div class="col-full">
-                <h3 class="subhead">با مسترزرو تماس بگیرید</h3>
-                <h1 class="display-2 display-2--light" style="font-size: 36px">نظرت به شدت برای ما مهمه، بگو تا پیشرفت
-                    کنیم</h1>
             </div>
         </div>
 
-        <div class="row contact-content" data-aos="fade-up">
-            
-            <div class="contact-primary">
+        <div class="col-block service-item" data-aos="fade-up">
+            <div class="service-icon">
+                <img src="{% static 'images/forgetting.PNG' %}">
+            </div>
+            <div class="service-text">
+                <h3 class="h2" style="direction: rtl;">فراموشی</h3>
+                <p style="direction: rtl;">حتما واست پیش اومده که درگیر آخر هفته شده باشی و به خودت بیای ببینی
+                    هفته بعد از غذای سلف خبری نیس.
+                    حالا مجبوری دردسر تهیه غذا از جای دیگه با قیمت چندین برابر
+                    رو تحمل کنی.. دیگه قرار نیست اینجوری باشه
+                </p>
+            </div>
+        </div>
 
-                <h3 class="h6" style=" text-align: right;">نظر خودتو ارسال کن</h3>
+        <div class="col-block service-item" data-aos="fade-up">
+            <div class="service-icon">
 
-                <form name="contactForm" id="contactForm" method="post" action="" novalidate="novalidate">
-                    {% csrf_token %}
-                    <fieldset>
+                <img src="{% static 'images/telegram.PNG' %}">
+            </div>
+            <div class="service-text">
+                <h3 class="h2" style="direction: rtl;">اطلاع رسانی</h3>
+                <p style="direction: rtl;"> من میدونم کی باید واست کدوم غذا رو رزرو کنم. ولی
+                    تو که نمی دونی من چی رزرو کردم. میخوای تو کدوم صف وایسی؟ ربات
+                    تگرامم هر روزی که واست رزرو کرده باشه بهت خبر میده کدوم غذا رو گرفته.. فقط همین؟؟
+                    البته که نه، متاسفانه بعضی وقتا خبرای بدی واست داره چون موجودی سلفت داره تموم میشه
+                    و دیگه نمیتونیم واست رزرو کنیم. اینجور وقتا باید زحمت شارژ حسابت رو بکشی
+                </p>
+            </div>
+        </div>
+
+        <div class="col-block service-item" data-aos="fade-up">
+            <div class="service-icon">
+
+                <img src="{% static 'images/days.PNG' %}">
+            </div>
+            <div class="service-text">
+                <h3 class="h2" style="direction: rtl;">چه روزی؟</h3>
+                <p style="direction: rtl;">آره میدونم قرار نیست هر روز دانشگاه باشی، ولی برنامه ات برای هر ترم
+                    مشخص شده و میتونی بگی کدوم روز ها باید واست رزرو کنم. هر وقت هم خواستی
+                    میتونی روزهاتو عوض کنی. خوابگاهی ؟ صبحونه و شام چی؟ نگران نباش اونارو هم واست رزرو می کنم
+                </p>
+            </div>
+        </div>
+
+    </div> <!-- end services-list -->
+
+</section> <!-- end s-services -->
+
+
+<!-- contact
+================================================== -->
+<section id="contact" class="s-contact">
+
+    <div class="overlay"></div>
+    <div class="contact__line"></div>
+
+    <div class="row section-header" data-aos="fade-up">
+        <div class="col-full">
+            <h3 class="subhead">با مسترزرو تماس بگیرید</h3>
+            <h1 class="display-2 display-2--light" style="font-size: 36px">نظرت به شدت برای ما مهمه، بگو تا پیشرفت
+                کنیم</h1>
+        </div>
+    </div>
+
+    <div class="row contact-content" data-aos="fade-up">
+
+        <div class="contact-primary">
+
+            <h3 class="h6" style=" text-align: right;">نظر خودتو ارسال کن</h3>
+
+            <form name="contactForm" id="contactForm" method="post" action="" novalidate="novalidate">
+                {% csrf_token %}
+                <fieldset>
 
                     <div class="form-field">
                         <input name="contactName" type="text" id="contactName" placeholder="نام" value="" minlength="2" required="" aria-required="true" class="full-width">
@@ -317,151 +305,151 @@
                         </div>
                     </div>
 
-                    </fieldset>
-                </form>
+                </fieldset>
+            </form>
 
-                <!-- contact-warning -->
-                <div class="message-warning">
-                    یه چیزی اشتباه پیش رفت دوباره تلاش کن
+            <!-- contact-warning -->
+            <div class="message-warning">
+                یه چیزی اشتباه پیش رفت دوباره تلاش کن
+            </div>
+
+            <!-- contact-success -->
+            <div class="message-success">
+                پیام شما ارسال شد ممنونیم!<br>
+            </div>
+
+        </div> <!-- end contact-primary -->
+
+        <div class="contact-secondary">
+            <div class="contact-info">
+
+                <h3 class="h6 hide-on-fullwidth">اطلاعات تماس</h3>
+
+                <div class="cinfo">
                 </div>
 
-                <!-- contact-success -->
-                <div class="message-success">
-                    پیام شما ارسال شد ممنونیم!<br>
+                <div class="cinfo">
+                    <h5>Email Us At</h5>
+                    <p>
+                        <a href="mailto:contact@mrzorro.ir">contact@mrzoro.ir</a> <br>
+                        <a href="mailto:info@mrzorro.ir">info@mrzoro.ir</a>
+                    </p>
                 </div>
 
-            </div> <!-- end contact-primary -->
+                <div class="cinfo">
+                    <h5>Call Us At</h5>
+                    <p>
+                        Mobile: <a href="tel:(+98)9124156965">(+98) 912 415 6965</a><br>
+                    </p>
+                </div>
 
-            <div class="contact-secondary">
-                <div class="contact-info">
+                <ul class="contact-social">
 
-                    <h3 class="h6 hide-on-fullwidth">اطلاعات تماس</h3>
+                    <li>
+                        <a href="https://twitter.com/MrZorro75493880"><i class="fa fa-twitter"
+                                                                         aria-hidden="true"></i></a>
+                    </li>
+                    <li>
+                        <a href="https://www.instagram.com/mr.zorrooo/"><i class="fa fa-instagram"
+                                                                           aria-hidden="true"></i></a>
+                    </li>
 
-                    <div class="cinfo">
-                    </div>
+                </ul> <!-- end contact-social -->
 
-                    <div class="cinfo">
-                        <h5>Email Us At</h5>
-                        <p>
-                           <a href="mailto:contact@mrzorro.ir">contact@mrzoro.ir</a> <br>
-                           <a href="mailto:info@mrzorro.ir">info@mrzoro.ir</a>
-                        </p>
-                    </div>
+            </div> <!-- end contact-info -->
+        </div> <!-- end contact-secondary -->
 
-                    <div class="cinfo">
-                        <h5>Call Us At</h5>
-                        <p>
-                            Mobile: <a href="tel:(+98)9124156965">(+98) 912 415 6965</a><br>
-                        </p>
-                    </div>
+    </div> <!-- end contact-content -->
 
-                    <ul class="contact-social">
-
-                        <li>
-                            <a href="https://twitter.com/MrZorro75493880"><i class="fa fa-twitter"
-                                                                             aria-hidden="true"></i></a>
-                        </li>
-                        <li>
-                            <a href="https://www.instagram.com/mr.zorrooo/"><i class="fa fa-instagram"
-                                                                               aria-hidden="true"></i></a>
-                        </li>
-
-                    </ul> <!-- end contact-social -->
-
-                </div> <!-- end contact-info -->
-            </div> <!-- end contact-secondary -->
-
-        </div> <!-- end contact-content -->
-
-    </section> <!-- end s-contact -->
+</section> <!-- end s-contact -->
 
 
-    <!-- footer
-    ================================================== -->
+<!-- footer
+================================================== -->
 <!-- end footer-main -->
 
-        <div class="row footer-bottom">
+<div class="row footer-bottom">
 
-            <div class="col-twelve">
-                <div class="copyright">
-                    <span>© Copyright MR.ZORO 2019</span>
-                </div>
+    <div class="col-twelve">
+        <div class="copyright">
+            <span>© Copyright MR.ZORO 2019</span>
+        </div>
 
-                <div class="go-top">
-                    <a class="smoothscroll" title="Back to Top" href="#top"><i class="icon-arrow-up" aria-hidden="true"></i></a>
-                </div>
-            </div>
+        <div class="go-top">
+            <a class="smoothscroll" title="Back to Top" href="#top"><i class="icon-arrow-up" aria-hidden="true"></i></a>
+        </div>
+    </div>
 
-        </div> <!-- end footer-bottom -->
+</div> <!-- end footer-bottom -->
 
-    </footer> <!-- end footer -->
+</footer> <!-- end footer -->
 
 
-    <!-- photoswipe background
-    ==================================================-->
-    <div aria-hidden="false" class="pswp" role="dialog" tabindex="-1">
+<!-- photoswipe background
+==================================================-->
+<div aria-hidden="false" class="pswp" role="dialog" tabindex="-1">
 
-        <div class="pswp__bg"></div>
-        <div class="pswp__scroll-wrap">
+    <div class="pswp__bg"></div>
+    <div class="pswp__scroll-wrap">
 
-            <div class="pswp__container">
-                <div class="pswp__item"></div>
-                <div class="pswp__item"></div>
-                <div class="pswp__item"></div>
-            </div>
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
 
-            <div class="pswp__ui pswp__ui--hidden">
-                <div class="pswp__top-bar">
-                    <div class="pswp__counter"></div>
-                    <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-                    <button class="pswp__button pswp__button--share" title=
-                            "Share"></button>
-                    <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-                    <button class="pswp__button pswp__button--zoom" title=
-                            "Zoom in/out"></button>
-                    <div class="pswp__preloader">
-                        <div class="pswp__preloader__icn">
-                            <div class="pswp__preloader__cut">
-                                <div class="pswp__preloader__donut"></div>
-                            </div>
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title=
+                        "Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title=
+                        "Zoom in/out"></button>
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
                         </div>
                     </div>
                 </div>
-                <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                    <div class="pswp__share-tooltip"></div>
-                </div>
-                <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
-                <button class="pswp__button pswp__button--arrow--right" title=
-                        "Next (arrow right)"></button>
-                <div class="pswp__caption">
-                    <div class="pswp__caption__center"></div>
-                </div>
             </div>
-
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+            <button class="pswp__button pswp__button--arrow--right" title=
+                    "Next (arrow right)"></button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
         </div>
 
-    </div> <!-- end photoSwipe background
+    </div>
+
+</div> <!-- end photoSwipe background
 
 
         <!-- preloader
         ==================================================-->
-    <div id="preloader">
-        <div id="loader">
-            <div class="line-scale-pulse-out">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
+<div id="preloader">
+    <div id="loader">
+        <div class="line-scale-pulse-out">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
         </div>
     </div>
+</div>
 
-    <!-- Java Script
-    ================================================== -->
-    <script src="{%static 'js/jquery-3.2.1.min.js'%}"></script>
-    <script src="{%static 'js/plugins.js'%}"></script>
-    <script src="{%static 'js/main.js'%}"></script>
+<!-- Java Script
+================================================== -->
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'js/plugins.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
 
 </body>
 

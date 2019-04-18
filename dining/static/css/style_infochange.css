@@ -323,12 +323,12 @@ input {
 }
 
 .current .title .step-number {
-    background: #39b54a;
+    background: red;
     color: #fff;
 }
 
 .current .title .step-text {
-    color: #39b54a;
+    color: red;
 }
 
 .content h3 {
@@ -369,7 +369,7 @@ input {
     width: 140px;
     height: 50px;
     color: #fff;
-    background: #39b54a;
+    background: red;
     align-items: center;
     -moz-align-items: center;
     -webkit-align-items: center;
@@ -425,7 +425,7 @@ input {
 }
 
 .form-radio-flex input:checked + label {
-    border: 1px solid #39b54a;
+    border: 1px solid red;
     z-index: 1;
 }
 
@@ -434,7 +434,7 @@ input {
 }
 
 .form-radio-flex input:hover {
-    border: 1px solid #39b54a;
+    border: 1px solid red;
 }
 
 label.error {
@@ -536,7 +536,7 @@ input.error {
 }
 
 #slider-margin .noUi-connect {
-    background: #39b54a;
+    background: red;
 }
 
 #slider-margin .noUi-connects {
@@ -555,7 +555,7 @@ input.error {
     outline: none;
     border: none;
     right: -15px;
-    border: 1px solid #39b54a;
+    border: 1px solid red;
     border-radius: 0px;
 }
 
@@ -568,7 +568,7 @@ input.error {
     border: none;
     background: transparent;
     font-size: 16px;
-    color: #39b54a;
+    color: red;
     padding: 0px;
 }
 
