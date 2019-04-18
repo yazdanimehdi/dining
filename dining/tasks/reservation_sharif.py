@@ -361,8 +361,10 @@ def reserve_function():
                 for day in chosen_days_lunch:
                     preferred_foods = []
                     for dish in data_lunch[day]:
-                        if UserPreferableFood.objects.filter(~Q(score=0), food__name=dish[0]):
+                        if UserPreferableFood.objects.filter(~Q(score=0), user=user_data.user,
+                                                             food__name=dish[0].strip()):
                             preferred_foods.append((dish[1], UserPreferableFood.objects.filter(
+                                user=user_data.user,
                                 food__name=dish[0])[0].score))
                     preferred_foods.sort(key=lambda x: x[1], reverse=True)
                     if preferred_foods:
@@ -371,8 +373,9 @@ def reserve_function():
                 for day in chosen_days_dinner:
                     preferred_foods = []
                     for dish in data_dinner[day]:
-                        if UserPreferableFood.objects.filter(~Q(score=0), food__name=dish[0]):
+                        if UserPreferableFood.objects.filter(~Q(score=0), user=user_data.user, food__name=dish[0]):
                             preferred_foods.append((dish[1], UserPreferableFood.objects.filter(
+                                user=user_data.user,
                                 food__name=dish[0])[0].score))
                     preferred_foods.sort(key=lambda x: x[1], reverse=True)
                     if preferred_foods:
