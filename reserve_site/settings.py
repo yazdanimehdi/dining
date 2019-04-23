@@ -69,15 +69,15 @@ CELERY_BEAT_SCHEDULE = {
     },
     'bot_credit_announcement_task': {
         'task': 'dining.tasks.credit_announcement.credit_announcement',
-        'schedule': crontab(hour=19, minute=00, day_of_week=2),
+        'schedule': crontab(hour=8, minute=00, day_of_week=3),
     },
     'bot_credit_insufficient_task': {
         'task': 'dining.tasks.credit_insufficient.credit_insufficient',
-        'schedule': crontab(hour=19, minute=15, day_of_week=2),
+        'schedule': crontab(hour=8, minute=15, day_of_week=3),
     },
     'sharif_reserve_task': {
         'task': 'dining.tasks.reservation_sharif.reserve_function',
-        'schedule': crontab(hour=00, minute=20, day_of_week=4),
+        'schedule': crontab(hour=12, minute=00, day_of_week=3),
     },
     'tehran_reserve_task': {
         'task': 'dining.tasks.tehran_reserve_function.tehran_reserve_function',
@@ -85,11 +85,11 @@ CELERY_BEAT_SCHEDULE = {
     },
     'samadv1_reserve_task': {
         'task': 'dining.tasks.samadv1.samadv1_reserve_function',
-        'schedule': crontab(hour=23, minute=47, day_of_week=3),
+        'schedule': crontab(hour=9, minute=00, day_of_week=3),
     },
     'samadv1_get_reserved_task': {
         'task': 'dining.tasks.get_reserved_samad.samadv1_get_reserved_function',
-        'schedule': crontab(hour=23, minute=55, day_of_week=3),
+        'schedule': crontab(hour=10, minute=00, day_of_week=3),
     },
     'yas_reserve_task': {
         'task': 'dining.tasks.reservation_yas.reservation_yas',
