@@ -28,9 +28,9 @@ def reserve_announcement():
         last_saturdays_date = list()
         last_saturdays_date.append(date)
         last_saturdays_date = str(last_saturdays_date)
-        reserved_data = ReservedTable.objects.filter(week_start_date=last_saturdays_date, user=user)
-        tag = UserDiningData.objects.get(user=user).university.tag
         try:
+            reserved_data = ReservedTable.objects.filter(week_start_date=last_saturdays_date, user=user)
+            tag = UserDiningData.objects.get(user=user).university.tag
             if reserved_data and UserDiningData.objects.get(user=user).university.tag == 'sharif':
                 reply_markup = telegram.ReplyKeyboardMarkup(
                     [[telegram.KeyboardButton('کد فراموشی')]], one_time_keyboard=True)
@@ -191,5 +191,6 @@ def reserve_announcement():
                                       "شام امروز: %s \n" % (breakfast, lunch, dinner)
                             send(message, str(user.chat_id), bot_token, reply_markup)
 
-        except:
-            pass
+        except Exception as e:
+            print(e)
+            print(user)
