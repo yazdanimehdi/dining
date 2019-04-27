@@ -304,17 +304,17 @@ def telegram_table_message(user_data, data_lunch, data_dinner):
                    token=bot_token)
 
 
-for user_data in UserDiningData.objects.filter(university__tag='sharif', user__username='myjahromi'):
+for user_data in UserDiningData.objects.filter(university__tag='sharif', user__username='Alikh'):
     if user_data.user.is_paid is True and user_data.user.reserve is True:
 
         active_selfs = UserSelfs.objects.filter(user=user_data.user, is_active=True)
         try:
             cookie = login(user_data)
-        except ValueError:
+        except:
             continue
         try:
             user_id = get_user_id(cookie)
-        except ValueError:
+        except:
             continue
 
         for self in active_selfs:
@@ -436,8 +436,9 @@ for user_data in UserDiningData.objects.filter(university__tag='sharif', user__u
 
             filter[0].save()
 
-        if flag:
-            try:
-                telegram_table_message(user_data, data_lunch, data_dinner)
-            except:
-                continue
+        # if flag:
+        try:
+            telegram_table_message(user_data, data_lunch, data_dinner)
+        except Exception as e:
+            print(e)
+            continue
