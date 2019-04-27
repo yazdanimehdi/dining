@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'dining',
     'order',
+    'django.contrib.postgres',
 ]
 
 MIDDLEWARE = [
