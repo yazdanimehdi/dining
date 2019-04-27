@@ -281,7 +281,7 @@ def telegram_table_message(user_data, data_lunch, data_dinner):
         text_file.write(css)
         text_file.write(df.to_html())
         text_file.close()
-        imgkitoptions = {"format": "png"}
+        imgkitoptions = {"format": "png", "xvfb": ""}
         imgkit.from_file("html.html", 'reserve_img.png', options=imgkitoptions)
 
         def send_photo(path, chat_id, token):
@@ -310,18 +310,20 @@ for user_data in UserDiningData.objects.filter(university__tag='sharif', user__u
         active_selfs = UserSelfs.objects.filter(user=user_data.user, is_active=True)
         try:
             cookie = login(user_data)
-        except:
+        except Exception as e:
+            print(e)
             continue
         try:
             user_id = get_user_id(cookie)
-        except:
+        except Exception as e:
+            print(e)
             continue
 
         for self in active_selfs:
 
             data_lunch, data_dinner = get_next_week_dishes(user_data, cookie, self.self_id, user_id)
             save_values(user_data, data_lunch, data_dinner, self.self_id)
-
+            print(data_lunch)
             chosen_days_lunch = []
 
             if user_data.reserve_friday_lunch:
@@ -355,7 +357,7 @@ for user_data in UserDiningData.objects.filter(university__tag='sharif', user__u
                 chosen_days_dinner.append('چهارشنبه')
             if user_data.reserve_thursday_dinner:
                 chosen_days_dinner.append('پنج شنبه')
-
+            print(chosen_days_lunch)
             for day in chosen_days_lunch:
                 preferred_foods = []
                 for dish in data_lunch[day]:
@@ -365,6 +367,7 @@ for user_data in UserDiningData.objects.filter(university__tag='sharif', user__u
                             food__name=dish[0])[0].score))
                 preferred_foods.sort(key=lambda x: x[1], reverse=True)
                 if preferred_foods:
+                    print(preferred_foods)
                     do_reserve(preferred_foods[0][0], self.self_id, user_id, cookie)
 
             for day in chosen_days_dinner:
