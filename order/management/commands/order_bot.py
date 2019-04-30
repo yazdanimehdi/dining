@@ -166,7 +166,7 @@ class Command(BaseCommand):
                     [[telegram.KeyboardButton(text='سفارش')],
                      [telegram.KeyboardButton(text='مشاهده‌ی سبد خرید'),
                       telegram.KeyboardButton(text='خالی کردن سبد خرید')]], resize_keyboard=True)
-                bot.sendMessage(chat_id=update.message.chat_id,
+                bot.sendMessage(chat_id=query['message']['chat']['id'],
                                 text="*برای سفارش گزینه‌اش رو انتخاب کن*", reply_markup=reply_markup,
                                 parse_mode=telegram.ParseMode.MARKDOWN)
 
