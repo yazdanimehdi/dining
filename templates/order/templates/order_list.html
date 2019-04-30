@@ -1,0 +1,112 @@
+{% extends "order/templates/base.html" %}
+{% block content %}
+
+
+    <div class='col-sm-6 col-sm-offset-3'>
+        <br>
+        <h1 style="text-align: center;">{{ title }}</h1>
+        <br>
+        <a href="/order/radbanoo/active" class="btn btn-primary center-block">تغییر موجود بودن غذا</a>
+        <br>
+        <a href="/order/radbanoo/all" class="btn btn-primary center-block">سفارش‌های تحویل داده شده</a>
+        <hr>
+        {% for invoice, obj in object_list %}
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="thumbnail">
+                        <div class="caption">
+                            <h2 style="text-align: right;"> :سفارش{{ invoice.active }}‌ </h2>
+                            <br>
+                            {% for item in obj %}
+                                <h3 style="text-align: right;">{{ item.food.name }} ----------> {{ item.quantity }}
+                                    عدد</h3>
+                                <br>
+                            {% endfor %}
+                            <hr>
+                            {% if invoice.is_paid == True %}
+                                <h4 style="text-align: right; color: red;">! مبلغ این سفارش پرداخت شده است</h4>
+                            {% endif %}
+                            {% if invoice.is_paid == False %}
+                                <h4 style="text-align: right; color: green;">!از کاربر {{ invoice.amount }} تومن وجه نقد
+                                    دریافت کنید</h4>
+                            {% endif %}
+                            <hr>
+                            <h4 style="text-align: right;" id="name"> نام: {{ invoice.user.name }} </h4>
+                            <br>
+                            <h4 style="text-align: right;" id="{{ invoice.id }}"> شماره‌ي
+                                تماس: {{ invoice.user.phone }} </h4>
+                            <br>
+                            <button onclick="phoneCopy({{ invoice.id }})" class="btn btn--medium pull-right"
+                                    style="right: 100%;">کپی‌‌ شماره تماس
+                            </button>
+                            <br>
+                            <br>
+                            <br>
+                            <h4 style="text-align: right;" id={{ invoice.id }}> آدرس: {{ invoice.address }} </h4>
+                            <br>
+                            <button onclick="addressCopy({{ invoice.id }})" class="btn btn--medium pull-right"
+                                    style="right: 100%;">کپی‌‌آدرس
+                            </button>
+                            <br>
+                            <br>
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name='id' value="{{ invoice.id }}">
+                                <input type="submit" class="btn btn-success center-block" role="button"
+                                       value="تحویل داده شد">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+            </div>
+        {% endfor %}
+
+
+        <div class="pagination">
+    <span class="step-links">
+        {% if object_list.has_previous %}
+            <a href="?{{ page_request_var }}=
+                    {{ object_list.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+        </span>
+
+        {% if object_list.has_next %}
+            <a href="?{{ page_request_var }}=
+                    {{ object_list.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">next</a>
+        {% endif %}
+    </span>
+        </div>
+
+
+    </div>
+    <script>
+        function addressCopy(num) {
+            var copyText = document.getElementById(num).textContent;
+            const el = document.createElement('textarea');
+            el.value = copyText.replace('آدرس:', '');
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+        }
+
+        function phoneCopy(num) {
+            var copyText = document.getElementById(num).textContent;
+            const el = document.createElement('textarea');
+            el.value = copyText.replace('شماره‌ي تماس:', '');
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+        }
+
+        setTimeout(function () {
+            location.reload();
+        }, 180000);
+    </script>
+{% endblock content %}
+

@@ -1,0 +1,25 @@
+{% extends "order/templates/base.html" %}
+{% block content %}
+    <br>
+    <h1 style="text-align: center">تغییر موجود بودن غذا</h1>
+    <form method="post">
+        {% csrf_token %}
+        {% for item in foods %}
+            <h3 style="text-align: right" class="item-folio__title">{{ item.name }}</h3>
+            {% if item.is_active == True %}
+                <input type="hidden" name="{{ item.id }}" value="False">
+                <input type="checkbox" name="{{ item.id }}" value="True" class="checkbox-row" checked>
+            {% endif %}
+            {% if item.is_active == False %}
+                <input type="hidden" name="{{ item.id }}" value="False">
+                <input type="checkbox" name="{{ item.id }}" value="True" class="checkbox-row">
+            {% endif %}
+            <hr>
+            <br>
+        {% endfor %}
+        <input type="submit" class="btn btn-success center-block" value="ثبت">
+    </form>
+    <br>
+    <hr>
+    <p><a href="/order/radbanoo" class="btn btn-primary pull-right">بازگشت به صفحه‌ی سفارش</a></p>
+{% endblock content %}

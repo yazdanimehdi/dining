@@ -1,0 +1,62 @@
+{% extends "order/templates/base.html" %}
+{% block content %}
+
+
+    <div class='col-sm-6 col-sm-offset-3'>
+        <br>
+        <h1 style="text-align: center;">{{ title }}</h1>
+        <br>
+        <a href="/order/radbanoo" class="btn btn-primary center-block">بازگشت به صفحه‌ی سفارش</a>
+        <hr>
+        {% for invoice, obj in object_list %}
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="thumbnail">
+                        <div class="caption">
+                            <h2 style="text-align: right;"> :سفارش{{ invoice.active }}‌</h2>
+                            <br>
+                            {% for item in obj %}
+                                <h3 style="text-align: right;">{{ item.food.name }} ----------> {{ item.quantity }}
+                                    عدد</h3>
+                                <br>
+                            {% endfor %}
+                            <hr>
+                            <h4 style="color: #39b54a; text-align: right;">این سفارش تحویل داده شده است</h4>
+                            <hr>
+                            <h4 style="text-align: right;" id="name"> نام: {{ invoice.user.name }} </h4>
+                            <br>
+                            <h4 style="text-align: right;" id="phone"> شماره‌ي تماس: {{ invoice.user.phone }} </h4>
+                            <br>
+                            <h4 style="text-align: right;" id="address"> آدرس: {{ invoice.address }} </h4>
+                            <br>
+                            <button onclick="nameCopy()" class="btn btn--medium pull-right" style="right: 100%;">
+                                کپی‌‌آدرس
+                            </button>
+                            <br>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+            </div>
+        {% endfor %}
+
+
+        <div class="pagination">
+    <span class="step-links">
+        {% if object_list.has_previous %}
+            <a href="?{{ page_request_var }}=
+                    {{ object_list.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+        </span>
+
+        {% if object_list.has_next %}
+            <a href="?{{ page_request_var }}=
+                    {{ object_list.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">next</a>
+        {% endif %}
+    </span>
+        </div>
+{% endblock content %}

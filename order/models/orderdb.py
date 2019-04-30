@@ -11,6 +11,7 @@ class OrderFood(models.Model):
 
 
 class Invoice(models.Model):
+    time = models.DateField(auto_now=True)
     user = models.ForeignKey(to='order.FoodUser', on_delete=models.CASCADE)
     invoice_number = models.DateTimeField(auto_now=True)
     address = models.CharField(max_length=300, default='0')
@@ -18,6 +19,16 @@ class Invoice(models.Model):
     is_active = models.BooleanField(default=False)
     is_paid = models.BooleanField(default=False)
     is_sent = models.BooleanField(default=False)
+    active = models.IntegerField(default=0)
+
+    def save(self, *args, **kwargs):
+        if self.is_active is True and self.is_sent is False:
+            self.active = Invoice.objects.filter(is_active=True).count()
+
+        super(Invoice, self).save(*args, **kwargs)
+
+
+
 
 
 class InvoicePendingPayment(models.Model):

@@ -100,7 +100,7 @@ def select_food(bot, update, user_data):
         food_type = user_data['choice']
     except KeyError:
         food_type = query['data']
-    menu_user = RestaurantMenu.objects.filter(restaurant=restaurant, food_type=food_type)
+    menu_user = RestaurantMenu.objects.filter(restaurant=restaurant, food_type=food_type, is_active=True)
     for food in menu_user:
         user_data[f'{food.name}'] = 0
         inline_keyboard = telegram.InlineKeyboardMarkup(
@@ -109,7 +109,7 @@ def select_food(bot, update, user_data):
               telegram.InlineKeyboardButton(text='+', callback_data='+1')]]
             , resize_keyboard=True)
         bot.sendMessage(chat_id=query['message']['chat']['id'],
-                        text=f"* {food.name} ------------- {food.price} تومن *",
+                        text=f"* {food.name} ------------- {int(food.price)} تومن *",
                         reply_markup=inline_keyboard, parse_mode=telegram.ParseMode.MARKDOWN)
     inline_keyboard_confirm = telegram.InlineKeyboardMarkup(
         [[telegram.InlineKeyboardButton(text='غذای اصلی', callback_data='main'),
@@ -153,10 +153,11 @@ def add_or_remove_item(bot, update, user_data):
                                        reply_markup=inline_keyboard)
             bot.answerCallbackQuery(callback_query_id=query.id, text='با موفقیت حذف شد', show_alert=False)
     elif query['data'] == 'ok':
+        reply_markup = telegram.ReplyKeyboardRemove()
         bot.sendMessage(chat_id=query['message']['chat']['id'],
                         text='*لطفا آدرس خودت رو وارد کن\n'
                              'می‌تونی بهم داخل دانشگاه یا در خوابگاه‌های دانشگاهی که انتخاب کردی هم آدرس بدی*'
-                        , parse_mode=telegram.ParseMode.MARKDOWN)
+                        , parse_mode=telegram.ParseMode.MARKDOWN, reply_markup=reply_markup)
         return BotState.CONFIRM
 
     elif query['data'] == 'cancel':
@@ -197,6 +198,22 @@ def confirm(bot, update, user_data):
     invoice.amount = summation
     invoice.save()
     user_data['invoice'] = invoice
+    try:
+        invoice = user_data['invoice']
+        orders = OrderFood.objects.filter(invoice=invoice)
+        text = 'سبد خریدت این اقلام هست:'
+        for item in orders:
+            text += '\n ' + item.food.name + '-' + str(item.quantity) + '-' + str(int(item.quantity * item.food.price))
+
+        text += '\n مجموع سفارش:' + '\n' + str(int(invoice.amount))
+
+    except KeyError:
+        text = "سبد خریدت خالیه!"
+
+    bot.sendMessage(chat_id=update.message.chat_id,
+                    text=f"*{text}*",
+                    parse_mode=telegram.ParseMode.MARKDOWN)
+
     reply_markup = telegram.InlineKeyboardMarkup(
         [[telegram.InlineKeyboardButton(text='پرداخت نقدی', callback_data='پرداخت نقدی')],
          [telegram.InlineKeyboardButton(text='پرداخت اعتباری', callback_data='پرداخت اعتباری')]])
@@ -210,14 +227,13 @@ def payment(bot, update, user_data):
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'reserve_site.settings')
     django.setup()
     from order.views.payment import generate_payment_link
-    from order.send_order import send_function
+
     user = user_data['user']
     invoice = user_data['invoice']
     query = update.callback_query
     if query['data'] == 'پرداخت نقدی':
         invoice.is_active = True
         invoice.save()
-        send_function()
         reply_markup = telegram.InlineKeyboardMarkup(
             [[telegram.InlineKeyboardButton(text='تایید نهایی', callback_data='تایید نهایی')],
              [telegram.InlineKeyboardButton(text='انصراف', callback_data='انصراف')]])
@@ -252,13 +268,11 @@ def payment(bot, update, user_data):
 def payment_confirm(bot, update, user_data):
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'reserve_site.settings')
     django.setup()
-    from order.send_order import send_function
     user = user_data['user']
     invoice = user_data['invoice']
     query = update.callback_query
     if query['data'] == 'پرداخت کردم':
         if invoice.is_paid:
-            send_function()
             bot.sendMessage(chat_id=user.chat_id,
                             text=f"*سفارشت برات ارسال می‌شه :) منتظر تماس ما باش*",
                             parse_mode=telegram.ParseMode.MARKDOWN)
@@ -283,7 +297,6 @@ def payment_confirm(bot, update, user_data):
         return ConversationHandler.END
 
     if query['data'] == 'انصراف' and invoice.is_paid is True:
-        send_function()
         user = user_data['user']
         bot.sendMessage(chat_id=user.chat_id,
                         text="*مبلغ سفارشت پرداخت شده دیگه نمی‌تونی انصراف بدی*",
@@ -302,9 +315,8 @@ def payment_confirm(bot, update, user_data):
 
     if query['data'] == 'تایید نهایی':
         if invoice.is_active is True and invoice.is_paid is False:
-            send_function()
             bot.sendMessage(chat_id=user.chat_id,
-                            text=f"*سفارشت برات ارسال می‌شه و هزینش{invoice.amount}  تومنه :) منتظر تماس ما باش*",
+                            text=f"*سفارشت برات ارسال می‌شه و هزینش{int(invoice.amount)}  تومنه :) منتظر تماس ما باش*",
                             parse_mode=telegram.ParseMode.MARKDOWN)
             reply_markup = telegram.ReplyKeyboardMarkup(
                 [[telegram.KeyboardButton('سفارش')]])
@@ -372,9 +384,9 @@ def shop_basket(bot, update, user_data):
         orders = OrderFood.objects.filter(invoice=invoice)
         text = 'سبد خریدت این اقلام هست:'
         for item in orders:
-            text += '\n ' + item.food.name + '-' + str(item.quantity) + '-' + str(item.quantity * item.food.price)
+            text += '\n ' + item.food.name + '-' + str(item.quantity) + '-' + str(int(item.quantity * item.food.price))
 
-        text += '\n مجموع سفارش:' + '\n' + str(invoice.amount)
+        text += '\n مجموع سفارش:' + '\n' + str(int(invoice.amount))
 
     except KeyError:
         text = "سبد خریدت خالیه!"
@@ -398,7 +410,7 @@ def empty_basket(bot, update, user_data):
         pass
 
     bot.sendMessage(chat_id=update.message.chat_id,
-                    text="*سبد خریدت رو خالی کردم برای سفارش مجدد گزینه‌ی سفارش از مسترزرو رو لمس کن*",
+                    text="*سبد خریدت رو خالی کردم برای سفارش مجدد گزینه‌ی سفارش رو لمس کن*",
                     parse_mode=telegram.ParseMode.MARKDOWN)
     return ConversationHandler.END
 
