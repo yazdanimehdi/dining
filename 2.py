@@ -9,8 +9,6 @@ from bs4 import BeautifulSoup
 from django.db.models import Q
 from lxml import html
 
-from dining.models import UserDiningData, UserSelfs, UserPreferableFood, ReservedTable
-
 
 def login(user_data):
     login_url = user_data.university.login_url
@@ -85,7 +83,7 @@ def get_next_week_dishes(user_data, cookie, self_id, user_id):
                     new_food.id = food_id
                     new_food.save()
                     dishes.append((food_name, food_id))
-                    preferred_food_object = UserPreferableFood
+                    preferred_food_object = UserPreferableFood()
                     preferred_food_object.user = user_data.user
                     preferred_food_object.food = new_food
                     preferred_food_object.score = 5
@@ -281,7 +279,7 @@ def telegram_table_message(user_data, data_lunch, data_dinner):
         text_file.write(css)
         text_file.write(df.to_html())
         text_file.close()
-        imgkitoptions = {"format": "png", "xvfb": ""}
+        imgkitoptions = {"format": "png"}
         imgkit.from_file("html.html", 'reserve_img.png', options=imgkitoptions)
 
         def send_photo(path, chat_id, token):
@@ -294,7 +292,7 @@ def telegram_table_message(user_data, data_lunch, data_dinner):
 
         bot_token = '610448118:AAFVPBXMKPzqAiOJ9-zhusKrOloCiJuEwi8'
         message = "سلام\n" \
-                  "امروز چهارشنبه‌س و غذاهاتو برات رزرو کردم \n" \
+                  "امروز پنجشنبه‌س و غذاهاتو برات رزرو کردم \n" \
                   "اگر از هر کدومشون خوشت نیمد یا خواستی روز جدیدی رو رزرو کنی دکمه‌ی تغییر رزرو رو فشار بده"
         reply_markup = telegram.ReplyKeyboardMarkup(
             [[telegram.KeyboardButton('تغییر رزرو')]], one_time_keyboard=False)
@@ -304,26 +302,26 @@ def telegram_table_message(user_data, data_lunch, data_dinner):
                    token=bot_token)
 
 
-for user_data in UserDiningData.objects.filter(university__tag='sharif', user__username='Alikh'):
+from dining.models import UserDiningData, UserSelfs, UserPreferableFood, ReservedTable
+
+for user_data in UserDiningData.objects.filter(university__tag='sharif'):
     if user_data.user.is_paid is True and user_data.user.reserve is True:
 
         active_selfs = UserSelfs.objects.filter(user=user_data.user, is_active=True)
         try:
             cookie = login(user_data)
-        except Exception as e:
-            print(e)
+        except ValueError:
             continue
         try:
             user_id = get_user_id(cookie)
-        except Exception as e:
-            print(e)
+        except ValueError:
             continue
 
         for self in active_selfs:
 
             data_lunch, data_dinner = get_next_week_dishes(user_data, cookie, self.self_id, user_id)
             save_values(user_data, data_lunch, data_dinner, self.self_id)
-            print(data_lunch)
+
             chosen_days_lunch = []
 
             if user_data.reserve_friday_lunch:
@@ -357,17 +355,17 @@ for user_data in UserDiningData.objects.filter(university__tag='sharif', user__u
                 chosen_days_dinner.append('چهارشنبه')
             if user_data.reserve_thursday_dinner:
                 chosen_days_dinner.append('پنج شنبه')
-            print(chosen_days_lunch)
+
             for day in chosen_days_lunch:
                 preferred_foods = []
                 for dish in data_lunch[day]:
-                    if UserPreferableFood.objects.filter(~Q(score=0), user=user_data.user, food__name=dish[0].strip()):
+                    if UserPreferableFood.objects.filter(~Q(score=0), user=user_data.user,
+                                                         food__name=dish[0].strip()):
                         preferred_foods.append((dish[1], UserPreferableFood.objects.filter(
                             user=user_data.user,
                             food__name=dish[0])[0].score))
                 preferred_foods.sort(key=lambda x: x[1], reverse=True)
                 if preferred_foods:
-                    print(preferred_foods)
                     do_reserve(preferred_foods[0][0], self.self_id, user_id, cookie)
 
             for day in chosen_days_dinner:
@@ -383,7 +381,7 @@ for user_data in UserDiningData.objects.filter(university__tag='sharif', user__u
 
         data_lunch, data_dinner, credit = get_reserved_table(user_data, user_id, cookie)
 
-        date = str(jdatetime.date.today() + jdatetime.timedelta(3))
+        date = str(jdatetime.date.today() + jdatetime.timedelta(2))
         date = re.sub(r'\-', '/', date)
         saturdays_date = list()
         saturdays_date.append(date)
@@ -439,9 +437,8 @@ for user_data in UserDiningData.objects.filter(university__tag='sharif', user__u
 
             filter[0].save()
 
-        # if flag:
-        try:
-            telegram_table_message(user_data, data_lunch, data_dinner)
-        except Exception as e:
-            print(e)
-            continue
+        if flag:
+            try:
+                telegram_table_message(user_data, data_lunch, data_dinner)
+            except:
+                continue
