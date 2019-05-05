@@ -1,7 +1,11 @@
 {% extends "order/templates/base.html" %}
 {% block content %}
 
-
+    <style>
+        div {
+            font-family: "bnazanin", sans-serif;
+        }
+    </style>
     <div class='col-sm-6 col-sm-offset-3'>
         <br>
         <h1 style="text-align: center;">{{ title }}</h1>
@@ -22,6 +26,9 @@
                                     عدد</h3>
                                 <br>
                             {% endfor %}
+
+                            <hr>
+                            <h4 style="text-align: right;">{{ invoice.details }}</h4>
                             <hr>
                             {% if invoice.is_paid == True %}
                                 <h4 style="text-align: right; color: red;">! مبلغ این سفارش پرداخت شده است</h4>
@@ -52,9 +59,28 @@
                             <form method="post">
                                 {% csrf_token %}
                                 <input type="hidden" name='id' value="{{ invoice.id }}">
+                                <input type="hidden" name="state" value="success">
                                 <input type="submit" class="btn btn-success center-block" role="button"
                                        value="تحویل داده شد">
                             </form>
+                            <br>
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name='id' value="{{ invoice.id }}">
+                                <input type="hidden" name="state" value="change">
+                                <input type="submit" class="btn btn-warning center-block" role="button"
+                                       value="تغییر سفارش">
+                            </form>
+                            {% if invoice.is_paid == False %}
+                                <br>
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name='id' value="{{ invoice.id }}">
+                                    <input type="hidden" name="state" value="cancel">
+                                    <input type="submit" class="btn btn-danger center-block" role="button"
+                                           value="لغو سفارش">
+                                </form>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -67,16 +93,17 @@
     <span class="step-links">
         {% if object_list.has_previous %}
             <a href="?{{ page_request_var }}=
-                    {{ object_list.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">previous</a>
+
+                    {{ object_list.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">قبلی</a>
         {% endif %}
 
         <span class="current">
-            Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+            صفحه {{ object_list.number }} از {{ object_list.paginator.num_pages }}.
         </span>
 
         {% if object_list.has_next %}
             <a href="?{{ page_request_var }}=
-                    {{ object_list.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">next</a>
+                    {{ object_list.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">بعدی</a>
         {% endif %}
     </span>
         </div>

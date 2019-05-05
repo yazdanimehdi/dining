@@ -20,15 +20,13 @@ class Invoice(models.Model):
     is_paid = models.BooleanField(default=False)
     is_sent = models.BooleanField(default=False)
     active = models.IntegerField(default=0)
+    details = models.TextField(default='-')
 
     def save(self, *args, **kwargs):
         if self.is_active is True and self.is_sent is False:
             self.active = Invoice.objects.filter(is_active=True).count()
 
         super(Invoice, self).save(*args, **kwargs)
-
-
-
 
 
 class InvoicePendingPayment(models.Model):

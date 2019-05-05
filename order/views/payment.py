@@ -30,7 +30,7 @@ def generate_payment_link(user, invoice, discount_code):
     pending_payment.amount = invoice.amount
     pending_payment.code = ''.join(random.choices(string.ascii_letters + string.digits, k=15))
     pending_payment.discount_code = discount_code
-    description = f"{invoice.amount} تومن بابت سفارش غذا از مسترزرو"
+    description = f"{invoice.amount} تومن بابت سفارش غذا "
 
     if client is None:
         try:
@@ -60,8 +60,8 @@ def verify_order(request):
     if request.GET.get('Status') == 'OK' and 'code' in request.GET:
         try:
             pending_payment = InvoicePendingPayment.objects.get(code=request.GET.get('code'))
-        except InvoicePendingPayment.DoesNotExist:
-            return HttpResponse('Transaction failed')
+        except:
+            return HttpResponse('پرداخت موفقیت آمیز نبوده')
 
         result = client.service.PaymentVerification(MERCHANT, request.GET['Authority'], pending_payment.amount)
         if result.Status == 100:
@@ -71,7 +71,7 @@ def verify_order(request):
             pending_payment.invoice.is_active = True
             pending_payment.invoice.save()
 
-            return HttpResponse('Done')
+            return HttpResponse('پرداختت موفقیت آمیز بود برو داخل روبات و گزینه‌ي پرداخت کردم رو لمس کن')
         elif result.Status == 101:
             return HttpResponse(
                 'Transaction submitted : ' + str(result.Status) + '<a href="/dashboard/">بازگشت به داشبورد</a>')

@@ -13,6 +13,39 @@ from order.models import Invoice, OrderFood
 
 
 def post_list(request):
+    def send(msg, chat_id):
+        token = '884113858:AAG05koed7NLj6o3n8y5l7YegKa3OOfd36M'
+        bot = telegram.Bot(token=token)
+        bot.send_message(chat_id=chat_id, text=msg)
+    if request.method == 'POST':
+        if request.POST.get('state') == 'success':
+            post_id = request.POST.get('id')
+            if post_id is not None:
+                delivered = Invoice.objects.get(id=post_id)
+                delivered.is_sent = True
+                delivered.save()
+                message = "سفارشت ارسال شد منتظرش باش"
+                send(message, delivered.user.chat_id)
+
+            return redirect('/order/radbanoo')
+        elif request.POST.get('state') == 'cancel':
+            post_id = request.POST.get('id')
+            if post_id is not None:
+                invoice = Invoice.objects.get(id=post_id)
+                message = "با عرض پوزش سفارشت از سمت رستوران لغو شد"
+                send(message, invoice.user.chat_id)
+                invoice.delete()
+
+        else:
+            post_id = request.POST.get('id')
+            if post_id is not None:
+                invoice = Invoice.objects.get(id=post_id)
+                message = "سفارشت نیاز به یه سری تغییرات داره برای ادامه‌ی فرآیند سفارشت با ما تماس بگیر\n" \
+                          "02166195763\n" \
+                          "02166195394\n" \
+                          "02166195362\n" \
+                          "09122715182"
+                send(message, invoice.user.chat_id)
     today = timezone.now().date()
     invoices = Invoice.objects.filter(is_sent=False, is_active=True)
     queryset_list = []
@@ -37,22 +70,7 @@ def post_list(request):
         "page_request_var": page_request_var,
         "today": today,
     }
-    if request.method == 'POST':
-        post_id = request.POST.get('id')
-        if post_id is not None:
-            delivered = Invoice.objects.get(id=post_id)
-            delivered.is_sent = True
-            delivered.save()
 
-            def send(msg, chat_id, token):
-                bot = telegram.Bot(token=token)
-                bot.send_message(chat_id=chat_id, text=msg)
-
-            bot_token = '884113858:AAG05koed7NLj6o3n8y5l7YegKa3OOfd36M'
-            message = "سفارشت ارسال شد منتظرش باش"
-            send(message, delivered.user.chat_id, bot_token)
-
-        return redirect('/order/radbanoo')
     return render(request, "order/templates/order_list.html", context)
 
 

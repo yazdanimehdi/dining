@@ -1,3 +1,5 @@
+import datetime
+
 from django.core.management.base import BaseCommand
 
 
@@ -31,16 +33,27 @@ class Command(BaseCommand):
             CONFIRM = 9
             PAYMENT = 10
             PAYMENT_CONFIRM = 11
+            DETAIL = 12
+            ADDRESS = 13
 
         def start_order(bot, update, user_data):
-            reply_markup = telegram.ReplyKeyboardMarkup(
-                [[telegram.KeyboardButton(text='سفارش')],
-                 [telegram.KeyboardButton(text='مشاهده‌ی سبد خرید'),
-                  telegram.KeyboardButton(text='خالی کردن سبد خرید')]], resize_keyboard=True)
-            bot.sendMessage(chat_id=update.message.chat_id,
-                            text="*برای سفارش گزینه‌اش رو انتخاب کن*", reply_markup=reply_markup,
-                            parse_mode=telegram.ParseMode.MARKDOWN)
-            return BotState.INITIALIZE
+            if 9 < datetime.datetime.now().time().hour < 16 or 18 < datetime.datetime.now().time().hour < 20:
+                user_data.clear()
+                reply_markup = telegram.ReplyKeyboardMarkup(
+                    [[telegram.KeyboardButton(text='سفارش')],
+                     [telegram.KeyboardButton(text='مشاهده‌ی سبد خرید'),
+                      telegram.KeyboardButton(text='خالی کردن سبد خرید')]], resize_keyboard=True)
+                bot.sendMessage(chat_id=update.message.chat_id,
+                                text="*برای سفارش گزینه‌اش رو انتخاب کن*", reply_markup=reply_markup,
+                                parse_mode=telegram.ParseMode.MARKDOWN)
+                return BotState.INITIALIZE
+            else:
+                bot.sendMessage(chat_id=update.message.chat_id,
+                                text="*زمان سفارش گذشته!\n"
+                                     "ساعت کاری ما در ماه مبارک رمضان ظهرها از ساعت ۱۲ تا ۳ هست\n"
+                                     "و غروب‌ها از ساعت ۶ تا ۸ هست*",
+                                parse_mode=telegram.ParseMode.MARKDOWN)
+                return ConversationHandler.END
 
         def menu(bot, update, user_data):
             os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'reserve_site.settings')
@@ -116,6 +129,7 @@ class Command(BaseCommand):
             inline_keyboard_confirm = telegram.InlineKeyboardMarkup(
                 [[telegram.InlineKeyboardButton(text='غذای اصلی', callback_data='main'),
                   telegram.InlineKeyboardButton(text='دسر و نوشیدنی', callback_data='desert')],
+                 [telegram.InlineKeyboardButton(text='تایید و اضافه کردن توضیحات', callback_data='detail')],
                  [telegram.InlineKeyboardButton(text='تایید', callback_data='ok')],
                  [telegram.InlineKeyboardButton(text='انصراف', callback_data='cancel')]], resize_keyboard=True)
             bot.sendMessage(chat_id=query['message']['chat']['id'], text='*لطفا گزینه‌ی مورد نظر رو انتخاب کن*',
@@ -154,10 +168,26 @@ class Command(BaseCommand):
                                                reply_markup=inline_keyboard)
                     bot.answerCallbackQuery(callback_query_id=query.id, text='با موفقیت حذف شد', show_alert=False)
             elif query['data'] == 'ok':
-                reply_markup = telegram.ReplyKeyboardRemove()
+                inline_keyboard_address = telegram.InlineKeyboardMarkup(
+                    [[telegram.InlineKeyboardButton(text='درب جهاد', callback_data='jahad')],
+                     [telegram.InlineKeyboardButton(text='درب انرژی', callback_data='energy')],
+                     [telegram.InlineKeyboardButton(text='درب صنایع', callback_data='sanaye')],
+                     [telegram.InlineKeyboardButton(text='خوابگاه احمدی روشن', callback_data='ahmadi')],
+                     [telegram.InlineKeyboardButton(text='خوابگاه مصلی نژاد', callback_data='mosalanejad')],
+                     [telegram.InlineKeyboardButton(text='خوابگاه شادمان', callback_data='shademan')],
+                     [telegram.InlineKeyboardButton(text='دانشکده‌ی اقتصاد و مدیریت', callback_data='eghtesad')],
+                     [telegram.InlineKeyboardButton(text='BOX', callback_data='BOX')],
+                     [telegram.InlineKeyboardButton(text='خوابگاه طرشت ۲ + ۳۰۰۰ تومن هزینه حمل',
+                                                    callback_data='tarasht2')],
+                     [telegram.InlineKeyboardButton(text='خوابگاه طرشت ۳ + ۳۰۰۰ تومن هزینه حمل',
+                                                    callback_data='tarasht3')],
+                     [telegram.InlineKeyboardButton(text='خوابگاه شهید شوریده + ۳۰۰۰ تومن هزینه حمل',
+                                                    callback_data='shoride')],
+                     [telegram.InlineKeyboardButton(text='سایر + ۳۰۰۰ تومن هزینه حمل', callback_data='other')]],
+                    resize_keyboard=True)
                 bot.sendMessage(chat_id=query['message']['chat']['id'],
-                                text='*لطفا آدرس خودت رو نزدیک دانشگاهی که زدی وارد کن*'
-                                , parse_mode=telegram.ParseMode.MARKDOWN, reply_markup=reply_markup)
+                                text='*لطفا آدرس خودت رو انتخاب کن*'
+                                , parse_mode=telegram.ParseMode.MARKDOWN, reply_markup=inline_keyboard_address)
                 return BotState.CONFIRM
 
             elif query['data'] == 'cancel':
@@ -171,6 +201,14 @@ class Command(BaseCommand):
                                 parse_mode=telegram.ParseMode.MARKDOWN)
 
                 return ConversationHandler.END
+
+            elif query['data'] == 'detail':
+                reply = telegram.ReplyKeyboardRemove()
+                bot.sendMessage(chat_id=query['message']['chat']['id'],
+                                text="*توضیحات مورد نظرت رو وارد کن*",
+                                parse_mode=telegram.ParseMode.MARKDOWN,
+                                reply_markup=reply)
+                return BotState.DETAIL
             elif query['data'] == 'main' or query['data'] == 'desert':
                 user_data['choice'] = query['data']
                 return select_food(bot, update, user_data)
@@ -180,22 +218,68 @@ class Command(BaseCommand):
             django.setup()
             from order.models import Invoice, OrderFood, RestaurantMenu
             user = user_data['user']
+            summation = 0
             invoice = Invoice()
             invoice.user = user
-            invoice.address = update.message.text
             invoice.save()
-            summation = 0
             for item in user_data:
-                if item != 'user' and item != 'restaurant' and item != 'invoice' and item != 'choice' and user_data[
-                    item] != 0:
+                if item != 'user' and item != 'restaurant' and item != 'invoice' and item != 'choice' \
+                        and user_data[item] != 0 and item != 'detail':
                     order = OrderFood()
                     order.food = RestaurantMenu.objects.get(name=item)
                     order.quantity = user_data[item]
                     summation += order.food.price * order.quantity
                     order.invoice = invoice
                     order.save()
-
-            invoice.amount = summation
+            if update.callback_query:
+                query = update.callback_query
+                if query['data'] == 'jahad':
+                    invoice.address = 'درب جهاد'
+                    invoice.amount = summation
+                elif query['data'] == 'energy':
+                    invoice.address = 'درب انرژی'
+                    invoice.amount = summation
+                elif query['data'] == 'sanaye':
+                    invoice.address = 'درب صنایع'
+                    invoice.amount = summation
+                elif query['data'] == 'ahmadi':
+                    invoice.address = 'خوابگاه احمدی روشن'
+                    invoice.amount = summation
+                elif query['data'] == 'mosalanejad':
+                    invoice.address = 'خوابگاه مصلی نژاد'
+                    invoice.amount = summation
+                elif query['data'] == 'shademan':
+                    invoice.address = 'خوابگاه شادمان'
+                    invoice.amount = summation
+                elif query['data'] == 'eghtesad':
+                    invoice.address = 'دانشکده‌ی اقتصاد و مدیریت'
+                    invoice.amount = summation
+                elif query['data'] == 'BOX':
+                    invoice.address = 'BOX'
+                    invoice.amount = summation
+                elif query['data'] == 'tarasht2':
+                    invoice.address = 'خوابگاه طرشت ۲'
+                    invoice.amount = summation + 3000
+                elif query['data'] == 'tarasht3':
+                    invoice.address = 'خوابگاه طرشت ۳'
+                    invoice.amount = summation + 3000
+                elif query['data'] == 'shoride':
+                    invoice.address = 'خوابگاه شهید شوریده'
+                    invoice.amount = summation + 3000
+                elif query['data'] == 'other':
+                    reply = telegram.ReplyKeyboardRemove()
+                    bot.sendMessage(chat_id=query['message']['chat']['id'],
+                                    text="*لطفا آدرس رو وارد کن*",
+                                    parse_mode=telegram.ParseMode.MARKDOWN,
+                                    reply_markup=reply)
+                    return BotState.CONFIRM
+            else:
+                invoice.address = update.message.text
+                invoice.amount = summation + 3000
+            try:
+                invoice.details = user_data['detail']
+            except KeyError:
+                pass
             invoice.save()
             user_data['invoice'] = invoice
             try:
@@ -211,14 +295,14 @@ class Command(BaseCommand):
             except KeyError:
                 text = "سبد خریدت خالیه!"
 
-            bot.sendMessage(chat_id=update.message.chat_id,
+            bot.sendMessage(chat_id=user.chat_id,
                             text=f"*{text}*",
                             parse_mode=telegram.ParseMode.MARKDOWN)
 
             reply_markup = telegram.InlineKeyboardMarkup(
                 [[telegram.InlineKeyboardButton(text='پرداخت نقدی', callback_data='پرداخت نقدی')],
                  [telegram.InlineKeyboardButton(text='پرداخت اعتباری', callback_data='پرداخت اعتباری')]])
-            bot.sendMessage(chat_id=update.message.chat_id,
+            bot.sendMessage(chat_id=user.chat_id,
                             text="*لطفا نحوه‌ی پرداختتو انتخاب کن:*",
                             reply_markup=reply_markup, parse_mode=telegram.ParseMode.MARKDOWN)
             return BotState.PAYMENT
@@ -391,7 +475,13 @@ class Command(BaseCommand):
                             parse_mode=telegram.ParseMode.MARKDOWN)
 
         def empty_basket(bot, update, user_data):
-            user = user_data['user']
+            try:
+                user = user_data['user']
+            except:
+                bot.sendMessage(chat_id=update.message.chat_id,
+                                text="*سبد خریدت رو خالی کردم برای سفارش مجدد گزینه‌ی سفارش رو لمس کن*",
+                                parse_mode=telegram.ParseMode.MARKDOWN)
+                return ConversationHandler.END
             try:
                 invoice = user_data['invoice']
                 if invoice.is_paid is not True:
@@ -408,11 +498,36 @@ class Command(BaseCommand):
                             parse_mode=telegram.ParseMode.MARKDOWN)
             return ConversationHandler.END
 
+        def get_detail(bot, update, user_data):
+            user_data['detail'] = update.message.text
+            inline_keyboard_address = telegram.InlineKeyboardMarkup(
+                [[telegram.InlineKeyboardButton(text='درب جهاد', callback_data='jahad')],
+                 [telegram.InlineKeyboardButton(text='درب انرژی', callback_data='energy')],
+                 [telegram.InlineKeyboardButton(text='درب صنایع', callback_data='sanaye')],
+                 [telegram.InlineKeyboardButton(text='خوابگاه احمدی روشن', callback_data='ahmadi')],
+                 [telegram.InlineKeyboardButton(text='خوابگاه مصلی نژاد', callback_data='mosalanejad')],
+                 [telegram.InlineKeyboardButton(text='خوابگاه شادمان', callback_data='shademan')],
+                 [telegram.InlineKeyboardButton(text='دانشکده‌ی اقتصاد و مدیریت', callback_data='eghtesad')],
+                 [telegram.InlineKeyboardButton(text='BOX', callback_data='BOX')],
+                 [telegram.InlineKeyboardButton(text='خوابگاه طرشت ۲ + ۳۰۰۰ تومن هزینه', callback_data='tarasht2')],
+                 [telegram.InlineKeyboardButton(text='خوابگاه طرشت ۳ + ۳۰۰۰ تومن هزینه', callback_data='tarasht3')],
+                 [telegram.InlineKeyboardButton(text='خوابگاه شهید شوریده + ۳۰۰۰ تومن هزینه', callback_data='shoride')],
+                 [telegram.InlineKeyboardButton(text='سایر + ۳۰۰۰ تومن هزینه', callback_data='other')]],
+                resize_keyboard=True)
+            bot.sendMessage(chat_id=update.message.chat_id,
+                            text='*لطفا آدرس خودت رو انتخاب کن*'
+                            , parse_mode=telegram.ParseMode.MARKDOWN, reply_markup=inline_keyboard_address)
+            return BotState.CONFIRM
+
         conv_handler = ConversationHandler(
             entry_points=[CommandHandler('start', callback=start_order, pass_user_data=True),
                           MessageHandler(Filters.regex('سفارش'), callback=start_order, pass_user_data=True)],
             states={
-                BotState.INITIALIZE: [MessageHandler(Filters.regex('سفارش'), callback=menu, pass_user_data=True)],
+                BotState.INITIALIZE: [MessageHandler(Filters.regex('سفارش'), callback=menu, pass_user_data=True),
+                                      MessageHandler(Filters.regex('خالی کردن سبد خرید'), empty_basket,
+                                                     pass_user_data=True),
+                                      MessageHandler(Filters.regex('مشاهده‌ی سبد خرید'), shop_basket,
+                                                     pass_user_data=True)],
                 BotState.SIGNUP: [MessageHandler(Filters.regex('ثبت نام'), callback=sign_up)],
                 BotState.SIGNUP_NAME: [MessageHandler(Filters.text, callback=getinfo)],
                 BotState.SIGNUP_PHONE: [MessageHandler(Filters.text, callback=phone)],
@@ -433,7 +548,8 @@ class Command(BaseCommand):
                                 MessageHandler(Filters.regex('خالی کردن سبد خرید'), empty_basket, pass_user_data=True),
                                 MessageHandler(Filters.regex('مشاهده‌ی سبد خرید'), shop_basket, pass_user_data=True)
                                 ],
-                BotState.CONFIRM: [MessageHandler(Filters.text, callback=confirm, pass_user_data=True)],
+                BotState.CONFIRM: [MessageHandler(Filters.text, callback=confirm, pass_user_data=True),
+                                   CallbackQueryHandler(callback=confirm, pass_user_data=True)],
                 BotState.PAYMENT: [CallbackQueryHandler(callback=payment, pass_user_data=True),
                                    MessageHandler(Filters.regex('خالی کردن سبد خرید'), empty_basket,
                                                   pass_user_data=True),
@@ -444,7 +560,8 @@ class Command(BaseCommand):
                                                           pass_user_data=True),
                                            MessageHandler(Filters.regex('مشاهده‌ی سبد خرید'), shop_basket,
                                                           pass_user_data=True)
-                                           ]
+                                           ],
+                BotState.DETAIL: [MessageHandler(Filters.text, callback=get_detail, pass_user_data=True)]
             },
             fallbacks=[MessageHandler(Filters.text, callback=invalid)]
         )

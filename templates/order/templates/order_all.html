@@ -1,7 +1,11 @@
 {% extends "order/templates/base.html" %}
 {% block content %}
 
-
+    <style>
+        div {
+            font-family: "bnazanin", sans-serif;
+        }
+    </style>
     <div class='col-sm-6 col-sm-offset-3'>
         <br>
         <h1 style="text-align: center;">{{ title }}</h1>
@@ -46,16 +50,17 @@
     <span class="step-links">
         {% if object_list.has_previous %}
             <a href="?{{ page_request_var }}=
-                    {{ object_list.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">previous</a>
+
+                    {{ object_list.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">قبلی</a>
         {% endif %}
 
         <span class="current">
-            Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+            صفحه {{ object_list.number }} از {{ object_list.paginator.num_pages }}.
         </span>
 
         {% if object_list.has_next %}
             <a href="?{{ page_request_var }}=
-                    {{ object_list.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">next</a>
+                    {{ object_list.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">بعدی</a>
         {% endif %}
     </span>
         </div>

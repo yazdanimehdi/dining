@@ -1,5 +1,18 @@
 {% extends "order/templates/base.html" %}
 {% block content %}
+    <style>
+        h1 {
+            font-family: "bnazanin", sans-serif;
+        }
+
+        form {
+            font-family: "bnazanin", sans-serif;
+        }
+
+        p {
+            font-family: "bnazanin", sans-serif;
+        }
+    </style>
     <br>
     <h1 style="text-align: center">تغییر موجود بودن غذا</h1>
     <form method="post">
@@ -8,16 +21,17 @@
             <h3 style="text-align: right" class="item-folio__title">{{ item.name }}</h3>
             {% if item.is_active == True %}
                 <input type="hidden" name="{{ item.id }}" value="False">
-                <input type="checkbox" name="{{ item.id }}" value="True" class="checkbox-row" checked>
+                <input type="checkbox" name="{{ item.id }}" value="True" class="checkbox-row" checked
+                       onChange="this.form.submit()" style="zoom: 2; ">
             {% endif %}
             {% if item.is_active == False %}
                 <input type="hidden" name="{{ item.id }}" value="False">
-                <input type="checkbox" name="{{ item.id }}" value="True" class="checkbox-row">
+                <input type="checkbox" name="{{ item.id }}" value="True" class="checkbox-row"
+                       onChange="this.form.submit()" style="zoom: 2;">
             {% endif %}
             <hr>
             <br>
         {% endfor %}
-        <input type="submit" class="btn btn-success center-block" value="ثبت">
     </form>
     <br>
     <hr>
