@@ -18,42 +18,42 @@ def post_list(request):
         bot = telegram.Bot(token=token)
         bot.send_message(chat_id=chat_id, text=msg)
     if request.method == 'POST':
+        if request.POST.get('state') == 'success':
+            post_id = request.POST.get('id')
+            if post_id is not None:
+                delivered = Invoice.objects.get(id=post_id)
+                delivered.is_sent = True
+                delivered.save()
+                message = "سفارشت ارسال شد منتظرش باش"
+                send(message, delivered.user.chat_id)
+
+            return redirect('/order/radbanoo')
+        elif request.POST.get('state') == 'cancel':
+            post_id = request.POST.get('id')
+            if post_id is not None:
+                invoice = Invoice.objects.get(id=post_id)
+                message = "با عرض پوزش سفارشت از سمت رستوران لغو شد"
+                send(message, invoice.user.chat_id)
+                invoice.delete()
+
+        else:
+            post_id = request.POST.get('id')
+            if post_id is not None:
+                invoice = Invoice.objects.get(id=post_id)
+                message = "سفارشت نیاز به یه سری تغییرات داره برای ادامه‌ی فرآیند سفارشت با ما تماس بگیر\n" \
+                          "02166195763\n" \
+                          "02166195394\n" \
+                          "02166195362\n" \
+                          "09122715182"
+                send(message, invoice.user.chat_id)
         try:
-            if request.POST.get('state') == 'success':
-                post_id = request.POST.get('id')
-                if post_id is not None:
-                    delivered = Invoice.objects.get(id=post_id)
-                    delivered.is_sent = True
-                    delivered.save()
-                    message = "سفارشت ارسال شد منتظرش باش"
-                    send(message, delivered.user.chat_id)
-
-                return redirect('/order/radbanoo')
-            elif request.POST.get('state') == 'cancel':
-                post_id = request.POST.get('id')
-                if post_id is not None:
-                    invoice = Invoice.objects.get(id=post_id)
-                    message = "با عرض پوزش سفارشت از سمت رستوران لغو شد"
-                    send(message, invoice.user.chat_id)
-                    invoice.delete()
-
-            else:
-                post_id = request.POST.get('id')
-                if post_id is not None:
-                    invoice = Invoice.objects.get(id=post_id)
-                    message = "سفارشت نیاز به یه سری تغییرات داره برای ادامه‌ی فرآیند سفارشت با ما تماس بگیر\n" \
-                              "02166195763\n" \
-                              "02166195394\n" \
-                              "02166195362\n" \
-                              "09122715182"
-                    send(message, invoice.user.chat_id)
+            post_id = request.POST.get('id')
+            if post_id is not None:
+                invoice = Invoice.objects.get(id=post_id)
+                invoice.is_new = False
+                invoice.save()
         except:
             pass
-        post_id = request.POST.get('id')
-        if post_id is not None:
-            invoice = Invoice.objects.get(id=post_id)
-            invoice.is_new = False
-            invoice.save()
     today = timezone.now().date()
     invoices = Invoice.objects.filter(is_sent=False, is_active=True)
     queryset_list = []
