@@ -5,7 +5,7 @@ from order.models import RestaurantMenu
 
 def active(request):
     if request.method == 'GET':
-        menu = RestaurantMenu.objects.filter(restaurant__name='RadBanoo')
+        menu = RestaurantMenu.objects.filter(restaurant__name='RadBanoo').order_by('-price')
         context = {'foods': menu}
         return render(request, 'order/templates/ative_food.html', context)
     elif request.method == 'POST':
