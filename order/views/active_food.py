@@ -17,6 +17,6 @@ def active(request):
                 else:
                     food.is_active = False
                 food.save()
-        menu = RestaurantMenu.objects.filter(restaurant__name='RadBanoo')
+        menu = RestaurantMenu.objects.filter(restaurant__name='RadBanoo').order_by('-price')
         context = {'foods': menu}
         return render(request, 'order/templates/ative_food.html', context)
