@@ -316,6 +316,7 @@ class Command(BaseCommand):
             query = update.callback_query
             if query['data'] == 'پرداخت نقدی':
                 invoice.is_active = True
+                invoice.is_new = True
                 invoice.save()
                 reply_markup = telegram.InlineKeyboardMarkup(
                     [[telegram.InlineKeyboardButton(text='تایید نهایی', callback_data='تایید نهایی')],

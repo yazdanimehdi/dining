@@ -20,6 +20,7 @@ class Invoice(models.Model):
     is_paid = models.BooleanField(default=False)
     is_sent = models.BooleanField(default=False)
     active = models.IntegerField(default=0)
+    is_new = models.BooleanField(default=False)
     details = models.TextField(default='-')
 
     def save(self, *args, **kwargs):

@@ -63,12 +63,16 @@ def post_list(request):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         queryset = paginator.page(paginator.num_pages)
-
+    if Invoice.objects.filter(is_new=True):
+        new = True
+    else:
+        new = False
     context = {
         "object_list": queryset,
         "title": "لیست سفارش‌ها",
         "page_request_var": page_request_var,
         "today": today,
+        "new": new
     }
 
     return render(request, "order/templates/order_list.html", context)

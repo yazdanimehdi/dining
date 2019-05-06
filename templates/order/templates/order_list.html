@@ -1,6 +1,6 @@
 {% extends "order/templates/base.html" %}
 {% block content %}
-
+    {% load static %}
     <style>
         div {
             font-family: "bnazanin", sans-serif;
@@ -40,18 +40,19 @@
                             <hr>
                             <h4 style="text-align: right;" id="name"> نام: {{ invoice.user.name }} </h4>
                             <br>
-                            <h4 style="text-align: right;" id="{{ invoice.id }}"> شماره‌ي
+                            <h4 style="text-align: right;" id="tel:{{ invoice.id }}"> شماره‌ي
                                 تماس: {{ invoice.user.phone }} </h4>
                             <br>
-                            <button onclick="phoneCopy({{ invoice.id }})" class="btn btn--medium pull-right"
+                            <button onclick="phoneCopy('tel:{{ invoice.id }}')" class="btn btn--medium pull-right"
                                     style="right: 100%;">کپی‌‌ شماره تماس
                             </button>
                             <br>
                             <br>
                             <br>
-                            <h4 style="text-align: right;" id={{ invoice.id }}> آدرس: {{ invoice.address }} </h4>
+                            <h4 style="text-align: right;" id='address:{{ invoice.id }}'>
+                                آدرس: {{ invoice.address }} </h4>
                             <br>
-                            <button onclick="addressCopy({{ invoice.id }})" class="btn btn--medium pull-right"
+                            <button onclick="addressCopy('address:{{ invoice.id }}')" class="btn btn--medium pull-right"
                                     style="right: 100%;">کپی‌‌آدرس
                             </button>
                             <br>
@@ -131,9 +132,16 @@
             document.body.removeChild(el);
         }
 
+        var audio = new Audio('{% static 'audio/beep-07.wav' %}');
+
         setTimeout(function () {
             location.reload();
-        }, 180000);
+            {% if  new == True %}
+                audio.play();
+            {% endif %}
+        }, 9000);
+
+
     </script>
 {% endblock content %}
 
