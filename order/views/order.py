@@ -46,6 +46,11 @@ def post_list(request):
                           "02166195362\n" \
                           "09122715182"
                 send(message, invoice.user.chat_id)
+        post_id = request.POST.get('id')
+        if post_id is not None:
+            invoice = Invoice.objects.get(id=post_id)
+            invoice.is_new = False
+            invoice.save()
     today = timezone.now().date()
     invoices = Invoice.objects.filter(is_sent=False, is_active=True)
     queryset_list = []
