@@ -135,7 +135,8 @@
         var audio = new Audio('{% static 'audio/beep-07.wav' %}');
 
         setTimeout(function () {
-            location.reload();
+            var loc = window.location;
+            window.location = loc.protocol + '//' + loc.host + loc.pathname + loc.search;
             {% if  new == True %}
                 audio.play();
             {% endif %}
