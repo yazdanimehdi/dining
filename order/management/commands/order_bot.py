@@ -412,10 +412,12 @@ class Command(BaseCommand):
             os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'reserve_site.settings')
             django.setup()
             from order.models import FoodUser
+            reply = telegram.ReplyKeyboardRemove
             if not FoodUser.objects.filter(chat_id=update.message.chat_id):
                 bot.sendMessage(chat_id=update.message.chat_id,
                                 text="*لطفا نام و نام خانوادگیتو وارد کن:*",
-                                parse_mode=telegram.ParseMode.MARKDOWN)
+                                parse_mode=telegram.ParseMode.MARKDOWN,
+                                reply_markup=reply)
             return BotState.SIGNUP_NAME
 
         def getinfo(bot, update):
