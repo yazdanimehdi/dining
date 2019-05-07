@@ -37,7 +37,7 @@ class Command(BaseCommand):
             ADDRESS = 13
 
         def start_order(bot, update, user_data):
-            if 9 < datetime.datetime.now().time().hour < 16 or 18 < datetime.datetime.now().time().hour < 20:
+            if 11 < datetime.datetime.now().time().hour < 16 or 17 < datetime.datetime.now().time().hour < 20:
                 user_data.clear()
                 reply_markup = telegram.ReplyKeyboardMarkup(
                     [[telegram.KeyboardButton(text='سفارش')],
