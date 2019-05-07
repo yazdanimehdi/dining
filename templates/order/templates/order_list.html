@@ -38,7 +38,14 @@
                                     دریافت کنید</h4>
                             {% endif %}
                             <hr>
-                            <h4 style="text-align: right;" id="name"> نام: {{ invoice.user.name }} </h4>
+                            <h4 style="text-align: right;" id="name:{{ invoice.id }}">
+                                نام: {{ invoice.user.name }} </h4>
+                            <br>
+                            <button onclick="namecopy('name:{{ invoice.id }}')" class="btn btn--medium pull-right"
+                                    style="right: 100%;">کپی نام
+                            </button>
+                            <br>
+                            <br>
                             <br>
                             <h4 style="text-align: right;" id="tel:{{ invoice.id }}"> شماره‌ي
                                 تماس: {{ invoice.user.phone }} </h4>
@@ -126,6 +133,16 @@
             var copyText = document.getElementById(num).textContent;
             const el = document.createElement('textarea');
             el.value = copyText.replace('شماره‌ي تماس:', '');
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+        }
+
+        function namecopy(num) {
+            var copyText = document.getElementById(num).textContent;
+            const el = document.createElement('textarea');
+            el.value = copyText.replace('نام:', '');
             document.body.appendChild(el);
             el.select();
             document.execCommand('copy');

@@ -24,7 +24,7 @@ def post_list(request):
                 delivered = Invoice.objects.get(id=post_id)
                 delivered.is_sent = True
                 delivered.save()
-                message = "سفارشت ارسال شد منتظرش باش"
+                message = "سفارشت ارسال شد منتظر تماس پیک ما باش"
                 send(message, delivered.user.chat_id)
 
             return redirect('/order/radbanoo')

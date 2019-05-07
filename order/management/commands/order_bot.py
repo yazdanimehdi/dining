@@ -300,7 +300,7 @@ class Command(BaseCommand):
                             parse_mode=telegram.ParseMode.MARKDOWN)
 
             reply_markup = telegram.InlineKeyboardMarkup(
-                [[telegram.InlineKeyboardButton(text='پرداخت نقدی', callback_data='پرداخت نقدی')]])
+                [[telegram.InlineKeyboardButton(text='پرداخت نقدی + کارتخوان', callback_data='پرداخت نقدی')]])
             bot.sendMessage(chat_id=user.chat_id,
                             text="*لطفا نحوه‌ی پرداختتو انتخاب کن:*",
                             reply_markup=reply_markup, parse_mode=telegram.ParseMode.MARKDOWN)

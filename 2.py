@@ -6,6 +6,7 @@ import pandas as pd
 import requests
 import telegram
 from bs4 import BeautifulSoup
+from celery import task
 from django.db.models import Q
 from lxml import html
 
@@ -64,13 +65,13 @@ def get_next_week_dishes(user_data, cookie, self_id, user_id):
 
     table_rows = soup.find_all('tr')[1:]
 
-    data_lunch = dict()
-    data_dinner = dict()
+    data_sahari = dict()
+    data_eftari = dict()
     for row in table_rows:
         day = re.findall(r'<th>\s+(.*?)\s\s', str(row))[0]
-        lunch = row.find_all('td')[0].find_all('div')
+        sahari = row.find_all('td')[2].find_all('div')
         dishes = list()
-        for dish in lunch:
+        for dish in sahari:
             try:
                 food_name = dish.text.split('(')[0].strip()
                 food_id = dish.find('span').get('onclick').split('do_reserve_from_diet(')[1].split(',')[0].strip('\"')
@@ -91,11 +92,11 @@ def get_next_week_dishes(user_data, cookie, self_id, user_id):
 
             except:
                 pass
-        data_lunch[day] = dishes
+        data_sahari[day] = dishes
 
-        dinner = row.find_all('td')[1].find_all('div')
+        eftari = row.find_all('td')[3].find_all('div')
         dishes = list()
-        for dish in dinner:
+        for dish in eftari:
             try:
                 food_name = dish.text.split('(')[0].strip()
                 food_id = dish.find('span').get('onclick').split('do_reserve_from_diet(')[1].split(',')[0].strip('\"')
@@ -117,9 +118,9 @@ def get_next_week_dishes(user_data, cookie, self_id, user_id):
             except:
                 pass
 
-        data_dinner[day] = dishes
+        data_eftari[day] = dishes
 
-    return data_lunch, data_dinner
+    return data_sahari, data_eftari
 
 
 def save_values(user_data, data_lunch, data_dinner, self_id):
@@ -233,12 +234,12 @@ def get_reserved_table(user_data, user_id, cookie):
 
 def telegram_table_message(user_data, data_lunch, data_dinner):
     if user_data.user.chat_id != 0:
-        data = {'ناهار': [data_lunch['شنبه'], data_lunch['یک شنبه'], data_lunch['دوشنبه'],
-                          data_lunch['سه شنبه'], data_lunch['چهارشنبه'], data_lunch['پنج شنبه'],
-                          data_lunch['جمعه']],
-                'شام': [data_dinner['شنبه'], data_dinner['یک شنبه'], data_dinner['دوشنبه'],
-                        data_dinner['سه شنبه'], data_dinner['چهارشنبه'], data_dinner['پنج شنبه'],
-                        data_dinner['جمعه']]}
+        data = {'سحری': [data_lunch['شنبه'], data_lunch['یک شنبه'], data_lunch['دوشنبه'],
+                         data_lunch['سه شنبه'], data_lunch['چهارشنبه'], data_lunch['پنج شنبه'],
+                         data_lunch['جمعه']],
+                'افطار': [data_dinner['شنبه'], data_dinner['یک شنبه'], data_dinner['دوشنبه'],
+                          data_dinner['سه شنبه'], data_dinner['چهارشنبه'], data_dinner['پنج شنبه'],
+                          data_dinner['جمعه']]}
         df = pd.DataFrame(data,
                           index=['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه'])
 
@@ -292,8 +293,9 @@ def telegram_table_message(user_data, data_lunch, data_dinner):
 
         bot_token = '610448118:AAFVPBXMKPzqAiOJ9-zhusKrOloCiJuEwi8'
         message = "سلام\n" \
-                  "امروز پنجشنبه‌س و غذاهاتو برات رزرو کردم \n" \
-                  "اگر از هر کدومشون خوشت نیمد یا خواستی روز جدیدی رو رزرو کنی دکمه‌ی تغییر رزرو رو فشار بده"
+                  "امروزسه‌شنبه‌س و غذاهاتو برات رزرو کردم \n" \
+                  "اگر از هر کدومشون خوشت نیمد یا خواستی روز جدیدی رو رزرو کنی دکمه‌ی تغییر رزرو رو فشار بده\n" \
+                  "توی تغییر رزرو سحری به عنوان ناهار هست و افطار به عنوان شام"
         reply_markup = telegram.ReplyKeyboardMarkup(
             [[telegram.KeyboardButton('تغییر رزرو')]], one_time_keyboard=False)
         send(message, str(user_data.user.chat_id), bot_token, reply_markup)
@@ -302,143 +304,144 @@ def telegram_table_message(user_data, data_lunch, data_dinner):
                    token=bot_token)
 
 
-from dining.models import UserDiningData, UserSelfs, UserPreferableFood, ReservedTable
+@task()
+def reserve_function():
+    from dining.models import UserDiningData, UserSelfs, UserPreferableFood, ReservedTable
+    for user_data in UserDiningData.objects.filter(university__tag='sharif'):
+        if user_data.user.is_paid is True and user_data.user.reserve is True:
 
-for user_data in UserDiningData.objects.filter(university__tag='sharif'):
-    if user_data.user.is_paid is True and user_data.user.reserve is True:
-
-        active_selfs = UserSelfs.objects.filter(user=user_data.user, is_active=True)
-        try:
-            cookie = login(user_data)
-        except ValueError:
-            continue
-        try:
-            user_id = get_user_id(cookie)
-        except ValueError:
-            continue
-
-        for self in active_selfs:
-
-            data_lunch, data_dinner = get_next_week_dishes(user_data, cookie, self.self_id, user_id)
-            save_values(user_data, data_lunch, data_dinner, self.self_id)
-
-            chosen_days_lunch = []
-
-            if user_data.reserve_friday_lunch:
-                chosen_days_lunch.append('جمعه')
-            if user_data.reserve_saturday_lunch:
-                chosen_days_lunch.append('شنبه')
-            if user_data.reserve_sunday_lunch:
-                chosen_days_lunch.append('یک شنبه')
-            if user_data.reserve_monday_lunch:
-                chosen_days_lunch.append('دوشنبه')
-            if user_data.reserve_tuesday_lunch:
-                chosen_days_lunch.append('سه شنبه')
-            if user_data.reserve_wednesday_lunch:
-                chosen_days_lunch.append('چهارشنبه')
-            if user_data.reserve_thursday_lunch:
-                chosen_days_lunch.append('پنج شنبه')
-
-            chosen_days_dinner = []
-
-            if user_data.reserve_friday_dinner:
-                chosen_days_dinner.append('جمعه')
-            if user_data.reserve_saturday_dinner:
-                chosen_days_dinner.append('شنبه')
-            if user_data.reserve_sunday_dinner:
-                chosen_days_dinner.append('یک شنبه')
-            if user_data.reserve_monday_dinner:
-                chosen_days_dinner.append('دوشنبه')
-            if user_data.reserve_tuesday_dinner:
-                chosen_days_dinner.append('سه شنبه')
-            if user_data.reserve_wednesday_lunch:
-                chosen_days_dinner.append('چهارشنبه')
-            if user_data.reserve_thursday_dinner:
-                chosen_days_dinner.append('پنج شنبه')
-
-            for day in chosen_days_lunch:
-                preferred_foods = []
-                for dish in data_lunch[day]:
-                    if UserPreferableFood.objects.filter(~Q(score=0), user=user_data.user,
-                                                         food__name=dish[0].strip()):
-                        preferred_foods.append((dish[1], UserPreferableFood.objects.filter(
-                            user=user_data.user,
-                            food__name=dish[0])[0].score))
-                preferred_foods.sort(key=lambda x: x[1], reverse=True)
-                if preferred_foods:
-                    do_reserve(preferred_foods[0][0], self.self_id, user_id, cookie)
-
-            for day in chosen_days_dinner:
-                preferred_foods = []
-                for dish in data_dinner[day]:
-                    if UserPreferableFood.objects.filter(~Q(score=0), user=user_data.user, food__name=dish[0]):
-                        preferred_foods.append((dish[1], UserPreferableFood.objects.filter(
-                            user=user_data.user,
-                            food__name=dish[0])[0].score))
-                preferred_foods.sort(key=lambda x: x[1], reverse=True)
-                if preferred_foods:
-                    do_reserve(preferred_foods[0][0], self.self_id, user_id, cookie)
-
-        data_lunch, data_dinner, credit = get_reserved_table(user_data, user_id, cookie)
-
-        date = str(jdatetime.date.today() + jdatetime.timedelta(2))
-        date = re.sub(r'\-', '/', date)
-        saturdays_date = list()
-        saturdays_date.append(date)
-        saturdays_date = str(saturdays_date)
-
-        filter = ReservedTable.objects.filter(user=user_data.user, week_start_date=saturdays_date)
-        flag = True
-        if not filter:
-            reserved = ReservedTable()
-            reserved.user = user_data.user
-
-            reserved.week_start_date = saturdays_date
-
-            reserved.friday_lunch = data_lunch['جمعه']
-            reserved.saturday_lunch = data_lunch['شنبه']
-            reserved.sunday_lunch = data_lunch['یک شنبه']
-            reserved.monday_lunch = data_lunch['دوشنبه']
-            reserved.tuesday_lunch = data_lunch['سه شنبه']
-            reserved.wednesday_lunch = data_lunch['چهارشنبه']
-            reserved.thursday_lunch = data_lunch['پنج شنبه']
-
-            reserved.friday_dinner = data_dinner['جمعه']
-            reserved.saturday_dinner = data_dinner['شنبه']
-            reserved.sunday_dinner = data_dinner['یک شنبه']
-            reserved.monday_dinner = data_dinner['دوشنبه']
-            reserved.tuesday_dinner = data_dinner['سه شنبه']
-            reserved.wednesday_dinner = data_dinner['چهارشنبه']
-            reserved.thursday_dinner = data_dinner['پنج شنبه']
-
-            reserved.credit = credit
-
-            reserved.save()
-
-        else:
-            flag = False
-            filter[0].friday_lunch = data_lunch['جمعه']
-            filter[0].saturday_lunch = data_lunch['شنبه']
-            filter[0].sunday_lunch = data_lunch['یک شنبه']
-            filter[0].monday_lunch = data_lunch['دوشنبه']
-            filter[0].tuesday_lunch = data_lunch['سه شنبه']
-            filter[0].wednesday_lunch = data_lunch['چهارشنبه']
-            filter[0].thursday_lunch = data_lunch['پنج شنبه']
-
-            filter[0].friday_dinner = data_dinner['جمعه']
-            filter[0].saturday_dinner = data_dinner['شنبه']
-            filter[0].sunday_dinner = data_dinner['یک شنبه']
-            filter[0].monday_dinner = data_dinner['دوشنبه']
-            filter[0].tuesday_dinner = data_dinner['سه شنبه']
-            filter[0].wednesday_dinner = data_dinner['چهارشنبه']
-            filter[0].thursday_dinner = data_dinner['پنج شنبه']
-
-            filter[0].credit = credit
-
-            filter[0].save()
-
-        if flag:
+            active_selfs = UserSelfs.objects.filter(user=user_data.user, is_active=True)
             try:
-                telegram_table_message(user_data, data_lunch, data_dinner)
-            except:
+                cookie = login(user_data)
+            except ValueError:
                 continue
+            try:
+                user_id = get_user_id(cookie)
+            except ValueError:
+                continue
+
+            for self in active_selfs:
+
+                data_lunch, data_dinner = get_next_week_dishes(user_data, cookie, self.self_id, user_id)
+                save_values(user_data, data_lunch, data_dinner, self.self_id)
+
+                chosen_days_lunch = []
+
+                if user_data.reserve_friday_lunch:
+                    chosen_days_lunch.append('جمعه')
+                if user_data.reserve_saturday_lunch:
+                    chosen_days_lunch.append('شنبه')
+                if user_data.reserve_sunday_lunch:
+                    chosen_days_lunch.append('یک شنبه')
+                if user_data.reserve_monday_lunch:
+                    chosen_days_lunch.append('دوشنبه')
+                if user_data.reserve_tuesday_lunch:
+                    chosen_days_lunch.append('سه شنبه')
+                if user_data.reserve_wednesday_lunch:
+                    chosen_days_lunch.append('چهارشنبه')
+                if user_data.reserve_thursday_lunch:
+                    chosen_days_lunch.append('پنج شنبه')
+
+                chosen_days_dinner = []
+
+                if user_data.reserve_friday_dinner:
+                    chosen_days_dinner.append('جمعه')
+                if user_data.reserve_saturday_dinner:
+                    chosen_days_dinner.append('شنبه')
+                if user_data.reserve_sunday_dinner:
+                    chosen_days_dinner.append('یک شنبه')
+                if user_data.reserve_monday_dinner:
+                    chosen_days_dinner.append('دوشنبه')
+                if user_data.reserve_tuesday_dinner:
+                    chosen_days_dinner.append('سه شنبه')
+                if user_data.reserve_wednesday_lunch:
+                    chosen_days_dinner.append('چهارشنبه')
+                if user_data.reserve_thursday_dinner:
+                    chosen_days_dinner.append('پنج شنبه')
+
+                for day in chosen_days_lunch:
+                    preferred_foods = []
+                    for dish in data_lunch[day]:
+                        if UserPreferableFood.objects.filter(~Q(score=0), user=user_data.user,
+                                                             food__name=dish[0].strip()):
+                            preferred_foods.append((dish[1], UserPreferableFood.objects.filter(
+                                user=user_data.user,
+                                food__name=dish[0])[0].score))
+                    preferred_foods.sort(key=lambda x: x[1], reverse=True)
+                    if preferred_foods:
+                        do_reserve(preferred_foods[0][0], self.self_id, user_id, cookie)
+
+                for day in chosen_days_dinner:
+                    preferred_foods = []
+                    for dish in data_dinner[day]:
+                        if UserPreferableFood.objects.filter(~Q(score=0), user=user_data.user, food__name=dish[0]):
+                            preferred_foods.append((dish[1], UserPreferableFood.objects.filter(
+                                user=user_data.user,
+                                food__name=dish[0])[0].score))
+                    preferred_foods.sort(key=lambda x: x[1], reverse=True)
+                    if preferred_foods:
+                        do_reserve(preferred_foods[0][0], self.self_id, user_id, cookie)
+
+            data_lunch, data_dinner, credit = get_reserved_table(user_data, user_id, cookie)
+
+            date = str(jdatetime.date.today() + jdatetime.timedelta(3))
+            date = re.sub(r'\-', '/', date)
+            saturdays_date = list()
+            saturdays_date.append(date)
+            saturdays_date = str(saturdays_date)
+
+            filter = ReservedTable.objects.filter(user=user_data.user, week_start_date=saturdays_date)
+            flag = True
+            if not filter:
+                reserved = ReservedTable()
+                reserved.user = user_data.user
+
+                reserved.week_start_date = saturdays_date
+
+                reserved.friday_lunch = data_lunch['جمعه']
+                reserved.saturday_lunch = data_lunch['شنبه']
+                reserved.sunday_lunch = data_lunch['یک شنبه']
+                reserved.monday_lunch = data_lunch['دوشنبه']
+                reserved.tuesday_lunch = data_lunch['سه شنبه']
+                reserved.wednesday_lunch = data_lunch['چهارشنبه']
+                reserved.thursday_lunch = data_lunch['پنج شنبه']
+
+                reserved.friday_dinner = data_dinner['جمعه']
+                reserved.saturday_dinner = data_dinner['شنبه']
+                reserved.sunday_dinner = data_dinner['یک شنبه']
+                reserved.monday_dinner = data_dinner['دوشنبه']
+                reserved.tuesday_dinner = data_dinner['سه شنبه']
+                reserved.wednesday_dinner = data_dinner['چهارشنبه']
+                reserved.thursday_dinner = data_dinner['پنج شنبه']
+
+                reserved.credit = credit
+
+                reserved.save()
+
+            else:
+                flag = False
+                filter[0].friday_lunch = data_lunch['جمعه']
+                filter[0].saturday_lunch = data_lunch['شنبه']
+                filter[0].sunday_lunch = data_lunch['یک شنبه']
+                filter[0].monday_lunch = data_lunch['دوشنبه']
+                filter[0].tuesday_lunch = data_lunch['سه شنبه']
+                filter[0].wednesday_lunch = data_lunch['چهارشنبه']
+                filter[0].thursday_lunch = data_lunch['پنج شنبه']
+
+                filter[0].friday_dinner = data_dinner['جمعه']
+                filter[0].saturday_dinner = data_dinner['شنبه']
+                filter[0].sunday_dinner = data_dinner['یک شنبه']
+                filter[0].monday_dinner = data_dinner['دوشنبه']
+                filter[0].tuesday_dinner = data_dinner['سه شنبه']
+                filter[0].wednesday_dinner = data_dinner['چهارشنبه']
+                filter[0].thursday_dinner = data_dinner['پنج شنبه']
+
+                filter[0].credit = credit
+
+                filter[0].save()
+
+            if flag:
+                try:
+                    telegram_table_message(user_data, data_lunch, data_dinner)
+                except:
+                    continue
