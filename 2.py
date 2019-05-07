@@ -382,7 +382,7 @@ for user_data in UserDiningData.objects.filter(university__tag='sharif'):
 
         data_lunch, data_dinner, credit = get_reserved_table(user_data, user_id, cookie)
 
-        date = str(jdatetime.date.today() + jdatetime.timedelta(3))
+        date = str(jdatetime.date.today() + jdatetime.timedelta(4))
         date = re.sub(r'\-', '/', date)
         saturdays_date = list()
         saturdays_date.append(date)
