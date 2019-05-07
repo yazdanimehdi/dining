@@ -1,4 +1,5 @@
 import re
+import time
 
 import imgkit
 import jdatetime
@@ -308,6 +309,7 @@ def telegram_table_message(user_data, data_lunch, data_dinner):
 for user_data in UserDiningData.objects.filter(university__tag='sharif'):
     if user_data.user.is_paid is True and user_data.user.reserve is True:
         active_selfs = UserSelfs.objects.filter(user=user_data.user, is_active=True)
+        print(user_data.user)
         try:
             cookie = login(user_data)
         except ValueError:
@@ -442,3 +444,4 @@ for user_data in UserDiningData.objects.filter(university__tag='sharif'):
                 telegram_table_message(user_data, data_lunch, data_dinner)
             except:
                 continue
+        time.sleep(5)
