@@ -444,5 +444,6 @@ for user_data in UserDiningData.objects.filter(university__tag='sharif'):
                     telegram_table_message(user_data, data_lunch, data_dinner)
                 except:
                     continue
-        except:
+        except requests.exceptions.ConnectionError as errc:
+            print(errc)
             print('not reserved', user_data.user)
