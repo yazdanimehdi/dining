@@ -56,8 +56,8 @@ def get_reserved_sharif():
                 data_dinner = dict()
                 for row in soup_find:
                     day = re.findall(r'<th>\s+(.*?)\s\s', str(row))
-                    food_names_lunch = re.findall(r'<span>(.+?)<\/span>', str(row.find_all('td')[0]))
-                    food_names_dinner = re.findall(r'<span>(.+?)<\/span>', str(row.find_all('td')[1]))
+                    food_names_lunch = re.findall(r'<span>(.+?)<\/span>', str(row.find_all('td')[2]))
+                    food_names_dinner = re.findall(r'<span>(.+?)<\/span>', str(row.find_all('td')[3]))
                     i = 0
                     foods = []
                     if food_names_dinner:
