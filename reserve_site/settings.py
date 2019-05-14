@@ -70,16 +70,16 @@ CELERY_BEAT_SCHEDULE = {
     },
     'bot_credit_announcement_task': {
         'task': 'dining.tasks.credit_announcement.credit_announcement',
-        'schedule': crontab(hour=8, minute=00, day_of_week=3),
+        'schedule': crontab(hour=19, minute=15, day_of_week=2),
     },
     'bot_credit_insufficient_task': {
         'task': 'dining.tasks.credit_insufficient.credit_insufficient',
-        'schedule': crontab(hour=8, minute=15, day_of_week=3),
+        'schedule': crontab(hour=19, minute=20, day_of_week=2),
     },
-    'sharif_reserve_task': {
-        'task': 'dining.tasks.reservation_sharif.reserve_function',
-        'schedule': crontab(hour=12, minute=00, day_of_week=3),
-    },
+    # 'sharif_reserve_task': {
+    #     'task': 'dining.tasks.reservation_sharif.reserve_function',
+    #     'schedule': crontab(hour=12, minute=00, day_of_week=3),
+    # },
     'tehran_reserve_task': {
         'task': 'dining.tasks.tehran_reserve_function.tehran_reserve_function',
         'schedule': crontab(hour=8, minute=00, day_of_week=2),
