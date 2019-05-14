@@ -1,7 +1,7 @@
 from .credit_announcement import credit_announcement
 from .credit_insufficient import credit_insufficient
 from .get_reserved_samad import samadv1_get_reserved_function
-from .reservation_sharif import reserve_function
+# from .reservation_sharif import reserve_function
 from .reservation_yas import reservation_yas
 from .reserve_announcement import reserve_announcement
 from .samadv1 import samadv1_reserve_function
