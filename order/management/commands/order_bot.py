@@ -44,7 +44,8 @@ class Command(BaseCommand):
                      [telegram.KeyboardButton(text='مشاهده‌ی سبد خرید'),
                       telegram.KeyboardButton(text='خالی کردن سبد خرید')]], resize_keyboard=True)
                 bot.sendMessage(chat_id=update.message.chat_id,
-                                text="*برای سفارش گزینه‌اش رو انتخاب کن*", reply_markup=reply_markup,
+                                text="*برای سفارش گزینه‌اش رو انتخاب کن(تمامی سفارش‌هات با ۲۰ درصد تخفیف محاسبه می‌شه)*",
+                                reply_markup=reply_markup,
                                 parse_mode=telegram.ParseMode.MARKDOWN)
                 return BotState.INITIALIZE
             else:
@@ -235,37 +236,37 @@ class Command(BaseCommand):
                 query = update.callback_query
                 if query['data'] == 'jahad':
                     invoice.address = 'درب جهاد'
-                    invoice.amount = summation
+                    invoice.amount = summation * 0.8
                 elif query['data'] == 'energy':
                     invoice.address = 'درب انرژی'
-                    invoice.amount = summation
+                    invoice.amount = summation * 0.8
                 elif query['data'] == 'sanaye':
                     invoice.address = 'درب صنایع'
-                    invoice.amount = summation
+                    invoice.amount = summation * 0.8
                 elif query['data'] == 'ahmadi':
                     invoice.address = 'خوابگاه احمدی روشن'
-                    invoice.amount = summation
+                    invoice.amount = summation * 0.8
                 elif query['data'] == 'mosalanejad':
                     invoice.address = 'خوابگاه مصلی نژاد'
-                    invoice.amount = summation
+                    invoice.amount = summation * 0.8
                 elif query['data'] == 'shademan':
                     invoice.address = 'خوابگاه شادمان'
-                    invoice.amount = summation
+                    invoice.amount = summation * 0.8
                 elif query['data'] == 'eghtesad':
                     invoice.address = 'دانشکده‌ی اقتصاد و مدیریت'
-                    invoice.amount = summation
+                    invoice.amount = summation * 0.8
                 elif query['data'] == 'BOX':
                     invoice.address = 'BOX'
-                    invoice.amount = summation
+                    invoice.amount = summation * 0.8
                 elif query['data'] == 'tarasht2':
                     invoice.address = 'خوابگاه طرشت ۲'
-                    invoice.amount = summation + 3000
+                    invoice.amount = (summation + 3000) * 0.8
                 elif query['data'] == 'tarasht3':
                     invoice.address = 'خوابگاه طرشت ۳'
-                    invoice.amount = summation + 3000
+                    invoice.amount = (summation + 3000) * 0.8
                 elif query['data'] == 'shoride':
                     invoice.address = 'خوابگاه شهید شوریده'
-                    invoice.amount = summation + 3000
+                    invoice.amount = (summation + 3000) * 0.8
                 elif query['data'] == 'other':
                     reply = telegram.ReplyKeyboardRemove()
                     bot.sendMessage(chat_id=query['message']['chat']['id'],
@@ -275,7 +276,7 @@ class Command(BaseCommand):
                     return BotState.CONFIRM
             else:
                 invoice.address = update.message.text
-                invoice.amount = summation + 3000
+                invoice.amount = (summation + 3000) * 0.8
             try:
                 invoice.details = user_data['detail']
             except KeyError:
