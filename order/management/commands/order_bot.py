@@ -37,17 +37,22 @@ class Command(BaseCommand):
             ADDRESS = 13
 
         def start_order(bot, update, user_data):
+            # if 11 < datetime.datetime.now().time().hour < 16 or 17 < datetime.datetime.now().time().hour < 20:
+            #     user_data.clear()
+            #     reply_markup = telegram.ReplyKeyboardMarkup(
+            #         [[telegram.KeyboardButton(text='سفارش')],
+            #          [telegram.KeyboardButton(text='مشاهده‌ی سبد خرید'),
+            #           telegram.KeyboardButton(text='خالی کردن سبد خرید')]], resize_keyboard=True)
+            #     bot.sendMessage(chat_id=update.message.chat_id,
+            #                     text="*برای سفارش گزینه‌اش رو انتخاب کن(تمامی سفارش‌هات با ۲۰ درصد تخفیف محاسبه می‌شه)*",
+            #                     reply_markup=reply_markup,
+            #                     parse_mode=telegram.ParseMode.MARKDOWN)
+            #     return BotState.INITIALIZE
             if 11 < datetime.datetime.now().time().hour < 16 or 17 < datetime.datetime.now().time().hour < 20:
-                user_data.clear()
-                reply_markup = telegram.ReplyKeyboardMarkup(
-                    [[telegram.KeyboardButton(text='سفارش')],
-                     [telegram.KeyboardButton(text='مشاهده‌ی سبد خرید'),
-                      telegram.KeyboardButton(text='خالی کردن سبد خرید')]], resize_keyboard=True)
                 bot.sendMessage(chat_id=update.message.chat_id,
-                                text="*برای سفارش گزینه‌اش رو انتخاب کن(تمامی سفارش‌هات با ۲۰ درصد تخفیف محاسبه می‌شه)*",
-                                reply_markup=reply_markup,
+                                text="*متاسفانه غذا تموم شده فردا منتظرت هستیم :)*",
                                 parse_mode=telegram.ParseMode.MARKDOWN)
-                return BotState.INITIALIZE
+                return ConversationHandler.END
             else:
                 bot.sendMessage(chat_id=update.message.chat_id,
                                 text="*زمان سفارش گذشته!\n"

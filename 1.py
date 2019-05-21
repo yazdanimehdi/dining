@@ -3,7 +3,7 @@ from django.db.models import Q
 
 from dining.models import CustomUser
 
-for user in CustomUser.objects.filter(~Q(chat_id='-')):
+for user in CustomUser.objects.filter(~Q(chat_id=0)):
     if user.chat_id != 0:
         def send(msg, chat_id, token):
             bot = telegram.Bot(token=token)
