@@ -295,7 +295,7 @@ def telegram_table_message(user_data, data_lunch, data_dinner):
 
         bot_token = '610448118:AAFVPBXMKPzqAiOJ9-zhusKrOloCiJuEwi8'
         message = "سلام\n" \
-                  "امروز پنجشنبه‌س و غذاهاتو برات رزرو کردم \n" \
+                  "امروز چهارشنبه‌س و غذاهاتو برات رزرو کردم \n" \
                   "اگر از هر کدومشون خوشت نیمد یا خواستی روز جدیدی رو رزرو کنی دکمه‌ی تغییر رزرو رو فشار بده\n" \
                   "توی تغییر رزرو سحری به عنوان ناهار هست و افطار به عنوان شام"
         reply_markup = telegram.ReplyKeyboardMarkup(
@@ -309,7 +309,7 @@ def telegram_table_message(user_data, data_lunch, data_dinner):
 not_reserved = []
 for user_data in UserDiningData.objects.filter(university__tag='sharif'):
     if user_data.user.is_paid is True and user_data.user.reserve is True:
-        date = str(jdatetime.date.today() + jdatetime.timedelta(2))
+        date = str(jdatetime.date.today() + jdatetime.timedelta(3))
         date = re.sub(r'\-', '/', date)
         saturdays_date = list()
         saturdays_date.append(date)
@@ -392,7 +392,7 @@ for user_data in UserDiningData.objects.filter(university__tag='sharif'):
 
                 data_lunch, data_dinner, credit = get_reserved_table(user_data, user_id, cookie)
 
-                date = str(jdatetime.date.today() + jdatetime.timedelta(2))
+                date = str(jdatetime.date.today() + jdatetime.timedelta(3))
                 date = re.sub(r'\-', '/', date)
                 saturdays_date = list()
                 saturdays_date.append(date)
@@ -539,7 +539,7 @@ for user_data in not_reserved:
 
             data_lunch, data_dinner, credit = get_reserved_table(user_data, user_id, cookie)
 
-            date = str(jdatetime.date.today() + jdatetime.timedelta(2))
+            date = str(jdatetime.date.today() + jdatetime.timedelta(3))
             date = re.sub(r'\-', '/', date)
             saturdays_date = list()
             saturdays_date.append(date)
