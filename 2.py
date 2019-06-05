@@ -67,13 +67,13 @@ def get_next_week_dishes(user_data, cookie, self_id, user_id):
 
     table_rows = soup.find_all('tr')[1:]
 
-    data_sahari = dict()
-    data_eftari = dict()
+    data_lunch = dict()
+    data_dinner = dict()
     for row in table_rows:
         day = re.findall(r'<th>\s+(.*?)\s\s', str(row))[0]
-        sahari = row.find_all('td')[2].find_all('div')
+        lunch = row.find_all('td')[0].find_all('div')
         dishes = list()
-        for dish in sahari:
+        for dish in lunch:
             try:
                 food_name = dish.text.split('(')[0].strip()
                 food_id = dish.find('span').get('onclick').split('do_reserve_from_diet(')[1].split(',')[0].strip('\"')
@@ -94,11 +94,11 @@ def get_next_week_dishes(user_data, cookie, self_id, user_id):
 
             except:
                 pass
-        data_sahari[day] = dishes
+        data_lunch[day] = dishes
 
-        eftari = row.find_all('td')[3].find_all('div')
+        dinner = row.find_all('td')[1].find_all('div')
         dishes = list()
-        for dish in eftari:
+        for dish in dinner:
             try:
                 food_name = dish.text.split('(')[0].strip()
                 food_id = dish.find('span').get('onclick').split('do_reserve_from_diet(')[1].split(',')[0].strip('\"')
@@ -120,9 +120,9 @@ def get_next_week_dishes(user_data, cookie, self_id, user_id):
             except:
                 pass
 
-        data_eftari[day] = dishes
+        data_dinner[day] = dishes
 
-    return data_sahari, data_eftari
+    return data_lunch, data_dinner
 
 
 def save_values(user_data, data_lunch, data_dinner, self_id):
@@ -206,7 +206,7 @@ def get_reserved_table(user_data, user_id, cookie):
     data_dinner = dict()
     for row in table_rows:
         day = re.findall(r'<th>\s+(.*?)\s\s', str(row))[0]
-        lunch = row.find_all('td')[2]
+        lunch = row.find_all('td')[0]
         dishes = list()
         try:
             food_name = lunch.text.split('(')[0].strip()
@@ -215,7 +215,7 @@ def get_reserved_table(user_data, user_id, cookie):
             dishes.append('-')
         data_lunch[day] = dishes
 
-        dinner = row.find_all('td')[3]
+        dinner = row.find_all('td')[1]
         dishes = list()
         try:
             food_name = dinner.find_all('span')[0].text.strip()
@@ -236,12 +236,12 @@ def get_reserved_table(user_data, user_id, cookie):
 
 def telegram_table_message(user_data, data_lunch, data_dinner):
     if user_data.user.chat_id != 0:
-        data = {'سحری': [data_lunch['شنبه'], data_lunch['یک شنبه'], data_lunch['دوشنبه'],
-                         data_lunch['سه شنبه'], data_lunch['چهارشنبه'], data_lunch['پنج شنبه'],
-                         data_lunch['جمعه']],
-                'افطار': [data_dinner['شنبه'], data_dinner['یک شنبه'], data_dinner['دوشنبه'],
-                          data_dinner['سه شنبه'], data_dinner['چهارشنبه'], data_dinner['پنج شنبه'],
-                          data_dinner['جمعه']]}
+        data = {'ناهار': [data_lunch['شنبه'], data_lunch['یک شنبه'], data_lunch['دوشنبه'],
+                          data_lunch['سه شنبه'], data_lunch['چهارشنبه'], data_lunch['پنج شنبه'],
+                          data_lunch['جمعه']],
+                'شام': [data_dinner['شنبه'], data_dinner['یک شنبه'], data_dinner['دوشنبه'],
+                        data_dinner['سه شنبه'], data_dinner['چهارشنبه'], data_dinner['پنج شنبه'],
+                        data_dinner['جمعه']]}
         df = pd.DataFrame(data,
                           index=['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه'])
 
@@ -296,8 +296,7 @@ def telegram_table_message(user_data, data_lunch, data_dinner):
         bot_token = '610448118:AAFVPBXMKPzqAiOJ9-zhusKrOloCiJuEwi8'
         message = "سلام\n" \
                   "امروز چهارشنبه‌س و غذاهاتو برات رزرو کردم \n" \
-                  "اگر از هر کدومشون خوشت نیمد یا خواستی روز جدیدی رو رزرو کنی دکمه‌ی تغییر رزرو رو فشار بده\n" \
-                  "توی تغییر رزرو سحری به عنوان ناهار هست و افطار به عنوان شام"
+                  "اگر از هر کدومشون خوشت نیمد یا خواستی روز جدیدی رو رزرو کنی دکمه‌ی تغییر رزرو رو فشار بده"
         reply_markup = telegram.ReplyKeyboardMarkup(
             [[telegram.KeyboardButton('تغییر رزرو')]], one_time_keyboard=False)
         send(message, str(user_data.user.chat_id), bot_token, reply_markup)
