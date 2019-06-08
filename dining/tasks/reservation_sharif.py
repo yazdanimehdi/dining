@@ -397,21 +397,21 @@ def reserve_function():
 
                 reserved.week_start_date = saturdays_date
 
-                reserved.friday_lunch = data_lunch['جمعه']
-                reserved.saturday_lunch = data_lunch['شنبه']
-                reserved.sunday_lunch = data_lunch['یک شنبه']
-                reserved.monday_lunch = data_lunch['دوشنبه']
-                reserved.tuesday_lunch = data_lunch['سه شنبه']
-                reserved.wednesday_lunch = data_lunch['چهارشنبه']
-                reserved.thursday_lunch = data_lunch['پنج شنبه']
+                reserved.friday_lunch = data_lunch['جمعه'][0]
+                reserved.saturday_lunch = data_lunch['شنبه'][0]
+                reserved.sunday_lunch = data_lunch['یک شنبه'][0]
+                reserved.monday_lunch = data_lunch['دوشنبه'][0]
+                reserved.tuesday_lunch = data_lunch['سه شنبه'][0]
+                reserved.wednesday_lunch = data_lunch['چهارشنبه'][0]
+                reserved.thursday_lunch = data_lunch['پنج شنبه'][0]
 
-                reserved.friday_dinner = data_dinner['جمعه']
-                reserved.saturday_dinner = data_dinner['شنبه']
-                reserved.sunday_dinner = data_dinner['یک شنبه']
-                reserved.monday_dinner = data_dinner['دوشنبه']
-                reserved.tuesday_dinner = data_dinner['سه شنبه']
-                reserved.wednesday_dinner = data_dinner['چهارشنبه']
-                reserved.thursday_dinner = data_dinner['پنج شنبه']
+                reserved.friday_dinner = data_dinner['جمعه'][0]
+                reserved.saturday_dinner = data_dinner['شنبه'][0]
+                reserved.sunday_dinner = data_dinner['یک شنبه'][0]
+                reserved.monday_dinner = data_dinner['دوشنبه'][0]
+                reserved.tuesday_dinner = data_dinner['سه شنبه'][0]
+                reserved.wednesday_dinner = data_dinner['چهارشنبه'][0]
+                reserved.thursday_dinner = data_dinner['پنج شنبه'][0]
 
                 reserved.credit = credit
 
@@ -419,21 +419,21 @@ def reserve_function():
 
             else:
                 flag = False
-                filter[0].friday_lunch = data_lunch['جمعه']
-                filter[0].saturday_lunch = data_lunch['شنبه']
-                filter[0].sunday_lunch = data_lunch['یک شنبه']
-                filter[0].monday_lunch = data_lunch['دوشنبه']
-                filter[0].tuesday_lunch = data_lunch['سه شنبه']
-                filter[0].wednesday_lunch = data_lunch['چهارشنبه']
-                filter[0].thursday_lunch = data_lunch['پنج شنبه']
+                filter[0].friday_lunch = data_lunch['جمعه'][0]
+                filter[0].saturday_lunch = data_lunch['شنبه'][0]
+                filter[0].sunday_lunch = data_lunch['یک شنبه'][0]
+                filter[0].monday_lunch = data_lunch['دوشنبه'][0]
+                filter[0].tuesday_lunch = data_lunch['سه شنبه'][0]
+                filter[0].wednesday_lunch = data_lunch['چهارشنبه'][0]
+                filter[0].thursday_lunch = data_lunch['پنج شنبه'][0]
 
-                filter[0].friday_dinner = data_dinner['جمعه']
-                filter[0].saturday_dinner = data_dinner['شنبه']
-                filter[0].sunday_dinner = data_dinner['یک شنبه']
-                filter[0].monday_dinner = data_dinner['دوشنبه']
-                filter[0].tuesday_dinner = data_dinner['سه شنبه']
-                filter[0].wednesday_dinner = data_dinner['چهارشنبه']
-                filter[0].thursday_dinner = data_dinner['پنج شنبه']
+                filter[0].friday_dinner = data_dinner['جمعه'][0]
+                filter[0].saturday_dinner = data_dinner['شنبه'][0]
+                filter[0].sunday_dinner = data_dinner['یک شنبه'][0]
+                filter[0].monday_dinner = data_dinner['دوشنبه'][0]
+                filter[0].tuesday_dinner = data_dinner['سه شنبه'][0]
+                filter[0].wednesday_dinner = data_dinner['چهارشنبه'][0]
+                filter[0].thursday_dinner = data_dinner['پنج شنبه'][0]
 
                 filter[0].credit = credit
 
